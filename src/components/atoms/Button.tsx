@@ -18,7 +18,7 @@ const Button: React.FC<ButtonProps> = ({ text, icon, position, variant = "primar
 
   return (
     <button
-      className={`inline-flex items-center gap-2 py-2 px-3 cursor-pointer rounded-md ${buttonStyle}`}
+      className={`inline-flex text-sm items-center gap-2 py-2 px-4 cursor-pointer rounded-md ${buttonStyle}`}
     >
       {iconPosition === "left" && icon}
       <span>{text}</span>
