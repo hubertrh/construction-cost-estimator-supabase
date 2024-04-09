@@ -10,16 +10,19 @@ const config: Config = {
             DEFAULT: "#3D62B2",
             dark: "#32549C",
           },
-          secondary: "#D68B1A",
+          secondary: {
+            DEFAULT: "#D68B1A",
+            dark: "#BD822A",
+          },
         },
         background: {
           light: "#F2F4F7",
           DEFAULT: "#E1E4EB",
           dark: "#262630",
         },
-        grey: {
+        gray: {
           light: "#C2C5CC",
-          DEFAULT: "#7F8C8D",
+          DEFAULT: "#9AA5A6",
           dark: "#333333",
         },
         black: "#171717",
@@ -32,6 +35,9 @@ const config: Config = {
       },
       transitionDuration: {
         250: "250ms",
+      },
+      fontFamily: {
+        ubuntu: ["var(--font-ubuntu)"],
       },
     },
   },

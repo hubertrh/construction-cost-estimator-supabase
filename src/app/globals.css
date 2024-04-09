@@ -3,13 +3,13 @@
 @tailwind utilities;
 
 @layer base {
-  * {
+  * { 
     text-wrap: balance;
     @apply selection:bg-accent-secondary selection:text-white;
   }
 
   body {
-    @apply text-grey-dark bg-background;
+    @apply text-gray-dark bg-background;
   }
 
   h1,
