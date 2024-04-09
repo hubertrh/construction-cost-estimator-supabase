@@ -1,9 +1,11 @@
-import Header from "../molecules/Header";
+import Divider from "../atoms/Divider";
+import SidebarHeader from "../molecules/SidebarHeader";
 
 export default function Sidebar() {
   return (
-    <div className="h-dvh w-[22vw] bg-accent-primary fixed text-background-light p-5">
-      <Header />
+    <div className="fixed h-dvh w-[22vw] bg-accent-primary p-5 text-background-light">
+      <SidebarHeader />
+      <Divider />
     </div>
   );
 }

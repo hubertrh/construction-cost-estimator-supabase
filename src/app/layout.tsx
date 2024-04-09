@@ -4,13 +4,19 @@ import type { Metadata } from "next";
 import { Montserrat, Ubuntu } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/components/organisms/Sidebar";
- 
+import Footer from "@/components/organisms/Footer";
+
 const montserrat = Montserrat({
   weight: ["200", "300", "400"],
+  subsets: ["latin"],
+  display: "swap",
   variable: "--font-montserrat",
+});
+const ubuntu = Ubuntu({
+  weight: ["300", "400"],
+  variable: "--font-ubuntu",
   subsets: ["latin"],
 });
-const ubuntu = Ubuntu({ weight: ["300", "400"], variable: "--font-ubuntu", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Construction Cost Estimator - Kamil Woźniacki",
@@ -18,17 +24,22 @@ export const metadata: Metadata = {
     "Online estimator for my clients to accurately calculate construction project costs. Enter the details and get a PDF estimate.",
 };
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
-      <body className={montserrat.className}>
-          <Sidebar />
-          <main className="min-h-dvh ml-[22vw] p-[10dvh] grid place-items-center">
-            <div className="max-w-[65vw] bg-background-light px-20 py-12 text-center">
-              {children}
-            </div>
-          </main>
-          {/* {!session ? <LoginBtn /> : <Home />} */}
+      <body className={`${montserrat.className} ${ubuntu.variable}`}>
+        <Sidebar />
+        <main className="ml-[22vw] grid min-h-dvh place-items-center p-[10dvh]">
+          <div className="max-w-[65vw] bg-background-light px-20 py-12 text-center">
+            {children}
+          </div>
+        </main>
+        <Footer />
+        {/* {!session ? <LoginBtn /> : <Home />} */}
         <Analytics />
         <SpeedInsights />
       </body>
