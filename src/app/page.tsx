@@ -43,7 +43,7 @@ export default async function Home() {
           >
             Create New Estimate
           </ButtonPrimary>
-          <ButtonPrimary variant="white">Browse Recent</ButtonPrimary>
+          {/* <ButtonPrimary variant="white">Browse Recent</ButtonPrimary> */}
         </div>
       </div>
     </>

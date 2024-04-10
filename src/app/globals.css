@@ -3,13 +3,13 @@
 @tailwind utilities;
 
 @layer base {
-  * { 
+  * {
     text-wrap: balance;
     @apply selection:bg-accent-secondary selection:text-white;
   }
 
   body {
-    @apply text-gray-dark bg-background;
+    @apply bg-background text-gray-dark;
   }
 
   h1,
@@ -23,6 +23,6 @@
   }
 
   p {
-    @apply py-1.5;
+    @apply py-1;
   }
 }
