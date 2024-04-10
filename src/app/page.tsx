@@ -1,7 +1,30 @@
 import Image from "next/image";
+import { drizzle } from "drizzle-orm/postgres-js";
+import { migrate } from "drizzle-orm/postgres-js/migrator";
+import postgres from "postgres";
 import ButtonPrimary from "@/components/atoms/ButtonPrimary";
+import { users } from "@/drizzle/schema";
 
-export default function Home() {
+export default async function Home() {
+  /* const connectionString = process.env.DATABASE_URL;
+
+  // Disable prefetch as it is not supported for "Transaction" pool mode
+  if (!connectionString) {
+    throw new Error("DATABASE_URL is not set");
+  }
+
+  const client = postgres(connectionString, {
+    prepare: false,
+  });
+  const db = drizzle(client);
+
+  await migrate(db, { migrationsFolder: "drizzle" });
+
+  const allUsers = await db.select().from(users);
+  console.log(allUsers);
+
+  await client.end(); */
+
   const addIcon = (
     <Image src="/icons/add.svg" width={16} height={16} alt="Add icon" />
   );
@@ -17,7 +40,7 @@ export default function Home() {
           <ButtonPrimary variant="blue" icon={addIcon} position="left">
             Create New Estimate
           </ButtonPrimary>
-          <ButtonPrimary variant="white">Browse Recent</ButtonPrimary>
+          {/* <ButtonPrimary variant="white">Browse Recent</ButtonPrimary> */}
         </div>
       </div>
     </>
