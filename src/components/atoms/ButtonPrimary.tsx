@@ -28,7 +28,7 @@ export default function ButtonPrimary({
 
   return (
     <button
-      className={`inline-flex cursor-pointer items-center gap-2 rounded-md px-5 py-2 text-sm transition-all duration-300 hover:scale-[102%] hover:shadow-md ${buttonStyles[variant]}`}
+      className={`inline-flex cursor-pointer items-center gap-3 rounded-md px-5 py-2 text-sm transition-all duration-300 hover:scale-[102%] hover:shadow-md ${buttonStyles[variant]}`}
       onClick={onClick}
     >
       {icon && position === "left" && (
