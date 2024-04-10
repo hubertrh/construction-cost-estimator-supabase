@@ -1,5 +1,5 @@
 type ButtonProps = {
-  variant: "blue" | "gray";
+  variant: "blue" | "gray" | "red";
   icon?: JSX.Element;
   position?: "left" | "right";
   children: string;
@@ -14,6 +14,7 @@ export default function ButtonSecondary({
   const buttonStyles = {
     blue: "text-accent-primary",
     gray: "text-gray",
+    red: "text-red",
   };
 
   return (
