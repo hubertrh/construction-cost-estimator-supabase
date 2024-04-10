@@ -4,6 +4,7 @@ import { migrate } from "drizzle-orm/postgres-js/migrator";
 import postgres from "postgres";
 import ButtonPrimary from "@/components/atoms/ButtonPrimary";
 import { users } from "@/drizzle/schema";
+import addIcon from "/public/icons/add.svg";
 
 export default async function Home() {
   /* const connectionString = process.env.DATABASE_URL;
@@ -25,10 +26,6 @@ export default async function Home() {
 
   await client.end(); */
 
-  const addIcon = (
-    <Image src="/icons/add.svg" width={16} height={16} alt="Add icon" />
-  );
-
   return (
     <>
       <div className="grid place-items-center px-14 py-24">
@@ -37,10 +34,16 @@ export default async function Home() {
           —&ensp;a tool engineered for accurate construction cost estimations
         </h2>
         <div className="flex flex-row gap-10 pt-10">
-          <ButtonPrimary variant="blue" icon={addIcon} position="left">
+          <ButtonPrimary
+            variant="blue"
+            icon={addIcon}
+            size={12}
+            alt="Add icon"
+            position="left"
+          >
             Create New Estimate
           </ButtonPrimary>
-          {/* <ButtonPrimary variant="white">Browse Recent</ButtonPrimary> */}
+          <ButtonPrimary variant="white">Browse Recent</ButtonPrimary>
         </div>
       </div>
     </>
