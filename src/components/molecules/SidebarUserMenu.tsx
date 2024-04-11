@@ -25,11 +25,11 @@ export default async function SidebarUserMenu() {
         </Link>
         <Divider />
         <div className="mx-3 flex items-center justify-between">
-          <Link className="flex items-center gap-2" href="/login">
+          <Link className="flex items-center gap-2" href="/auth/login">
             <Image src={signInIcon} width={26} height={26} alt="Sign in icon" />
             <p>SIGN IN</p>
           </Link>
-          <Link href="/login">
+          <Link href="/auth/login">
             <Image src={avatarIcon} width={40} height={40} alt="Avatar icon" />
           </Link>
         </div>
@@ -39,7 +39,10 @@ export default async function SidebarUserMenu() {
 
   return (
     <>
-      <Link className="mx-3 flex items-center gap-2" href={"/"}>
+      <Link
+        className="mx-3 flex items-center gap-2 transition-all duration-300 hover:translate-x-1"
+        href={"/"}
+      >
         <Image
           src={addFilledIcon}
           width={26}
@@ -50,16 +53,22 @@ export default async function SidebarUserMenu() {
       </Link>
       <Divider />
       <div className="mx-3 flex items-center justify-between">
-        <Link className="flex items-center gap-2" href="/account">
+        <Link
+          className="flex items-center gap-2 transition-all duration-300 hover:translate-x-1"
+          href="/projects"
+        >
           <Image
             src={dashboardIcon}
             width={26}
             height={26}
             alt="Dashsboard icon"
           />
-          <p>DASHBOARD</p>
+          <p>PROJECTS</p>
         </Link>
-        <Link href="/account">
+        <Link
+          className="rounded-full transition-all duration-300 hover:scale-110 hover:shadow-xl"
+          href="/account"
+        >
           <Image
             className="rounded-full"
             src={data.user.user_metadata.avatar_url}

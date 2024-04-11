@@ -32,7 +32,9 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${montserrat.className} ${ubuntu.variable}`}>
+      <body
+        className={`${montserrat.className} ${ubuntu.variable} bg-background-dark`}
+      >
         <NextTopLoader
           color="#D68B1A"
           height={5}
@@ -41,7 +43,7 @@ export default async function RootLayout({
           speed={500}
         />
         <Sidebar />
-        <main className="grid min-h-dvh place-items-center p-[10dvh] transition-all duration-200">
+        <main className="grid min-h-dvh place-items-center bg-background p-[10dvh] transition-all duration-200">
           <div className="max-w-[65vw] bg-background-light px-8 py-12 text-center lg:px-20">
             {children}
           </div>

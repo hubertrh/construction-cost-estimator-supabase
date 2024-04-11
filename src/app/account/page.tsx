@@ -8,7 +8,7 @@ export default async function page() {
 
   const { data, error } = await supabase.auth.getUser();
   if (error || !data?.user) {
-    redirect("/login");
+    redirect("/auth/login");
   }
 
   // Extract the part of the URL before the '='
@@ -19,7 +19,7 @@ export default async function page() {
   return (
     <div className="grid place-items-center gap-12">
       <div className="flex items-center">
-        <div className="relative size-48">
+        <div className="relative aspect-square size-48">
           <Image
             className="aspect-square rounded-full"
             src={trimmedAvatarUrl}

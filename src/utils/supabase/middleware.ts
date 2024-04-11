@@ -54,9 +54,9 @@ export async function updateSession(request: NextRequest) {
     },
   );
 
-  // if user exists on /login page, redirect to dashboard
+  // if user exists on /auth/login page, redirect to dashboard
   const { data } = await supabase.auth.getUser();
-  if (request.nextUrl.pathname === "/login" && data.user) {
+  if (request.nextUrl.pathname === "/auth/login" && data.user) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
