@@ -8,7 +8,7 @@ export default async function page() {
 
   const { data, error } = await supabase.auth.getUser();
   if (error || !data?.user) {
-    redirect("/login");
+    redirect("/auth/login");
   }
 
   // Extract the part of the URL before the '='

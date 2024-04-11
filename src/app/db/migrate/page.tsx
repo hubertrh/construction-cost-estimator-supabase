@@ -9,7 +9,7 @@ export default async function PrivatePage() {
 
   const { data, error } = await supabase.auth.getUser();
   if (error || !data?.user || data.user.email !== process.env.ADMIN_EMAIL) {
-    redirect("/login");
+    redirect("/auth/login");
   }
 
   await migrate(db, { migrationsFolder: "drizzle" });

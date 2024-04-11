@@ -25,11 +25,11 @@ export default async function SidebarUserMenu() {
         </Link>
         <Divider />
         <div className="mx-3 flex items-center justify-between">
-          <Link className="flex items-center gap-2" href="/login">
+          <Link className="flex items-center gap-2" href="/auth/login">
             <Image src={signInIcon} width={26} height={26} alt="Sign in icon" />
             <p>SIGN IN</p>
           </Link>
-          <Link href="/login">
+          <Link href="/auth/login">
             <Image src={avatarIcon} width={40} height={40} alt="Avatar icon" />
           </Link>
         </div>
