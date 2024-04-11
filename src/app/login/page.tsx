@@ -17,6 +17,7 @@ export default function LoginPage() {
       url = url.includes("http") ? url : `https://${url}`;
       // Make sure to include a trailing `/`.
       url = url.charAt(url.length - 1) === "/" ? url : `${url}/`;
+      // Append the callback path.
       url = `${url}auth/callback/`;
       return url;
     };
