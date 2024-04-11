@@ -9,7 +9,7 @@
     "tailwindcss/no-custom-classname": [
       "warn",
       {
-        "whitelist": []
+        "whitelist": ["sidebar"]
       }
     ]
   },

@@ -41,7 +41,7 @@ export default async function RootLayout({
           speed={500}
         />
         <Sidebar />
-        <main className="ml-[22vw] grid min-h-dvh place-items-center p-[10dvh]">
+        <main className="grid min-h-dvh place-items-center p-[10dvh] transition-all duration-200">
           <div className="max-w-[65vw] bg-background-light px-20 py-12 text-center">
             {children}
           </div>

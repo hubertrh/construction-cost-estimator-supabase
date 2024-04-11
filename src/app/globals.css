@@ -8,6 +8,10 @@
     @apply selection:bg-accent-secondary selection:text-white;
   }
 
+  html {
+    --main-margin-left: 20rem;
+  }
+
   body {
     @apply bg-background text-gray-dark;
   }
@@ -24,5 +28,15 @@
 
   p {
     @apply py-1;
+  }
+}
+
+@layer components {
+  main {
+    margin-left: var(--main-margin-left);
+  }
+
+  .sidebar {
+    translate: var(--sidebar-transform) 0;
   }
 }
