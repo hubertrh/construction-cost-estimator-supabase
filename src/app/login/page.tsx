@@ -1,17 +1,19 @@
 "use client";
 
+import getVercelURL from "../api/get-vercel-url";
 import { createClient } from "@/utils/supabase/client";
 import googleIcon from "/public/icons/google.svg";
 import ButtonPrimary from "@/components/atoms/ButtonPrimary";
 
 export default function LoginPage() {
   const handleLoginWithOAuth = async (provider: "google") => {
+    const vercelUrl = await getVercelURL();
     const supabase = createClient();
-
+    console.log(`${vercelUrl}/auth/callback`);
     await supabase.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: location.origin + "/auth/callback",
+        redirectTo: `${vercelUrl}/auth/callback`,
         queryParams: {
           prompt: "select_account",
         },
