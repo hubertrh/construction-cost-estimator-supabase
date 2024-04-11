@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Image, { StaticImageData } from "next/image";
 
 type ButtonProps = {
@@ -7,6 +8,7 @@ type ButtonProps = {
   alt?: string;
   position?: "left" | "right";
   children: string;
+  href?: string;
   onClick?: () => void;
 };
 
@@ -17,6 +19,7 @@ export default function ButtonPrimary({
   alt = "",
   position = "left",
   children,
+  href,
   onClick,
 }: ButtonProps) {
   const buttonStyles = {
@@ -26,11 +29,8 @@ export default function ButtonPrimary({
     orange: "bg-accent-secondary text-white",
   };
 
-  return (
-    <button
-      className={`inline-flex cursor-pointer items-center gap-3 rounded-md px-5 py-2 text-sm transition-all duration-300 hover:scale-[102%] hover:shadow-md ${buttonStyles[variant]}`}
-      onClick={onClick}
-    >
+  const innerContent = (
+    <>
       {icon && position === "left" && (
         <span>
           <Image src={icon} width={size} height={size} alt={alt} />
@@ -42,6 +42,26 @@ export default function ButtonPrimary({
           <Image src={icon} width={size} height={size} alt={alt} />
         </span>
       )}
-    </button>
+    </>
   );
+
+  if (href) {
+    return (
+      <Link
+        href={href}
+        className={`inline-flex cursor-pointer items-center gap-3 rounded-md px-5 py-2 text-sm transition-all duration-300 hover:scale-[102%] hover:shadow-md ${buttonStyles[variant]}`}
+      >
+        {innerContent}
+      </Link>
+    );
+  } else {
+    return (
+      <button
+        className={`inline-flex cursor-pointer items-center gap-3 rounded-md px-5 py-2 text-sm transition-all duration-300 hover:scale-[102%] hover:shadow-md ${buttonStyles[variant]}`}
+        onClick={onClick}
+      >
+        {innerContent}
+      </button>
+    );
+  }
 }
