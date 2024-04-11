@@ -10,6 +10,7 @@
 
   html {
     --main-margin-left: 20rem;
+    --arrow-rotate: -45deg;
   }
 
   body {
@@ -38,5 +39,9 @@
 
   .sidebar {
     translate: var(--sidebar-transform) 0;
+  }
+
+  .sidebar__arrow {
+    transform: translate(0.25rem, 0.25rem) rotate(var(--arrow-rotate));
   }
 }

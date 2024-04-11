@@ -9,6 +9,7 @@ export default function SidebarArrow() {
   const handleClick = () => {
     const transformValue = isCollapsed ? "0%" : "-95%";
     const marginValue = isCollapsed ? "20rem" : "1rem";
+    const rotateValue = isCollapsed ? "-45deg" : "135deg";
     document.documentElement.style.setProperty(
       "--sidebar-transform",
       transformValue,
@@ -17,6 +18,8 @@ export default function SidebarArrow() {
       "--main-margin-left",
       marginValue,
     );
+    document.documentElement.style.setProperty("--arrow-rotate", rotateValue);
+
     setIsCollapsed(!isCollapsed);
   };
 
@@ -26,7 +29,7 @@ export default function SidebarArrow() {
       onClick={handleClick}
     >
       <Image
-        className="translate-x-1 translate-y-1 -rotate-45 "
+        className="sidebar__arrow"
         src={"/icons/arrow-full.svg"}
         alt="Menu arrow"
         width={10}
