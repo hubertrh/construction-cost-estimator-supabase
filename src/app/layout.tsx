@@ -47,7 +47,6 @@ export default async function RootLayout({
           </div>
         </main>
         <Footer />
-        {/* {!session ? <LoginBtn /> : <Home />} */}
         <Analytics />
         <SpeedInsights />
       </body>
