@@ -3,6 +3,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Montserrat, Ubuntu } from "next/font/google";
 import "./globals.css";
+import NextTopLoader from "nextjs-toploader";
 import Sidebar from "@/components/organisms/Sidebar";
 import Footer from "@/components/organisms/Footer";
 
@@ -32,6 +33,13 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${montserrat.className} ${ubuntu.variable}`}>
+        <NextTopLoader
+          color="#D68B1A"
+          height={5}
+          initialPosition={0.2}
+          easing="ease"
+          speed={500}
+        />
         <Sidebar />
         <main className="ml-[22vw] grid min-h-dvh place-items-center p-[10dvh]">
           <div className="max-w-[65vw] bg-background-light px-20 py-12 text-center">
