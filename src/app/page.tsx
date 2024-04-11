@@ -4,8 +4,8 @@ import addIcon from "/public/icons/add.svg";
 export default async function Home() {
   return (
     <>
-      <div className="grid place-items-center px-14 py-24">
-        <h1 className="text-4xl font-light">WELCOME TO ESTIMATIC</h1>
+      <div className="grid place-items-center px-14 py-16">
+        <h1 className="text-4xl font-light">WELCOME&nbsp;TO ESTIMATIC</h1>
         <h2 className="text-lg">
           —&ensp;a tool engineered for accurate construction cost estimations
         </h2>
