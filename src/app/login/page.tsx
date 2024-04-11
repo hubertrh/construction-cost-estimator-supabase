@@ -1,29 +1,29 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import getVercelURL from "../api/get-vercel-url";
 import { createClient } from "@/utils/supabase/client";
 import googleIcon from "/public/icons/google.svg";
 import ButtonPrimary from "@/components/atoms/ButtonPrimary";
 
 export default function LoginPage() {
-  // useEffect(() => {
-  //   async function fetchVercelUrl() {
-  //     const response = await fetch("/api/get-vercel-url");
-  //     const { vercelUrl } = await response.json();
-  //     setVercelUrl(vercelUrl);
-  //   }
-  //   fetchVercelUrl();
-  // }, []);
-
   const handleLoginWithOAuth = async (provider: "google") => {
-    const vercelUrl = await getVercelURL();
     const supabase = createClient();
-    console.log(`${vercelUrl}/auth/callback`);
+
+    const getURL = () => {
+      let url =
+        process?.env?.NEXT_PUBLIC_SITE_URL ?? // Set this to your site URL in production env.
+        process?.env?.NEXT_PUBLIC_VERCEL_URL ?? // Automatically set by Vercel.
+        "http://localhost:3000/";
+      // Make sure to include `https://` when not localhost.
+      url = url.includes("http") ? url : `https://${url}`;
+      // Make sure to include a trailing `/`.
+      url = url.charAt(url.length - 1) === "/" ? url : `${url}/`;
+      return url;
+    };
+
     await supabase.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: `${vercelUrl}/auth/callback`,
+        redirectTo: getURL(),
         queryParams: {
           prompt: "select_account",
         },
