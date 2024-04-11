@@ -1,31 +1,7 @@
-import Image from "next/image";
-import { drizzle } from "drizzle-orm/postgres-js";
-import { migrate } from "drizzle-orm/postgres-js/migrator";
-import postgres from "postgres";
 import ButtonPrimary from "@/components/atoms/ButtonPrimary";
-import { users } from "@/drizzle/schema";
 import addIcon from "/public/icons/add.svg";
 
 export default async function Home() {
-  /* const connectionString = process.env.DATABASE_URL;
-
-  // Disable prefetch as it is not supported for "Transaction" pool mode
-  if (!connectionString) {
-    throw new Error("DATABASE_URL is not set");
-  }
-
-  const client = postgres(connectionString, {
-    prepare: false,
-  });
-  const db = drizzle(client);
-
-  await migrate(db, { migrationsFolder: "drizzle" });
-
-  const allUsers = await db.select().from(users);
-  console.log(allUsers);
-
-  await client.end(); */
-
   return (
     <>
       <div className="grid place-items-center px-14 py-24">
@@ -43,7 +19,9 @@ export default async function Home() {
           >
             Create New Estimate
           </ButtonPrimary>
-          {/* <ButtonPrimary variant="white">Browse Recent</ButtonPrimary> */}
+          <ButtonPrimary variant="white" href="/projects">
+            My Projects
+          </ButtonPrimary>
         </div>
       </div>
     </>
