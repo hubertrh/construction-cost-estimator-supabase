@@ -1,9 +1,8 @@
 import { redirect } from "next/navigation";
-import { drizzle } from "drizzle-orm/postgres-js";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
-import { createClient as createDrizzleClient } from "@/drizzle/client";
 import { createClient } from "@/utils/supabase/server";
 import { projects } from "@/drizzle/schema";
+import { client, db } from "@/drizzle/db";
 
 export default async function PrivatePage() {
   const supabase = createClient();
@@ -13,8 +12,6 @@ export default async function PrivatePage() {
     redirect("/login");
   }
 
-  const client = createDrizzleClient();
-  const db = drizzle(client);
   await migrate(db, { migrationsFolder: "drizzle" });
   const allProjects = await db.select().from(projects);
   console.log(allProjects);
