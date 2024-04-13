@@ -10,7 +10,10 @@ export default function Footer() {
         <FooterLink href="/">Privacy Policy</FooterLink>
       </div>
       <div className="mt-10 text-right text-xs text-gray-light">
-        <p>&copy;&nbsp;2023 Kamil Woźniacki. All&nbsp;rights&nbsp;Reserved.</p>
+        <p>
+          &copy;&nbsp;2023 Constructive Creativity.
+          All&nbsp;rights&nbsp;Reserved.
+        </p>
         <p>
           <span className="text-gray">Created by </span>
           <Link
