@@ -21,7 +21,7 @@ export default async function Project({ params }: ProjectProps) {
     .single();
 
   if (fetchedProjectError) {
-    console.log(fetchedProjectError);
+    console.error(fetchedProjectError);
     return <p>Failed to fetch project</p>;
   }
 
@@ -29,7 +29,7 @@ export default async function Project({ params }: ProjectProps) {
     return <p>You do not have access to this project</p>;
   }
 
-  console.log(fetchedProject);
+  // console.log(fetchedProject);
 
   return (
     <>
