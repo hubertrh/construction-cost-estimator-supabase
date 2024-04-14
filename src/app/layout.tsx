@@ -6,12 +6,19 @@ import "./globals.css";
 import NextTopLoader from "nextjs-toploader";
 import Sidebar from "@/components/sidebar/Sidebar";
 import Footer from "@/components/footer/Footer";
+import { cn } from "@/lib/utils";
 
 const montserrat = Montserrat({
   weight: ["200", "300", "400"],
   subsets: ["latin"],
   display: "swap",
   variable: "--font-montserrat",
+});
+const fontSans = Montserrat({
+  weight: ["200", "300", "400"],
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-sans",
 });
 const ubuntu = Ubuntu({
   weight: ["300", "400"],
@@ -33,7 +40,8 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${montserrat.className} ${ubuntu.variable} bg-background-dark`}
+        className={`${montserrat.className} ${ubuntu.variable} bg-background-dark 
+          ${cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}`}
       >
         <NextTopLoader
           color="#D68B1A"
