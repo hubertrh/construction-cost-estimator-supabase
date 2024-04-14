@@ -1,8 +1,8 @@
-import Divider from "../atoms/Divider";
-import SidebarHeader from "../molecules/SidebarHeader";
-import SidebarRecentProjects from "../molecules/SidebarRecentProjects";
-import SidebarUserMenu from "../molecules/SidebarUserMenu";
-import SidebarArrow from "../atoms/SidebarArrow";
+import Divider from "../ui/Divider";
+import SidebarArrow from "./SidebarArrow";
+import SidebarHeader from "./SidebarHeader";
+import SidebarRecentProjects from "./SidebarRecentProjects";
+import SidebarUserMenu from "./SidebarUserMenu";
 
 export default function Sidebar() {
   return (

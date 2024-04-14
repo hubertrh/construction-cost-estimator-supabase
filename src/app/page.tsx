@@ -1,4 +1,4 @@
-import ButtonPrimary from "@/components/atoms/ButtonPrimary";
+import ButtonPrimary from "@/components/ui/ButtonPrimary";
 import addIcon from "/public/icons/add.svg";
 
 export default async function Home() {

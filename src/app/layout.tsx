@@ -4,8 +4,8 @@ import type { Metadata } from "next";
 import { Montserrat, Ubuntu } from "next/font/google";
 import "./globals.css";
 import NextTopLoader from "nextjs-toploader";
-import Sidebar from "@/components/organisms/Sidebar";
-import Footer from "@/components/organisms/Footer";
+import Sidebar from "@/components/sidebar/Sidebar";
+import Footer from "@/components/footer/Footer";
 
 const montserrat = Montserrat({
   weight: ["200", "300", "400"],

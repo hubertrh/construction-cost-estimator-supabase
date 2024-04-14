@@ -2,7 +2,7 @@
 
 import { createClient } from "@/utils/supabase/client";
 import googleIcon from "/public/icons/google.svg";
-import ButtonPrimary from "@/components/atoms/ButtonPrimary";
+import ButtonPrimary from "@/components/ui/ButtonPrimary";
 
 export default function LoginPage() {
   const handleLoginWithOAuth = async (provider: "google") => {
