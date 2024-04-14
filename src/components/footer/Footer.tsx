@@ -1,5 +1,5 @@
 import Link from "next/link";
-import FooterLink from "../atoms/FooterLink";
+import FooterLink from "./FooterLink";
 
 export default function Footer() {
   return (

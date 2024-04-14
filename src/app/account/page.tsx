@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
-import SignOutButton from "@/components/atoms/SignOutButton";
+import SignOutButton from "@/components/ui/SignOutButton";
 
 export default async function page() {
   const supabase = createClient();

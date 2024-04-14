@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
+import Divider from "../ui/Divider";
 import { createClient } from "@/utils/supabase/server";
-import Divider from "../atoms/Divider";
 import signInIcon from "/public/icons/sign-in.svg";
 import avatarIcon from "/public/icons/avatar.svg";
 import addFilledIcon from "/public/icons/add-filled.svg";
