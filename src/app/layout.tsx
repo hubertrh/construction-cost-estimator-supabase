@@ -27,9 +27,8 @@ const ubuntu = Ubuntu({
 });
 
 export const metadata: Metadata = {
-  title: "Construction Cost Estimator - Kamil Woźniacki",
-  description:
-    "Online estimator for my clients to accurately calculate construction project costs. Enter the details and get a PDF estimate.",
+  title: "CostCraft",
+  description: "Construction Cost Estimator by Constructive Creativity.",
 };
 
 export default async function RootLayout({
