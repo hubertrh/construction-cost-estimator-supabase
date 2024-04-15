@@ -23,7 +23,7 @@ export default async function SidebarUserMenu() {
           />
           <p>Create New Estimate</p>
         </Link>
-        <Divider />
+        <Divider color="light" />
         <div className="mx-3 flex items-center justify-between">
           <Link className="flex items-center gap-2" href="/auth/login">
             <Image src={signInIcon} width={26} height={26} alt="Sign in icon" />
@@ -51,7 +51,7 @@ export default async function SidebarUserMenu() {
         />
         <p>Create New Estimate</p>
       </Link>
-      <Divider />
+      <Divider color="light" />
       <div className="mx-3 flex items-center justify-between">
         <Link
           className="flex items-center gap-2 transition-all duration-300 hover:translate-x-1"

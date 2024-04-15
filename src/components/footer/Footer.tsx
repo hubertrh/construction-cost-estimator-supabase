@@ -3,7 +3,7 @@ import FooterLink from "./FooterLink";
 
 export default function Footer() {
   return (
-    <footer className="flex w-screen flex-col items-end justify-between bg-background-dark px-6 py-4 text-sm font-light text-white">
+    <footer className="flex flex-col items-end justify-between bg-background-dark px-6 py-4 text-sm font-light text-white">
       <div className="flex flex-col space-y-1.5 text-right">
         <FooterLink href="/">Contact</FooterLink>
         <FooterLink href="/">Cookie Policy</FooterLink>
