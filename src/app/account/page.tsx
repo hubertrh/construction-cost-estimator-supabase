@@ -2,6 +2,7 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import SignOutButton from "@/components/ui/SignOutButton";
+import avatarIcon from "/public/icons/avatar-blue.svg";
 
 export default async function page() {
   const supabase = createClient();
@@ -13,8 +14,12 @@ export default async function page() {
 
   // Extract the part of the URL before the '='
   let avatarURL = data.user.user_metadata.picture;
-  let equalsIndex = avatarURL.indexOf("=");
-  let trimmedAvatarUrl = avatarURL.slice(0, equalsIndex);
+  let trimmedAvatarUrl = avatarIcon;
+
+  if (avatarURL && avatarURL.includes("=")) {
+    let equalsIndex = avatarURL.indexOf("=");
+    trimmedAvatarUrl = avatarURL.slice(0, equalsIndex);
+  }
 
   return (
     <div className="grid place-items-center gap-12">
@@ -28,10 +33,16 @@ export default async function page() {
           />
         </div>
         <div className="ml-8 text-left">
-          <h1 className="p-1 text-2xl font-semibold">
-            {data.user.user_metadata.full_name}
-          </h1>
-          <p className="p-1 font-light">{data.user.email}</p>
+          {data.user.user_metadata.full_name ? (
+            <>
+              <h1 className="p-1 text-2xl font-semibold">
+                {data.user.user_metadata.full_name}
+              </h1>
+              <p className="p-1 text-xl font-light">{data.user.email}</p>
+            </>
+          ) : (
+            <h1 className="p-1 text-xl font-semibold">{data.user.email}</h1>
+          )}
         </div>
       </div>
       <SignOutButton />

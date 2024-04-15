@@ -71,7 +71,7 @@ export default async function SidebarUserMenu() {
         >
           <Image
             className="rounded-full"
-            src={data.user.user_metadata.avatar_url}
+            src={data.user.user_metadata.avatar_url ?? avatarIcon}
             width={40}
             height={40}
             alt="User avatar"
