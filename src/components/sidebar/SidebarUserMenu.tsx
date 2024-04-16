@@ -29,11 +29,17 @@ export default async function SidebarUserMenu() {
         </Link>
         <Divider color="light" />
         <div className="mx-3 flex items-center justify-between">
-          <Link className="flex items-center gap-2" href="/auth/login">
-            <Image src={signInIcon} width={26} height={26} alt="Sign in icon" />
+          <Link
+            className="flex items-center gap-2 transition-all duration-300 hover:translate-x-1"
+            href="/auth/login"
+          >
+            <Image src={signInIcon} width={24} height={24} alt="Sign in icon" />
             <p>SIGN IN</p>
           </Link>
-          <Link href="/auth/login">
+          <Link
+            className="rounded-full transition-all duration-300 hover:scale-110 hover:shadow-xl"
+            href="/auth/login"
+          >
             <Image src={avatarIcon} width={40} height={40} alt="Avatar icon" />
           </Link>
         </div>
