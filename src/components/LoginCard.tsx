@@ -14,7 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { createClient } from "@/utils/supabase/client";
-import getCallbackURL from "@/utils/url-helpers";
+import getCallbackURL from "@/utils/urlHelpers";
 import googleIcon from "/public/icons/google-blue.svg";
 
 export function LoginForm() {
