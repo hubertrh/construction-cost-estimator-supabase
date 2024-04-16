@@ -25,11 +25,9 @@ export default async function Project({ params }: ProjectProps) {
     return <p>Failed to fetch project</p>;
   }
 
-  if (user?.user.email !== fetchedProject?.user) {
+  if (user?.user.id !== fetchedProject?.user) {
     return <p>You do not have access to this project</p>;
   }
-
-  // console.log(fetchedProject);
 
   return (
     <>

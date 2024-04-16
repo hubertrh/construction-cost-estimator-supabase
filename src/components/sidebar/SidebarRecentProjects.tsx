@@ -1,7 +1,7 @@
 import { SupabaseClient } from "@supabase/supabase-js";
 import ProjectLink from "./ProjectLink";
 import { createClient } from "@/utils/supabase/server";
-import { fetchUserData, fetchUserRole } from "@/utils/supabase/userCalls";
+import { fetchUserRole } from "@/utils/supabase/userCalls";
 
 type SidebarProjectsQueryOptions = {
   order: string;
@@ -37,22 +37,23 @@ export default async function SidebarRecentProjects() {
   const supabase = createClient();
 
   try {
-    const { user, message: userMessage } = await fetchUserData(supabase);
-    if (!user)
+    const { data: user, error: userError } = await supabase.auth.getUser();
+
+    if (userError || !user?.user)
       return (
         <div className="bg-accent-primary-dark p-4 font-ubuntu">
           <p className="mb-2 text-lg font-medium">Recent Projects</p>
-          <p>{userMessage}</p>
+          <p>Sign in to see your projects</p>
         </div>
       );
 
-    const userRole = await fetchUserRole(supabase, user.id);
+    const userRole = await fetchUserRole(supabase, user.user.id);
     const sidebarProjectsQueryOptions = {
       order: "updated_at",
       orderDirection: { ascending: false },
       limit: 5,
       filterColumn: userRole === "client" ? "user" : undefined,
-      filterValue: userRole === "client" ? user.id : undefined,
+      filterValue: userRole === "client" ? user.user.id : undefined,
     };
 
     const { projects, message: projectsMessage } = await fetchProjects(
