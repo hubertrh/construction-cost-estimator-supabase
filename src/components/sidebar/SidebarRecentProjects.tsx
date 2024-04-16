@@ -1,44 +1,90 @@
-import Image from "next/image";
-import Link from "next/link";
+import { SupabaseClient } from "@supabase/supabase-js";
+import ProjectLink from "./ProjectLink";
 import { createClient } from "@/utils/supabase/server";
-import projectIcon from "/public/icons/project.svg";
+import { fetchUserData, fetchUserRole } from "@/utils/supabase/userCalls";
 
-export default async function SidebarRecentProjects() {
-  const supabase = createClient();
-  const { data: user, error: userError } = await supabase.auth.getUser();
+type SidebarProjectsQueryOptions = {
+  order: string;
+  orderDirection: { ascending: boolean };
+  limit: number;
+  filterColumn?: string;
+  filterValue?: string;
+};
 
-  if (userError || !user?.user) {
-    return <p>Sign in to see your projects</p>;
-  }
-
-  const { data: fetchedProjects, error: projectsError } = await supabase
+// API call to fetch projects based on query options
+async function fetchProjects(
+  supabaseClient: SupabaseClient,
+  queryOptions: SidebarProjectsQueryOptions,
+) {
+  const { data, error } = await supabaseClient
     .from("projects")
     .select("*")
-    .eq("user", user.user.email)
-    .order("updated_at", { ascending: false })
-    .limit(5);
+    .match(
+      queryOptions.filterColumn
+        ? { [queryOptions.filterColumn]: queryOptions.filterValue }
+        : {},
+    )
+    .order(queryOptions.order, queryOptions.orderDirection)
+    .limit(queryOptions.limit);
+  if (error) return { projects: [], message: "Failed to fetch projects" };
+  if (data.length === 0)
+    return { projects: [], message: "You have no projects yet" };
+  return { projects: data, message: null };
+}
 
-  if (projectsError) {
-    console.log(projectsError);
-    return <p>Failed to fetch projects</p>;
+// Main sidebar component
+export default async function SidebarRecentProjects() {
+  const supabase = createClient();
+
+  try {
+    const { user, message: userMessage } = await fetchUserData(supabase);
+    if (!user)
+      return (
+        <div className="bg-accent-primary-dark p-4 font-ubuntu">
+          <p className="mb-2 text-lg font-medium">Recent Projects</p>
+          <p>{userMessage}</p>
+        </div>
+      );
+
+    const userRole = await fetchUserRole(supabase, user.id);
+    const sidebarProjectsQueryOptions = {
+      order: "updated_at",
+      orderDirection: { ascending: false },
+      limit: 5,
+      filterColumn: userRole === "client" ? "user" : undefined,
+      filterValue: userRole === "client" ? user.id : undefined,
+    };
+
+    const { projects, message: projectsMessage } = await fetchProjects(
+      supabase,
+      sidebarProjectsQueryOptions,
+    );
+    if (projectsMessage)
+      return (
+        <div className="bg-accent-primary-dark p-4 font-ubuntu">
+          <p className="mb-2 text-lg font-medium">Recent Projects</p>
+          <p>{projectsMessage}</p>
+        </div>
+      );
+
+    return (
+      <div className="bg-accent-primary-dark p-4 font-ubuntu">
+        <p className="mb-2 text-lg font-medium">
+          {userRole === "client" ? "Recent Projects" : "Recent Requests"}
+        </p>
+        <ul>
+          {projects.map((project, index) => (
+            <ProjectLink key={index} project={project} />
+          ))}
+        </ul>
+      </div>
+    );
+  } catch (error: any) {
+    return (
+      <div className="bg-accent-primary-dark p-4 font-ubuntu">
+        <p className="mb-2 text-lg font-medium">Recent Projects</p>
+        <p>{error.message}</p>
+      </div>
+    );
   }
-
-  if (!fetchedProjects.length) {
-    return <p>You have no projects yet</p>;
-  }
-
-  return (
-    <ul>
-      {fetchedProjects.map((project) => (
-        <Link
-          href={`/projects/${project.id}`}
-          key={project.id}
-          className="mb-2 flex items-center justify-start gap-2 transition-all duration-300 hover:translate-x-1"
-        >
-          <Image src={projectIcon} alt="Project icon" width={18} height={18} />
-          <p>{project.project_name}</p>
-        </Link>
-      ))}
-    </ul>
-  );
 }

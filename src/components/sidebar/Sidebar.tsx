@@ -10,10 +10,7 @@ export default function Sidebar() {
       <div>
         <SidebarHeader />
         <Divider color="light" />
-        <div className="bg-accent-primary-dark p-4 font-ubuntu">
-          <p className="mb-2 text-lg font-medium">Recent Projects</p>
-          <SidebarRecentProjects />
-        </div>
+        <SidebarRecentProjects />
       </div>
       <div>
         <SidebarUserMenu />
