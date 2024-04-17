@@ -269,7 +269,7 @@ export function EstimateRequestForm() {
                         type="file"
                         className={`h-fit text-xs file:mr-4 file:rounded file:bg-accent-secondary file:px-3 file:py-2 file:text-white file:transition-all file:duration-200 file:hover:scale-[103%] file:hover:shadow ${
                           fileUploadSuccess[index]
-                            ? "disabled:bg-green-200"
+                            ? "file:bg-white file:text-black disabled:bg-green-500/40"
                             : ""
                         }`}
                         onChange={(event) => {
