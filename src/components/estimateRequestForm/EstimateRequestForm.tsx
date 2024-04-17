@@ -5,8 +5,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useState, useEffect } from "react";
 import { Loader2, Plus, X } from "lucide-react";
-import { Badge } from "./ui/badge";
-import { Textarea } from "./ui/textarea";
+import { Badge } from "../ui/badge";
+import { Textarea } from "../ui/textarea";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -18,34 +18,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { createGoogleDriveFolder } from "@/app/api/createGoogleDriveFolder";
-
-const formSchema = z.object({
-  name: z
-    .string()
-    .min(2, {
-      message: "Name must be at least 2 characters.",
-    })
-    .max(64, {
-      message: "Name must be at most 64 characters.",
-    }),
-  email: z
-    .string()
-    .email({
-      message: "Please enter a valid email address.",
-    })
-    .min(1, {
-      message: "Please enter an email address.",
-    }),
-  projectName: z.string().min(1, {
-    message: "Please enter a project name.",
-  }),
-  projectDescription: z.string(),
-  desiredOHP: z.string().min(1, {
-    message: "Please enter a desired OHP.",
-  }),
-  contractorsCustomPreliminaries: z.string(),
-  files: z.array(z.any()),
-});
+import { formSchema } from "@/components/estimateRequestForm/formSchema";
 
 export function EstimateRequestForm() {
   const [newProjectID, setNewProjectID] = useState("");
@@ -60,8 +33,8 @@ export function EstimateRequestForm() {
   useEffect(() => {
     let id = crypto.randomUUID();
     setNewProjectID(id);
-    setProjectReference(id.slice(-6));
-  }, []);
+    setProjectReference(newProjectID.slice(-6));
+  }, [newProjectID]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -70,7 +43,7 @@ export function EstimateRequestForm() {
       email: "",
       projectName: "",
       projectDescription: "",
-      desiredOHP: "",
+      desiredOHP: undefined,
       contractorsCustomPreliminaries: "",
       files: [],
     },
@@ -223,11 +196,14 @@ export function EstimateRequestForm() {
             <FormItem>
               <FormLabel>Desired OHP</FormLabel>
               <FormControl>
-                <Input
-                  disabled={isUploading}
-                  placeholder="£100,000"
-                  {...field}
-                />
+                <div className="flex items-center">
+                  <p className="mx-2">£</p>
+                  <Input
+                    disabled={isUploading}
+                    placeholder="125000"
+                    {...field}
+                  />
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
