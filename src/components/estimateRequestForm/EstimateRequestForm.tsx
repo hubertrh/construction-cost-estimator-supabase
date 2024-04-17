@@ -24,6 +24,8 @@ import { formSchema } from "@/components/estimateRequestForm/formSchema";
 export function EstimateRequestForm() {
   const [newProjectID, setNewProjectID] = useState("");
   const [projectReference, setProjectReference] = useState("");
+  const [refCopyStatus, setRefCopyStatus] = useState("");
+  const [refHoverStatus, setRefHoverStatus] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
   const [fileInputs, setFileInputs] = useState([1]);
   const [isUploading, setIsUploading] = useState(false);
@@ -49,6 +51,18 @@ export function EstimateRequestForm() {
       files: [],
     },
   });
+
+  const handleProjectReferenceCopy = () => {
+    navigator.clipboard.writeText(projectReference);
+    setRefCopyStatus("copied");
+    setTimeout(() => {
+      setRefCopyStatus("");
+    }, 2000);
+  };
+
+  const handleHover = () => {
+    setRefHoverStatus(!refHoverStatus);
+  };
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsUploading(true);
@@ -115,10 +129,22 @@ export function EstimateRequestForm() {
         <h1 className="text-2xl font-bold">New Estimate Request</h1>
         <div className="flex items-center gap-2">
           <p className="mt-1 text-gray-500">Ref:</p>
-          {projectReference && (
-            <Badge className="uppercase">{projectReference}</Badge>
+          {projectReference ? (
+            <Badge
+              className="w-20 cursor-pointer text-center uppercase"
+              onMouseEnter={handleHover}
+              onMouseLeave={handleHover}
+              onClick={handleProjectReferenceCopy}
+            >
+              {refCopyStatus === "copied"
+                ? "Copied"
+                : refHoverStatus
+                  ? "Copy"
+                  : projectReference}
+            </Badge>
+          ) : (
+            <Badge className="uppercase">Loading</Badge>
           )}
-          {!projectReference && <Badge className="uppercase">Loading</Badge>}
         </div>
       </div>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
