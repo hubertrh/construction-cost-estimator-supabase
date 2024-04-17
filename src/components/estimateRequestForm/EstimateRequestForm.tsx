@@ -4,9 +4,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useState, useEffect } from "react";
-import { Loader2, Plus, X } from "lucide-react";
+import { CloudUpload, Loader2, Plus, X } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { Textarea } from "../ui/textarea";
+import { Progress } from "../ui/progress";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -33,8 +34,8 @@ export function EstimateRequestForm() {
   useEffect(() => {
     let id = crypto.randomUUID();
     setNewProjectID(id);
-    setProjectReference(newProjectID.slice(-6));
-  }, [newProjectID]);
+    setProjectReference(id.slice(-6));
+  }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -235,39 +236,43 @@ export function EstimateRequestForm() {
               <FormItem>
                 <FormLabel>Project File {index + 1}</FormLabel>
                 <FormControl>
-                  <div className="flex items-center">
-                    <Input
-                      disabled={isUploading}
-                      type="file"
-                      className={`h-fit text-xs file:mr-4 file:rounded file:bg-accent-secondary file:px-3 file:py-2 file:text-white file:transition-all file:duration-200 file:hover:scale-[103%] file:hover:shadow ${
-                        fileUploadSuccess[index] ? "disabled:bg-green-200" : ""
-                      }`}
-                      onChange={(event) => {
-                        const newFiles = [...files];
-                        if (event.target.files!.length > 0) {
-                          newFiles[index] = event.target.files![0];
-                        }
-                        setFiles(newFiles);
-                        setFileUploadSuccess((prev) => ({
-                          ...prev,
-                          [index]: false,
-                        }));
-                      }}
-                      // {...field}
-                    />
-                    {index === fileInputs.length - 1 &&
-                      fileInputs.length > 1 && (
-                        <Button
-                          disabled={isUploading}
-                          variant="destructive"
-                          size="icon"
-                          type="button"
-                          onClick={() => removeLastFileInput()}
-                          className="ml-2 aspect-square h-9"
-                        >
-                          <X className="size-5" />
-                        </Button>
-                      )}
+                  <div className="flex flex-col">
+                    <div className="flex items-center">
+                      <Input
+                        disabled={isUploading}
+                        type="file"
+                        className={`h-fit text-xs file:mr-4 file:rounded file:bg-accent-secondary file:px-3 file:py-2 file:text-white file:transition-all file:duration-200 file:hover:scale-[103%] file:hover:shadow ${
+                          fileUploadSuccess[index]
+                            ? "disabled:bg-green-200"
+                            : ""
+                        }`}
+                        onChange={(event) => {
+                          const newFiles = [...files];
+                          if (event.target.files!.length > 0) {
+                            newFiles[index] = event.target.files![0];
+                          }
+                          setFiles(newFiles);
+                          setFileUploadSuccess((prev) => ({
+                            ...prev,
+                            [index]: false,
+                          }));
+                        }}
+                      />
+                      {index === fileInputs.length - 1 &&
+                        fileInputs.length > 1 && (
+                          <Button
+                            disabled={isUploading}
+                            variant="destructive"
+                            size="icon"
+                            type="button"
+                            onClick={() => removeLastFileInput()}
+                            className="ml-2 aspect-square h-9"
+                          >
+                            <X className="size-5" />
+                          </Button>
+                        )}
+                    </div>
+                    <div className="mx-px">{/* <Progress value={33} /> */}</div>
                   </div>
                 </FormControl>
                 <FormMessage />
@@ -297,6 +302,7 @@ export function EstimateRequestForm() {
           )}
           {!isUploading && (
             <Button className="mt-10 text-base" type="submit">
+              <CloudUpload className="mr-2 size-4" />
               Submit Form
             </Button>
           )}
