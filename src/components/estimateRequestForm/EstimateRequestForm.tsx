@@ -57,7 +57,7 @@ export function EstimateRequestForm() {
     setRefCopyStatus("copied");
     setTimeout(() => {
       setRefCopyStatus("");
-    }, 2000);
+    }, 1000);
   };
 
   const handleHover = () => {
