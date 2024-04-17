@@ -49,7 +49,7 @@ const formSchema = z.object({
 
 export function EstimateRequestForm() {
   const [newProjectID, setNewProjectID] = useState("");
-  const [projectRefNo, setProjectRefNo] = useState("");
+  const [projectReference, setProjectReference] = useState("");
   const [files, setFiles] = useState<File[]>([]);
   const [fileInputs, setFileInputs] = useState([1]);
   const [isUploading, setIsUploading] = useState(false);
@@ -60,7 +60,7 @@ export function EstimateRequestForm() {
   useEffect(() => {
     let id = crypto.randomUUID();
     setNewProjectID(id);
-    setProjectRefNo(id.slice(-6));
+    setProjectReference(id.slice(-6));
   }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -79,7 +79,11 @@ export function EstimateRequestForm() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsUploading(true);
 
-    const folderID = await createGoogleDriveFolder(projectRefNo);
+    const folderName = `${projectReference}-${values.projectName}`.replace(
+      /\s/g,
+      "-",
+    );
+    const folderID = await createGoogleDriveFolder(folderName);
 
     // Sequentially upload each file
     for (let index = 0; index < files.length; index++) {
@@ -87,7 +91,7 @@ export function EstimateRequestForm() {
 
       let formData = new FormData();
       formData.append("file", file);
-      formData.append("fileName", file.name);
+      formData.append("fileName", file.name.replace(/\s/g, "-"));
       formData.append("fileType", file.type);
       formData.append("folderID", folderID);
 
@@ -137,8 +141,10 @@ export function EstimateRequestForm() {
         <h1 className="text-2xl font-bold">New Estimate Request</h1>
         <div className="flex items-center gap-2">
           <p className="mt-1 text-gray-500">Ref:</p>
-          {projectRefNo && <Badge className="uppercase">{projectRefNo}</Badge>}
-          {!projectRefNo && <Badge className="uppercase">Loading</Badge>}
+          {projectReference && (
+            <Badge className="uppercase">{projectReference}</Badge>
+          )}
+          {!projectReference && <Badge className="uppercase">Loading</Badge>}
         </div>
       </div>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
