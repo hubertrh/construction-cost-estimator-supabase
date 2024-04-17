@@ -9,6 +9,7 @@ export async function POST(request: Request) {
     throw new Error("Expected 'file' to be a file.");
   }
 
+  const folderID = formData.get("folderID");
   const fileName = formData.get("fileName");
   const fileType = formData.get("fileType");
   const fileArrayBuffer = await file.arrayBuffer();
@@ -37,13 +38,9 @@ export async function POST(request: Request) {
     auth: auth,
   });
 
-  if (!process.env.GCP_DRIVE_FOLDER_ID) {
-    throw new Error("Google Drive folder ID not set");
-  }
-
   const fileMetadata = {
     name: fileName,
-    parents: [process.env.GCP_DRIVE_FOLDER_ID],
+    parents: [folderID],
   };
   const media = {
     mimeType: fileType,

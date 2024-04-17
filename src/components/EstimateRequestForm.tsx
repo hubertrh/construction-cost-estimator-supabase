@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Loader2, Plus, X } from "lucide-react";
 import { Badge } from "./ui/badge";
 import { Textarea } from "./ui/textarea";
@@ -17,6 +17,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { createGoogleDriveFolder } from "@/app/api/createGoogleDriveFolder";
 
 const formSchema = z.object({
   name: z
@@ -51,7 +52,7 @@ export function EstimateRequestForm() {
   const [projectRefNo, setProjectRefNo] = useState("");
   const [files, setFiles] = useState<File[]>([]);
   const [fileInputs, setFileInputs] = useState([1]);
-  const [isUploading, setIsUploading] = useState(true);
+  const [isUploading, setIsUploading] = useState(false);
   const [fileUploadSuccess, setFileUploadSuccess] = useState<
     Record<number, boolean>
   >({});
@@ -77,25 +78,24 @@ export function EstimateRequestForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsUploading(true);
-    console.log(values);
+
+    const folderID = await createGoogleDriveFolder(projectRefNo);
 
     // Sequentially upload each file
     for (let index = 0; index < files.length; index++) {
       const file = files[index];
-      console.log(file);
 
       let formData = new FormData();
       formData.append("file", file);
       formData.append("fileName", file.name);
       formData.append("fileType", file.type);
+      formData.append("folderID", folderID);
 
       try {
         const response = await fetch("/api/uploadFile", {
           method: "POST",
           body: formData,
         });
-
-        console.log(response);
 
         if (!response.ok) {
           console.error(
@@ -257,7 +257,7 @@ export function EstimateRequestForm() {
                     <Input
                       disabled={isUploading}
                       type="file"
-                      className={`h-fit file:mr-4 file:rounded file:bg-accent-secondary file:px-3 file:py-2 file:text-white file:transition-all file:duration-200 file:hover:scale-[103%] file:hover:shadow ${
+                      className={`h-fit text-xs file:mr-4 file:rounded file:bg-accent-secondary file:px-3 file:py-2 file:text-white file:transition-all file:duration-200 file:hover:scale-[103%] file:hover:shadow ${
                         fileUploadSuccess[index] ? "disabled:bg-green-200" : ""
                       }`}
                       onChange={(event) => {
@@ -304,17 +304,17 @@ export function EstimateRequestForm() {
         <div className="w-full">
           {isUploading && (
             <>
-              <Button disabled className="mt-8 text-base">
+              <Button disabled className="mt-10 text-base">
                 <Loader2 className="mr-2 size-4 animate-spin" />
                 Uploading...
               </Button>
               <p className="mt-2 animate-pulse text-sm italic">
-                This may take a while...
+                This may take a while, please do not close the page...
               </p>
             </>
           )}
           {!isUploading && (
-            <Button className="mt-8 text-base" type="submit">
+            <Button className="mt-10 text-base" type="submit">
               Submit Form
             </Button>
           )}
