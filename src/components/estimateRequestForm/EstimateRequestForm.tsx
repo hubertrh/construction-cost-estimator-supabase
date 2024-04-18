@@ -46,6 +46,9 @@ export function EstimateRequestForm() {
       name: "",
       email: "",
       projectName: "",
+      projectStreetAddress: "",
+      projectCity: "",
+      projectPostcode: "",
       projectDescription: "",
       desiredOHP: undefined,
       contractorsCustomPreliminaries: "",
@@ -148,12 +151,13 @@ export function EstimateRequestForm() {
         </div>
       </div>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+        <h2 className="text-xl">Your details</h2>
         <FormField
           control={form.control}
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Your Name</FormLabel>
+              <FormLabel>Name</FormLabel>
               <FormControl>
                 <Input
                   disabled={isUploading}
@@ -170,7 +174,7 @@ export function EstimateRequestForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Your Email</FormLabel>
+              <FormLabel>Email</FormLabel>
               <FormControl>
                 <Input
                   disabled={isUploading}
@@ -182,12 +186,14 @@ export function EstimateRequestForm() {
             </FormItem>
           )}
         />
+        <div className="h-2 w-full" />
+        <h2 className="text-xl">Project details</h2>
         <FormField
           control={form.control}
           name="projectName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Project Name</FormLabel>
+              <FormLabel>Name</FormLabel>
               <FormControl>
                 <Input
                   disabled={isUploading}
@@ -201,10 +207,67 @@ export function EstimateRequestForm() {
         />
         <FormField
           control={form.control}
+          name="projectStreetAddress"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Street Address</FormLabel>
+              <FormControl>
+                <Input
+                  disabled={isUploading}
+                  placeholder="123 Example Street"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div className="flex w-full gap-4">
+          <div className="grow">
+            <FormField
+              control={form.control}
+              name="projectCity"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>City</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={isUploading}
+                      placeholder="London"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="w-32">
+            <FormField
+              control={form.control}
+              name="projectPostcode"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Postcode</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={isUploading}
+                      placeholder="EC1A 1BB"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
+        <FormField
+          control={form.control}
           name="projectDescription"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Project Description</FormLabel>
+              <FormLabel>Description</FormLabel>
               <FormControl>
                 <Textarea
                   disabled={isUploading}
@@ -224,12 +287,8 @@ export function EstimateRequestForm() {
               <FormLabel>Desired OHP</FormLabel>
               <FormControl>
                 <div className="flex items-center">
-                  <p className="mx-2">£</p>
-                  <Input
-                    disabled={isUploading}
-                    placeholder="125000"
-                    {...field}
-                  />
+                  <p className="mx-2 font-semibold">%</p>
+                  <Input disabled={isUploading} placeholder="20" {...field} />
                 </div>
               </FormControl>
               <FormMessage />

@@ -20,6 +20,20 @@ export const formSchema = z.object({
   projectName: z.string().min(1, {
     message: "Please enter a project name",
   }),
+  projectStreetAddress: z.string().min(1, {
+    message: "Please enter a project street address",
+  }),
+  projectCity: z.string().min(1, {
+    message: "Please enter a project city",
+  }),
+  projectPostcode: z
+    .string()
+    .min(1, {
+      message: "Please enter a project postcode",
+    })
+    .regex(new RegExp(/^([A-Z][A-HJ-Y]?\d[A-Z\d]? ?\d[A-Z]{2}|GIR ?0A{2})$/), {
+      message: "Please enter a valid UK postcode",
+    }),
   projectDescription: z.string(),
   desiredOHP: z
     .string()
@@ -27,8 +41,8 @@ export const formSchema = z.object({
     .min(1, {
       message: "Please enter a desired OHP",
     })
-    .max(10, {
-      message: "Desired OHP must be at most 10 digits",
+    .max(3, {
+      message: "Desired OHP must be at most 3 digits",
     }),
   contractorsCustomPreliminaries: z.string(),
   files: z.array(z.any()),
