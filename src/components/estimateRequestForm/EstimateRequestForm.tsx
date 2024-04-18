@@ -1,13 +1,16 @@
 "use client";
 
+import { UUID } from "crypto";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useState, useEffect } from "react";
 import { CloudUpload, Loader2, Plus, X } from "lucide-react";
+import { User } from "@supabase/supabase-js";
 import { Badge } from "../ui/badge";
 import { Textarea } from "../ui/textarea";
 import { Progress } from "../ui/progress";
+import submitToSupabase from "./submitToSupabase";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -21,7 +24,11 @@ import { Input } from "@/components/ui/input";
 import { createGoogleDriveFolder } from "@/app/api/createGoogleDriveFolder";
 import { formSchema } from "@/components/estimateRequestForm/formSchema";
 
-export function EstimateRequestForm() {
+type EstimateRequestFormProps = {
+  user: User | null;
+};
+
+export function EstimateRequestForm({ user }: EstimateRequestFormProps) {
   const [newProjectID, setNewProjectID] = useState("");
   const [projectReference, setProjectReference] = useState("");
   const [refCopyStatus, setRefCopyStatus] = useState("");
@@ -35,16 +42,16 @@ export function EstimateRequestForm() {
   >({});
 
   useEffect(() => {
-    let id = crypto.randomUUID();
-    setNewProjectID(id);
-    setProjectReference(id.slice(-6));
+    let projectID = crypto.randomUUID();
+    setNewProjectID(projectID);
+    setProjectReference(projectID.slice(-6));
   }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      email: "",
+      name: user?.user_metadata.full_name || "",
+      email: user?.email || "",
       projectName: "",
       projectStreetAddress: "",
       projectCity: "",
@@ -76,7 +83,7 @@ export function EstimateRequestForm() {
     );
     const folderID = await createGoogleDriveFolder(folderName);
 
-    files.forEach((file, index) => {
+    await files.forEach((file, index) => {
       const formData = new FormData();
       formData.append("file", file);
       formData.append("fileName", file.name.replace(/\s/g, "-"));
@@ -110,6 +117,25 @@ export function EstimateRequestForm() {
 
       xhr.send(formData);
     });
+
+    try {
+      submitToSupabase({
+        projectID: newProjectID as UUID,
+        clientName: values.name,
+        clientEmail: values.email,
+        projectName: values.projectName,
+        projectStreetAddress: values.projectStreetAddress,
+        projectCity: values.projectCity,
+        projectPostcode: values.projectPostcode,
+        projectDescription: values.projectDescription,
+        desiredOHP: Number(values.desiredOHP),
+        contractorPreliminaries: values.contractorsCustomPreliminaries,
+        googleDriveFolderID: folderID,
+        userID: user ? user.id : null,
+      });
+    } catch (error) {
+      console.error("Failed to submit project to Supabase:", error);
+    }
   }
 
   function addFileInput() {
@@ -193,7 +219,7 @@ export function EstimateRequestForm() {
           name="projectName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Name</FormLabel>
+              <FormLabel>Project Name</FormLabel>
               <FormControl>
                 <Input
                   disabled={isUploading}
@@ -402,7 +428,7 @@ export function EstimateRequestForm() {
               </>
             ) : (
               <>
-                <Button disabled className="mt-10 text-base">
+                <Button disabled className="mt-12 text-base">
                   <Loader2 className="mr-2 size-4 animate-spin" />
                   Uploading...
                 </Button>
@@ -412,7 +438,7 @@ export function EstimateRequestForm() {
               </>
             )
           ) : (
-            <Button className="mt-10 text-base" type="submit">
+            <Button className="mt-12 text-base" type="submit">
               <CloudUpload className="mr-2 size-4" />
               Submit Form
             </Button>
