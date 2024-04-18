@@ -2,6 +2,7 @@ import { SupabaseClient } from "@supabase/supabase-js";
 import ProjectLink from "./ProjectLink";
 import { createClient } from "@/utils/supabase/server";
 import { fetchUserRole } from "@/utils/supabase/userCalls";
+import Link from "next/link";
 
 type SidebarProjectsQueryOptions = {
   order: string;
@@ -69,10 +70,10 @@ export default async function SidebarRecentProjects() {
       );
 
     return (
-      <div className="bg-accent-primary-dark p-4 font-ubuntu">
-        <p className="mb-2 text-lg font-medium">
+      <div className="flex flex-col bg-accent-primary-dark p-4 font-ubuntu">
+        <Link href={"/projects"} className="mb-2 text-lg font-medium">
           {userRole === "client" ? "Recent Projects" : "Recent Requests"}
-        </p>
+        </Link>
         <ul>
           {projects.map((project, index) => (
             <ProjectLink key={index} project={project} />
