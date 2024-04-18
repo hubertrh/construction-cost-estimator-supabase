@@ -20,7 +20,7 @@ export default function ProjectLink({
         className="flex items-center justify-start gap-2 py-1 transition-all duration-300 hover:translate-x-1"
       >
         <Image src={projectIcon} alt="Project icon" width={18} height={18} />
-        <p>{project.project_name}</p>
+        <p className="max-h-6 truncate">{project.project_name}</p>
       </Link>
     </div>
   );
