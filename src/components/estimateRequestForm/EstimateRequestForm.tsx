@@ -7,6 +7,7 @@ import { z } from "zod";
 import { useState, useEffect } from "react";
 import { CloudUpload, Loader2, Plus, X } from "lucide-react";
 import { User } from "@supabase/supabase-js";
+import { useRouter } from "next/navigation";
 import { Badge } from "../ui/badge";
 import { Textarea } from "../ui/textarea";
 import { Progress } from "../ui/progress";
@@ -40,6 +41,7 @@ export function EstimateRequestForm({ user }: EstimateRequestFormProps) {
   const [fileUploadSuccess, setFileUploadSuccess] = useState<
     Record<number, boolean>
   >({});
+  const router = useRouter();
 
   useEffect(() => {
     let projectID = crypto.randomUUID();
@@ -83,59 +85,66 @@ export function EstimateRequestForm({ user }: EstimateRequestFormProps) {
     );
     const folderID = await createGoogleDriveFolder(folderName);
 
-    await files.forEach((file, index) => {
+    const uploadPromises = files.map((file, index) => {
       const formData = new FormData();
       formData.append("file", file);
       formData.append("fileName", file.name.replace(/\s/g, "-"));
       formData.append("fileType", file.type);
       formData.append("folderID", folderID);
 
-      const xhr = new XMLHttpRequest();
-      xhr.open("POST", "/api/uploadFile", true);
-      xhr.upload.onprogress = (event) => {
-        if (event.lengthComputable) {
-          const percentComplete = Math.round((event.loaded / event.total) * 80);
-          setFileProgress((prev) => ({ ...prev, [index]: percentComplete }));
-        }
-      };
+      return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "/api/uploadFile", true);
+        xhr.upload.onprogress = (event) => {
+          if (event.lengthComputable) {
+            const percentComplete = Math.round(
+              (event.loaded / event.total) * 80,
+            );
+            setFileProgress((prev) => ({ ...prev, [index]: percentComplete }));
+          }
+        };
 
-      xhr.onload = () => {
-        if (xhr.status === 200) {
-          const response = JSON.parse(xhr.responseText);
-          console.log(response.message);
-          console.log("Uploaded file ID:", response.fileID);
-          setFileProgress((prev) => ({ ...prev, [index]: 100 }));
-          setFileUploadSuccess((prev) => ({ ...prev, [index]: true }));
-        } else {
-          console.error("Failed to upload file:", file.name, xhr.statusText);
-        }
-      };
+        xhr.onload = () => {
+          if (xhr.status === 200) {
+            const response = JSON.parse(xhr.responseText);
+            setFileProgress((prev) => ({ ...prev, [index]: 100 }));
+            setFileUploadSuccess((prev) => ({ ...prev, [index]: true }));
+            resolve(xhr.responseText);
+          } else {
+            console.error("Failed to upload file:", file.name, xhr.statusText);
+            reject(xhr.statusText);
+          }
+        };
 
-      xhr.onerror = () => {
-        console.error("Error uploading file:", file.name);
-      };
+        xhr.onerror = () => {
+          console.error("Error uploading file:", file.name);
+          reject(xhr.statusText);
+        };
 
-      xhr.send(formData);
+        xhr.send(formData);
+      });
     });
 
-    try {
-      submitToSupabase({
-        projectID: newProjectID as UUID,
-        clientName: values.name,
-        clientEmail: values.email,
-        projectName: values.projectName,
-        projectStreetAddress: values.projectStreetAddress,
-        projectCity: values.projectCity,
-        projectPostcode: values.projectPostcode,
-        projectDescription: values.projectDescription,
-        desiredOHP: Number(values.desiredOHP),
-        contractorPreliminaries: values.contractorsCustomPreliminaries,
-        googleDriveFolderID: folderID,
-        userID: user ? user.id : null,
+    Promise.all(uploadPromises)
+      .then(() => {
+        submitToSupabase({
+          projectID: newProjectID as UUID,
+          clientName: values.name,
+          clientEmail: values.email,
+          projectName: values.projectName,
+          projectStreetAddress: values.projectStreetAddress,
+          projectCity: values.projectCity,
+          projectPostcode: values.projectPostcode,
+          projectDescription: values.projectDescription,
+          desiredOHP: Number(values.desiredOHP),
+          contractorPreliminaries: values.contractorsCustomPreliminaries,
+          googleDriveFolderID: folderID,
+          userID: user ? user.id : null,
+        });
+      })
+      .catch((error) => {
+        console.error("Error with upload promises:", error);
       });
-    } catch (error) {
-      console.error("Failed to submit project to Supabase:", error);
-    }
   }
 
   function addFileInput() {
@@ -176,7 +185,7 @@ export function EstimateRequestForm({ user }: EstimateRequestFormProps) {
           )}
         </div>
       </div>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
         <h2 className="text-xl">Your details</h2>
         <FormField
           control={form.control}

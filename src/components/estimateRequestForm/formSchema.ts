@@ -37,7 +37,9 @@ export const formSchema = z.object({
   projectDescription: z.string(),
   desiredOHP: z
     .string()
-    .regex(/^\d+$/)
+    .regex(new RegExp(/^(?:100|[1-9][0-9]?|0)$/), {
+      message: "Desired OHP must be a number between 0 and 100",
+    })
     .min(1, {
       message: "Please enter a desired OHP",
     })

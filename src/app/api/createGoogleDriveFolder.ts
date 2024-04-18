@@ -15,7 +15,6 @@ export async function createGoogleDriveFolder(folderName: string) {
       credentials: serviceAccount,
       scopes: ["https://www.googleapis.com/auth/drive"],
     });
-    console.log("Auth initialized successfully");
   } catch (error) {
     throw new Error("Error initializing auth: " + error);
   }
@@ -40,7 +39,6 @@ export async function createGoogleDriveFolder(folderName: string) {
       resource: fileMetadata,
       fields: "id",
     });
-    console.log("Folder Id:", file.data.id);
     return file.data.id;
   } catch (error) {
     throw new Error("Error creating folder: " + error);

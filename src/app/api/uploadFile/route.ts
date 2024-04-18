@@ -28,7 +28,6 @@ export async function POST(request: Request) {
       credentials: serviceAccount,
       scopes: ["https://www.googleapis.com/auth/drive"],
     });
-    console.log("Auth initialized successfully");
   } catch (error) {
     throw new Error("Error initializing auth: " + error);
   }
@@ -53,7 +52,7 @@ export async function POST(request: Request) {
       media: media,
       fields: "id",
     });
-    console.log(`File uploaded successfully, File ID: ${file.data.id}`);
+
     return new Response(
       JSON.stringify({
         message: "File uploaded successfully",

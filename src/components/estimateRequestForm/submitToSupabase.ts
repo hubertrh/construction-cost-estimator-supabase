@@ -55,6 +55,6 @@ export default async function submitToSupabase({
     throw new Error("Failed to submit project to Supabase");
   }
 
-  revalidatePath("/");
-  redirect("/");
+  revalidatePath("/projects");
+  redirect("/projects");
 }
