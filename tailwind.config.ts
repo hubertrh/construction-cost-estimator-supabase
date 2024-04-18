@@ -37,6 +37,18 @@ const config: Config = {
           dark: "#333333",
         },
         black: "#171717",
+        positive: {
+          DEFAULT: "#CDF3C6",
+          dark: "#006D23",
+        },
+        negative: {
+          DEFAULT: "#FFE0E0",
+          dark: "#BD002A",
+        },
+        warning: {
+          DEFAULT: "#FFF6CC",
+          dark: "#B78300",
+        },
       },
       height: {
         dvh: "100dvh",
