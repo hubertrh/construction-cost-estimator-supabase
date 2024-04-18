@@ -29,6 +29,7 @@ export function EstimateRequestForm() {
   const [files, setFiles] = useState<File[]>([]);
   const [fileInputs, setFileInputs] = useState([1]);
   const [isUploading, setIsUploading] = useState(false);
+  const [fileProgress, setFileProgress] = useState<Record<number, number>>({});
   const [fileUploadSuccess, setFileUploadSuccess] = useState<
     Record<number, boolean>
   >({});
@@ -66,47 +67,46 @@ export function EstimateRequestForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsUploading(true);
-
     const folderName = `${projectReference}-${values.projectName}`.replace(
       /\s/g,
       "-",
     );
     const folderID = await createGoogleDriveFolder(folderName);
 
-    // Sequentially upload each file
-    for (let index = 0; index < files.length; index++) {
-      const file = files[index];
-
-      let formData = new FormData();
+    files.forEach((file, index) => {
+      const formData = new FormData();
       formData.append("file", file);
       formData.append("fileName", file.name.replace(/\s/g, "-"));
       formData.append("fileType", file.type);
       formData.append("folderID", folderID);
 
-      try {
-        const response = await fetch("/api/uploadFile", {
-          method: "POST",
-          body: formData,
-        });
-
-        if (!response.ok) {
-          console.error(
-            "Failed to upload file (skipping):",
-            file.name,
-            response.statusText,
-          );
-          continue; // Skip to the next file if the current one fails
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", "/api/uploadFile", true);
+      xhr.upload.onprogress = (event) => {
+        if (event.lengthComputable) {
+          const percentComplete = Math.round((event.loaded / event.total) * 80);
+          setFileProgress((prev) => ({ ...prev, [index]: percentComplete }));
         }
+      };
 
-        const uploadResult = await response.json();
-        console.log(uploadResult.message);
-        console.log("Uploaded file ID:", uploadResult.fileID);
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          const response = JSON.parse(xhr.responseText);
+          console.log(response.message);
+          console.log("Uploaded file ID:", response.fileID);
+          setFileProgress((prev) => ({ ...prev, [index]: 100 }));
+          setFileUploadSuccess((prev) => ({ ...prev, [index]: true }));
+        } else {
+          console.error("Failed to upload file:", file.name, xhr.statusText);
+        }
+      };
 
-        setFileUploadSuccess((prev) => ({ ...prev, [index]: true }));
-      } catch (error) {
-        console.error("Error uploading file:", file.name, error);
-      }
-    }
+      xhr.onerror = () => {
+        console.error("Error uploading file:", file.name);
+      };
+
+      xhr.send(formData);
+    });
   }
 
   function addFileInput() {
@@ -263,7 +263,15 @@ export function EstimateRequestForm() {
                 <FormLabel>Project File {index + 1}</FormLabel>
                 <FormControl>
                   <div className="flex flex-col">
-                    <div className="flex items-center">
+                    <div className="relative flex items-center">
+                      {isUploading && !fileUploadSuccess[index] && (
+                        <div
+                          className={`absolute right-0 top-1/2 -translate-y-1/2 ${index === fileInputs.length - 1 && fileInputs.length > 1 ? "mr-[3.7rem]" : "mr-4"}
+                        `}
+                        >
+                          <Loader2 className="size-5 animate-spin" />
+                        </div>
+                      )}
                       <Input
                         disabled={isUploading}
                         type="file"
@@ -282,6 +290,10 @@ export function EstimateRequestForm() {
                             ...prev,
                             [index]: false,
                           }));
+                          setFileProgress((prev) => ({
+                            ...prev,
+                            [index]: 0,
+                          }));
                         }}
                       />
                       {index === fileInputs.length - 1 &&
@@ -298,7 +310,9 @@ export function EstimateRequestForm() {
                           </Button>
                         )}
                     </div>
-                    <div className="mx-px">{/* <Progress value={33} /> */}</div>
+                    <div className="mx-px">
+                      <Progress value={fileProgress[index] || 0} />
+                    </div>
                   </div>
                 </FormControl>
                 <FormMessage />
@@ -315,18 +329,29 @@ export function EstimateRequestForm() {
           <Plus className="mr-2 size-4" /> Add Another File
         </Button>
         <div className="w-full">
-          {isUploading && (
-            <>
-              <Button disabled className="mt-10 text-base">
-                <Loader2 className="mr-2 size-4 animate-spin" />
-                Uploading...
-              </Button>
-              <p className="mt-2 animate-pulse text-sm italic">
-                This may take a while, please do not close the page...
-              </p>
-            </>
-          )}
-          {!isUploading && (
+          {isUploading ? (
+            Object.values(fileUploadSuccess).every(Boolean) ? (
+              <>
+                <Button disabled className="mt-10 text-base">
+                  <Loader2 className="mr-2 size-4 animate-spin" />
+                  Finalising...
+                </Button>
+                <p className="mt-2 animate-pulse text-sm italic">
+                  This may take a while, please do not close the page...
+                </p>
+              </>
+            ) : (
+              <>
+                <Button disabled className="mt-10 text-base">
+                  <Loader2 className="mr-2 size-4 animate-spin" />
+                  Uploading...
+                </Button>
+                <p className="mt-2 animate-pulse text-sm italic">
+                  This may take a while, please do not close the page...
+                </p>
+              </>
+            )
+          ) : (
             <Button className="mt-10 text-base" type="submit">
               <CloudUpload className="mr-2 size-4" />
               Submit Form
