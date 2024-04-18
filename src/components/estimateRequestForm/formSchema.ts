@@ -16,16 +16,34 @@ export const formSchema = z.object({
     })
     .min(1, {
       message: "Please enter an email address",
+    })
+    .max(64, {
+      message: "Email must be at most 64 characters",
     }),
-  projectName: z.string().min(1, {
-    message: "Please enter a project name",
-  }),
-  projectStreetAddress: z.string().min(1, {
-    message: "Please enter a project street address",
-  }),
-  projectCity: z.string().min(1, {
-    message: "Please enter a project city",
-  }),
+  projectName: z
+    .string()
+    .min(1, {
+      message: "Please enter a project name",
+    })
+    .max(64, {
+      message: "Project name must be at most 64 characters",
+    }),
+  projectStreetAddress: z
+    .string()
+    .min(1, {
+      message: "Please enter a project street address",
+    })
+    .max(64, {
+      message: "Street address must be at most 64 characters",
+    }),
+  projectCity: z
+    .string()
+    .min(1, {
+      message: "Please enter a project city",
+    })
+    .max(64, {
+      message: "City must be at most 64 characters",
+    }),
   projectPostcode: z
     .string()
     .min(1, {
