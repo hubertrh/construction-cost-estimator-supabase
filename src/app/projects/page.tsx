@@ -1,5 +1,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
+import { DataTable } from "@/components/projectsDataTable/DataTable";
+import { columns } from "@/components/projectsDataTable/Columns";
 
 export default async function Projects() {
   const supabase = createClient();
@@ -11,8 +13,9 @@ export default async function Projects() {
 
   const { data: projects, error: projectsError } = await supabase
     .from("projects")
-    .select("*")
-    .eq("user_id", user.user.id);
+    .select("id, project_status, project_name, project_postcode")
+    .eq("user_id", user.user.id)
+    .order("created_at", { ascending: false });
 
   if (projectsError) {
     console.log(projectsError);
@@ -21,14 +24,10 @@ export default async function Projects() {
 
   return (
     <div>
-      <h1>My Projects</h1>
-      {projects?.map((project) => (
-        <div key={project.id}>
-          <h2>{project.project_name}</h2>
-          <p>{project.project_short_description}</p>
-          <a href={`/projects/${project.id}`}>View Project</a>
-        </div>
-      ))}
+      <h1 className="mb-6 text-2xl">My Projects</h1>
+      <div className="container mx-auto py-4">
+        <DataTable columns={columns} data={projects} />
+      </div>
     </div>
   );
 }
