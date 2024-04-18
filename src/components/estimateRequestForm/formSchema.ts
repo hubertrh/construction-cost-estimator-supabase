@@ -22,7 +22,8 @@ export const formSchema = z.object({
   }),
   projectDescription: z.string(),
   desiredOHP: z
-    .number()
+    .string()
+    .regex(/^\d+$/)
     .min(1, {
       message: "Please enter a desired OHP",
     })
