@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { Badge } from "../ui/badge";
 import { Textarea } from "../ui/textarea";
 import { Progress } from "../ui/progress";
+import { useToast } from "../ui/use-toast";
 import submitToSupabase from "./submitToSupabase";
 import { Button } from "@/components/ui/button";
 import {
@@ -42,6 +43,7 @@ export function EstimateRequestForm({ user }: EstimateRequestFormProps) {
     Record<number, boolean>
   >({});
   const router = useRouter();
+  const { toast } = useToast();
 
   useEffect(() => {
     let projectID = crypto.randomUUID();
@@ -144,6 +146,17 @@ export function EstimateRequestForm({ user }: EstimateRequestFormProps) {
       })
       .catch((error) => {
         console.error("Error with upload promises:", error);
+      })
+      .finally(() => {
+        setTimeout(() => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }, 1000);
+        setTimeout(() => {
+          toast({
+            title: "Estimate Request Submitted!",
+            description: `Your request for ${values.projectName} has been submitted successfully`,
+          });
+        }, 1500);
       });
   }
 

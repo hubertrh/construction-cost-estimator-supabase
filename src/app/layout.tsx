@@ -7,6 +7,7 @@ import NextTopLoader from "nextjs-toploader";
 import Sidebar from "@/components/sidebar/Sidebar";
 import Footer from "@/components/footer/Footer";
 import { cn } from "@/lib/utils";
+import { Toaster } from "@/components/ui/toaster";
 
 const montserrat = Montserrat({
   weight: ["200", "300", "400"],
@@ -55,6 +56,7 @@ export default async function RootLayout({
             {children}
           </div>
         </main>
+        <Toaster />
         <Footer />
         <Analytics />
         <SpeedInsights />
