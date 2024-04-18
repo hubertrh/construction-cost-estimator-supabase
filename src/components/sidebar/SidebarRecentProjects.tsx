@@ -1,8 +1,8 @@
 import { SupabaseClient } from "@supabase/supabase-js";
+import Link from "next/link";
 import ProjectLink from "./ProjectLink";
 import { createClient } from "@/utils/supabase/server";
 import { fetchUserRole } from "@/utils/supabase/userCalls";
-import Link from "next/link";
 
 type SidebarProjectsQueryOptions = {
   order: string;
