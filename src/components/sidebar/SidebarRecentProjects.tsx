@@ -52,7 +52,7 @@ export default async function SidebarRecentProjects() {
       order: "updated_at",
       orderDirection: { ascending: false },
       limit: 5,
-      filterColumn: userRole === "client" ? "user" : undefined,
+      filterColumn: userRole === "client" ? "user_id" : undefined,
       filterValue: userRole === "client" ? user.user.id : undefined,
     };
 

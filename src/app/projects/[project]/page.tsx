@@ -25,14 +25,14 @@ export default async function Project({ params }: ProjectProps) {
     return <p>Failed to fetch project</p>;
   }
 
-  if (user?.user.id !== fetchedProject?.user) {
+  if (user?.user.id !== fetchedProject?.user_id) {
     return <p>You do not have access to this project</p>;
   }
 
   return (
     <>
       <h1>{fetchedProject.project_name}</h1>
-      <p>{fetchedProject.project_short_description}</p>
+      <p>{fetchedProject.project_description}</p>
     </>
   );
 }

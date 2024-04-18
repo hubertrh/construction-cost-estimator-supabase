@@ -12,7 +12,7 @@ export default async function Projects() {
   const { data: projects, error: projectsError } = await supabase
     .from("projects")
     .select("*")
-    .eq("user", user.user.id);
+    .eq("user_id", user.user.id);
 
   if (projectsError) {
     console.log(projectsError);
