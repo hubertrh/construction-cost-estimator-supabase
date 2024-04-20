@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { DataTable } from "@/components/projectsDataTable/DataTable";
-import { columns } from "@/components/projectsDataTable/Columns";
+import { clientProjectsColumns } from "@/components/projectsDataTable/Columns";
 
 export default async function Projects() {
   const supabase = createClient();
@@ -26,7 +26,7 @@ export default async function Projects() {
     <div>
       <h1 className="mb-6 text-2xl">My Projects</h1>
       <div className="container mx-auto min-w-[50rem] py-4">
-        <DataTable columns={columns} data={projects} />
+        <DataTable columns={clientProjectsColumns} data={projects} />
       </div>
     </div>
   );
