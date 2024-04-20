@@ -6,12 +6,20 @@ import "./globals.css";
 import NextTopLoader from "nextjs-toploader";
 import Sidebar from "@/components/sidebar/Sidebar";
 import Footer from "@/components/footer/Footer";
+import { cn } from "@/lib/utils";
+import { Toaster } from "@/components/ui/toaster";
 
 const montserrat = Montserrat({
   weight: ["200", "300", "400"],
   subsets: ["latin"],
   display: "swap",
   variable: "--font-montserrat",
+});
+const fontSans = Montserrat({
+  weight: ["200", "300", "400"],
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-sans",
 });
 const ubuntu = Ubuntu({
   weight: ["300", "400"],
@@ -20,9 +28,8 @@ const ubuntu = Ubuntu({
 });
 
 export const metadata: Metadata = {
-  title: "Construction Cost Estimator - Kamil Woźniacki",
-  description:
-    "Online estimator for my clients to accurately calculate construction project costs. Enter the details and get a PDF estimate.",
+  title: "CostCraft",
+  description: "Construction Cost Estimator by Constructive Creativity.",
 };
 
 export default async function RootLayout({
@@ -33,7 +40,8 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${montserrat.className} ${ubuntu.variable} bg-background-dark`}
+        className={`${montserrat.className} ${ubuntu.variable} bg-background-dark 
+          ${cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}`}
       >
         <NextTopLoader
           color="#D68B1A"
@@ -48,6 +56,7 @@ export default async function RootLayout({
             {children}
           </div>
         </main>
+        <Toaster />
         <Footer />
         <Analytics />
         <SpeedInsights />

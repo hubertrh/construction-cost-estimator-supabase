@@ -16,6 +16,7 @@ export default async function Home() {
             size={12}
             alt="Add icon"
             position="left"
+            href={"/new-estimate-request"}
           >
             Create New Estimate
           </ButtonPrimary>
