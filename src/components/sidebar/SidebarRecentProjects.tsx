@@ -44,7 +44,15 @@ export default async function SidebarRecentProjects() {
       return (
         <div className="bg-accent-primary-dark p-4 font-ubuntu">
           <p className="mb-2 text-lg font-medium">Recent Projects</p>
-          <p>Sign in to see your projects</p>
+          <p>
+            <Link
+              href={"/auth/login"}
+              className="underline underline-offset-4 transition-all duration-300 hover:underline-offset-8"
+            >
+              Sign in
+            </Link>{" "}
+            to see your projects
+          </p>
         </div>
       );
 
@@ -72,7 +80,7 @@ export default async function SidebarRecentProjects() {
     return (
       <div className="flex flex-col bg-accent-primary-dark p-4 font-ubuntu">
         <Link href={"/projects"} className="mb-2 text-lg font-medium">
-          {userRole === "client" ? "Recent Projects" : "Recent Requests"}
+          {userRole === "client" ? "Recent Projects" : "Pending Requests"}
         </Link>
         <ul>
           {projects.map((project, index) => (
