@@ -35,8 +35,6 @@ export function LoginForm() {
   };
 
   const handleLoginWithOTP = async () => {
-    console.log(callbackURL);
-
     await supabase.auth.signInWithOtp({
       email,
       options: {
@@ -67,7 +65,7 @@ export function LoginForm() {
               placeholder="email@example.com"
               required
               onChange={handleEmailChange}
-              value={email} // Controlled component
+              value={email}
             />
           </div>
           <Button className="w-full" onClick={() => handleLoginWithOTP()}>

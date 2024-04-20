@@ -18,7 +18,7 @@ export default async function Projects() {
     .order("created_at", { ascending: false });
 
   if (projectsError) {
-    console.log(projectsError);
+    console.error(projectsError);
     return <p>Failed to fetch projects</p>;
   }
 

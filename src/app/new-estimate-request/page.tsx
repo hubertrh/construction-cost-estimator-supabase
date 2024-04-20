@@ -9,7 +9,5 @@ export default async function newEstimateRequest() {
     throw new Error("Failed to fetch user");
   }
 
-  console.log(user);
-
   return <EstimateRequestForm user={user?.user ? user.user : null} />;
 }

@@ -14,7 +14,6 @@ export default async function PrivatePage() {
 
   await migrate(db, { migrationsFolder: "drizzle" });
   const allProjects = await db.select().from(projects);
-  console.log(allProjects);
   await client.end();
 
   return <p>Migration successful!</p>;

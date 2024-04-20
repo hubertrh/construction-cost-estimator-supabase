@@ -51,8 +51,6 @@ export async function createGoogleDriveFolder(
       fields: "id",
     });
 
-    console.log(permissions[0].emailAddress);
-
     try {
       for (const permission of permissions) {
         await driveService.permissions.create({
