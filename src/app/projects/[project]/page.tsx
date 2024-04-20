@@ -1,6 +1,9 @@
 import { UUID } from "crypto";
-import { redirect } from "next/navigation";
+import { Suspense } from "react";
 import { createClient } from "@/utils/supabase/server";
+import ProjectContent from "@/components/project/ProjectContent";
+import ProjectPostcodeValidator from "@/components/project/ProjectPostcodeValidator";
+import { fetchUserRole } from "@/utils/supabase/userCalls";
 
 type ProjectProps = {
   params: { project: UUID };
@@ -10,29 +13,37 @@ export default async function Project({ params }: ProjectProps) {
   const supabase = createClient();
   const { data: user, error: userError } = await supabase.auth.getUser();
 
-  if (userError || !user?.user) {
-    redirect("/auth/login");
-  }
-
   const { data: fetchedProject, error: fetchedProjectError } = await supabase
     .from("projects")
     .select("*")
     .eq("id", params.project)
     .single();
 
-  if (fetchedProjectError) {
+  if (fetchedProjectError || !fetchedProject) {
     console.error(fetchedProjectError);
     return <p>Failed to fetch project</p>;
   }
 
-  if (user?.user.id !== fetchedProject?.user_id) {
-    return <p>You do not have access to this project</p>;
+  // ask for postcode if user is not the owner of the project
+  if (userError || !user?.user) {
+    return (
+      <Suspense>
+        <ProjectPostcodeValidator fetchedProject={fetchedProject} />
+      </Suspense>
+    );
   }
 
-  return (
-    <>
-      <h1>{fetchedProject.project_name}</h1>
-      <p>{fetchedProject.project_description}</p>
-    </>
-  );
+  if (user?.user) {
+    const userRole = await fetchUserRole(supabase, user.user.id);
+
+    if (userRole !== "admin" && user?.user.id !== fetchedProject?.user_id) {
+      return (
+        <Suspense>
+          <ProjectPostcodeValidator fetchedProject={fetchedProject} />
+        </Suspense>
+      );
+    }
+  }
+
+  return <ProjectContent fetchedProject={fetchedProject} />;
 }

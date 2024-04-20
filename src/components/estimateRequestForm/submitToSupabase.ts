@@ -56,5 +56,7 @@ export default async function submitToSupabase({
   }
 
   revalidatePath("/projects");
-  redirect("/projects");
+  redirect(
+    `/projects/${projectID}?postcode=${projectPostcode.replace(/\s/g, "")}`,
+  );
 }
