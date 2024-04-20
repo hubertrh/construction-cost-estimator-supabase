@@ -85,7 +85,7 @@ export function EstimateRequestForm({ user }: EstimateRequestFormProps) {
       /\s/g,
       "-",
     );
-    const folderID = await createGoogleDriveFolder(folderName);
+    const folderID = await createGoogleDriveFolder(folderName, values.email);
 
     const uploadPromises = files.map((file, index) => {
       const formData = new FormData();

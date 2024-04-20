@@ -2,7 +2,10 @@
 
 const { google } = require("googleapis");
 
-export async function createGoogleDriveFolder(folderName: string) {
+export async function createGoogleDriveFolder(
+  folderName: string,
+  clientEmail: string,
+) {
   let auth;
   try {
     if (!process.env.GCP_SERVICE_ACCOUNT_BASE64) {
@@ -34,11 +37,34 @@ export async function createGoogleDriveFolder(folderName: string) {
     mimeType: "application/vnd.google-apps.folder",
   };
 
+  const permissions = [
+    {
+      type: "user",
+      role: "reader",
+      emailAddress: clientEmail,
+    },
+  ];
+
   try {
     const file = await driveService.files.create({
       resource: fileMetadata,
       fields: "id",
     });
+
+    console.log(permissions[0].emailAddress);
+
+    try {
+      for (const permission of permissions) {
+        await driveService.permissions.create({
+          resource: permission,
+          fileId: file.data.id,
+          fields: "id",
+        });
+      }
+    } catch (error) {
+      throw new Error("Error setting permissions: " + error);
+    }
+
     return file.data.id;
   } catch (error) {
     throw new Error("Error creating folder: " + error);
