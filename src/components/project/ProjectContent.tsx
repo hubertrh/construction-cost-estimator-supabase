@@ -1,7 +1,11 @@
 import Link from "next/link";
+import Image from "next/image";
+import { ExternalLink } from "lucide-react";
 import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
 import ProjectTitleWithRef from "./ProjectTitleWithRef";
 import { Database } from "@/types/supabase";
+import googleDriveIcon from "/public/icons/google-drive.svg";
 
 export default function projectContent({
   fetchedProject,
@@ -96,18 +100,37 @@ export default function projectContent({
             <p className="text-sm text-accent-primary-dark">
               Contractor&apos;s Custom Preliminaries
             </p>
-            <p className="text-justify">
+            <p className="mb-4 text-justify">
               {fetchedProject.contractor_preliminaries}
             </p>
           </>
         ) : (
-          <p className="text-gray">
+          <p className="mb-4 text-gray">
             <span className="text-sm text-accent-primary-dark/60">
               Contractor&apos;s Custom Preliminaries:&ensp;
             </span>
             Not provided
           </p>
         )}
+      </section>
+      <section>
+        <Button className="my-5" variant={"outline"} asChild>
+          <a
+            href={fetchedProject.google_drive_folder_link}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Image
+              className="mr-2"
+              src={googleDriveIcon}
+              alt="Google Drive Icon"
+              width={24}
+              height={24}
+            />
+            View Uploaded Files
+            <ExternalLink className="ml-2 size-3" />
+          </a>
+        </Button>
       </section>
     </div>
   );

@@ -75,9 +75,8 @@ export default function ProjectPostcodeValidator({
     <ProjectContent fetchedProject={fetchedProject} />
   ) : (
     <div>
-      <p>You are not signed in.</p>
-      <p className="mb-8">
-        Please enter the postcode of the project to continue.
+      <p className="mb-10 text-lg">
+        Please enter the project postcode to continue
       </p>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
@@ -111,11 +110,7 @@ export default function ProjectPostcodeValidator({
                       }}
                     />
                   </FormControl>
-                  <Button
-                    variant={"outline"}
-                    type="button"
-                    className="aspect-square px-0"
-                  >
+                  <Button type="button" className="aspect-square px-0">
                     <ChevronRight className="size-5" />
                   </Button>
                 </div>
