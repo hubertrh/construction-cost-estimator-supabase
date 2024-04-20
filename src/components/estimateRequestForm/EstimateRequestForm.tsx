@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useState, useEffect } from "react";
-import { CloudUpload, Loader2, Plus, X } from "lucide-react";
+import { Loader2, Plus, Upload, X } from "lucide-react";
 import { User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 import { Badge } from "../ui/badge";
@@ -461,7 +461,7 @@ export function EstimateRequestForm({ user }: EstimateRequestFormProps) {
             )
           ) : (
             <Button className="mt-12 text-base" type="submit">
-              <CloudUpload className="mr-2 size-4" />
+              <Upload className="mr-2 size-4" />
               Submit Form
             </Button>
           )}

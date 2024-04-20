@@ -17,12 +17,12 @@ const config: Config = {
       colors: {
         accent: {
           primary: {
-            DEFAULT: "#3D62B2",
-            dark: "#32549C",
+            DEFAULT: "#397B7E",
+            dark: "#30696B",
           },
           secondary: {
-            DEFAULT: "#D68B1A",
-            dark: "#BD822A",
+            DEFAULT: "#D19130",
+            dark: "#BA7F27",
           },
           red: "#D90000",
         },

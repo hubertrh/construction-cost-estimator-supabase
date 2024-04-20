@@ -44,7 +44,7 @@ export default async function RootLayout({
           ${cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}`}
       >
         <NextTopLoader
-          color="#D68B1A"
+          color="#D19130"
           height={5}
           initialPosition={0.2}
           easing="ease"
