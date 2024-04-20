@@ -156,7 +156,7 @@ export function EstimateRequestForm({ user }: EstimateRequestFormProps) {
             title: "Estimate Request Submitted!",
             description: `Your request for ${values.projectName} has been submitted successfully`,
           });
-        }, 1500);
+        }, 2000);
       });
   }
 
