@@ -43,7 +43,7 @@ export default async function submitToSupabase({
     project_name: projectName,
     project_street_address: projectStreetAddress,
     project_city: projectCity,
-    project_postcode: projectPostcode,
+    project_postcode: projectPostcode.toUpperCase(),
     project_description: projectDescription,
     desired_ohp: desiredOHP,
     contractor_preliminaries: contractorPreliminaries,
