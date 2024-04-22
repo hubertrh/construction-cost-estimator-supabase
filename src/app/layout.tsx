@@ -10,19 +10,19 @@ import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/toaster";
 
 const montserrat = Montserrat({
-  weight: ["200", "300", "400"],
+  weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
   subsets: ["latin"],
   display: "swap",
   variable: "--font-montserrat",
 });
 const fontSans = Montserrat({
-  weight: ["200", "300", "400"],
+  weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
   subsets: ["latin"],
   display: "swap",
   variable: "--font-sans",
 });
 const ubuntu = Ubuntu({
-  weight: ["300", "400"],
+  weight: ["300", "400", "500"],
   variable: "--font-ubuntu",
   subsets: ["latin"],
 });

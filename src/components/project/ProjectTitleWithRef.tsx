@@ -29,7 +29,7 @@ export default function ProjectTitleWithRef({
 
   return (
     <div className="flex min-w-[28rem] items-center justify-between gap-8">
-      <h1 className="text-2xl font-bold">{projectTitle}</h1>
+      <h1 className="text-2xl font-medium">{projectTitle}</h1>
       <div className="flex items-center gap-2">
         <p className="mt-1 text-gray-500">Ref:</p>
         <Badge

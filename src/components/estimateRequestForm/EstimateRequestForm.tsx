@@ -177,7 +177,7 @@ export function EstimateRequestForm({ user }: EstimateRequestFormProps) {
   return (
     <Form {...form}>
       <div className="mb-8 flex min-w-[28rem] items-center justify-between gap-8">
-        <h1 className="text-2xl font-bold">New Estimate Request</h1>
+        <h1 className="text-2xl font-medium">New Estimate Request</h1>
         <div className="flex items-center gap-2">
           <p className="mt-1 text-gray-500">Ref:</p>
           {projectReference ? (

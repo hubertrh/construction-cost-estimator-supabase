@@ -43,7 +43,7 @@ export default async function SidebarRecentProjects() {
     if (userError || !user?.user)
       return (
         <div className="bg-accent-primary-dark p-4 font-ubuntu">
-          <p className="mb-2 text-lg font-medium">Recent Projects</p>
+          <p className="mb-2 text-lg font-normal">Recent Projects</p>
           <p>
             <Link
               href={"/auth/login"}
@@ -72,14 +72,14 @@ export default async function SidebarRecentProjects() {
     if (projectsMessage)
       return (
         <div className="bg-accent-primary-dark p-4 font-ubuntu">
-          <p className="mb-2 text-lg font-medium">Recent Projects</p>
+          <p className="mb-2 text-lg font-normal">Recent Projects</p>
           <p>{projectsMessage}</p>
         </div>
       );
 
     return (
       <div className="flex flex-col bg-accent-primary-dark p-4 font-ubuntu">
-        <Link href={"/projects"} className="mb-2 text-lg font-medium">
+        <Link href={"/projects"} className="mb-2 text-lg font-normal">
           {userRole === "client" ? "Recent Projects" : "Pending Requests"}
         </Link>
         <ul>
@@ -92,7 +92,7 @@ export default async function SidebarRecentProjects() {
   } catch (error: any) {
     return (
       <div className="bg-accent-primary-dark p-4 font-ubuntu">
-        <p className="mb-2 text-lg font-medium">Recent Projects</p>
+        <p className="mb-2 text-lg font-normal">Recent Projects</p>
         <p>{error.message}</p>
       </div>
     );
