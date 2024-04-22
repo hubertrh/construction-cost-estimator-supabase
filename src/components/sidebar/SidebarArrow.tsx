@@ -9,6 +9,7 @@ export default function SidebarArrow() {
   const handleClick = () => {
     const transformValue = isCollapsed ? "0%" : "-95%";
     const marginValue = isCollapsed ? "20rem" : "1rem";
+    const maxWidthValue = isCollapsed ? "65vw" : "95vw";
     const rotateValue = isCollapsed ? "-45deg" : "135deg";
     document.documentElement.style.setProperty(
       "--sidebar-transform",
@@ -17,6 +18,10 @@ export default function SidebarArrow() {
     document.documentElement.style.setProperty(
       "--main-margin-left",
       marginValue,
+    );
+    document.documentElement.style.setProperty(
+      "--main-max-width",
+      maxWidthValue,
     );
     document.documentElement.style.setProperty("--arrow-rotate", rotateValue);
 

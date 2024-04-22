@@ -11,6 +11,7 @@
   html {
     --main-margin-left: 20rem;
     --arrow-rotate: -45deg;
+    --main-max-width: 65vw;
   }
 
   body {
@@ -35,6 +36,10 @@
 @layer components {
   main {
     margin-left: var(--main-margin-left);
+  }
+
+  .main-darker {
+    max-width: var(--main-max-width);
   }
 
   .sidebar {
