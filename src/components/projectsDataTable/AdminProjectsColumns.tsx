@@ -2,7 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, Folder } from "lucide-react";
 import Image from "next/image";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
@@ -82,17 +82,7 @@ export const adminProjectsColumns: ColumnDef<DataTableProject>[] = [
   {
     accessorKey: "google_drive_folder_link",
     header: () => {
-      return (
-        <div className="size-5">
-          <Image
-            className="saturate-[30%]"
-            src={googleDriveIcon}
-            alt="Google Drive Icon"
-            width={24}
-            height={24}
-          />
-        </div>
-      );
+      return <Folder className="size-5" />;
     },
     cell: ({ row }) => {
       const project = row.original;
