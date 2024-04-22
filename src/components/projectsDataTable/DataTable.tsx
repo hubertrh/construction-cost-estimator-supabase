@@ -109,6 +109,20 @@ export function DataTable<TData, TValue>({
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
+          <div className="px-2 pb-1 pt-0 text-left text-sm">
+            {table.getFilteredRowModel().rows.length === 1 ? (
+              <p>
+                <span className="text-base font-semibold">1</span> project
+              </p>
+            ) : (
+              <p>
+                <span className="text-base font-semibold">
+                  {table.getFilteredRowModel().rows.length}
+                </span>{" "}
+                projects
+              </p>
+            )}
+          </div>
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -131,7 +145,7 @@ export function DataTable<TData, TValue>({
                       column.toggleVisibility(!!value)
                     }
                   >
-                    {column.id}
+                    {column.id.replace(/_/g, " ")}
                   </DropdownMenuCheckboxItem>
                 );
               })}
