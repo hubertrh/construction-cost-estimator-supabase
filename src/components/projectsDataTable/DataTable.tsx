@@ -15,7 +15,7 @@ import {
 import { useState } from "react";
 import { Columns2, ListFilter } from "lucide-react";
 import { Button } from "../ui/button";
-import { Input } from "../ui/input";
+import DebounceInput from "../ui/DebounceInput";
 import {
   Table,
   TableBody,
@@ -75,7 +75,7 @@ export function DataTable<TData, TValue>({
     <div>
       <div className="flex items-center py-4">
         <div className="flex items-center gap-2">
-          <Input
+          <DebounceInput
             className="w-80"
             placeholder="Filter projects..."
             value={globalFilter}
