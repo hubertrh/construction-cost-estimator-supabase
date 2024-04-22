@@ -55,7 +55,7 @@ export default async function SidebarUserMenu() {
 
   return (
     <>
-      {userRole === "client" && (
+      {(userRole === "client" || userRole === "admin") && (
         <Link
           className="mx-3 flex items-center gap-2 transition-all duration-300 hover:translate-x-1"
           href={"/new-estimate-request"}
