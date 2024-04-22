@@ -42,16 +42,17 @@ export default function projectContent({
           <span className="text-sm text-accent-primary-dark">
             Submitted by&ensp;
           </span>
-          {fetchedProject.user_id ? (
+          {/* TODO: Implement for admins */}
+          {/* {fetchedProject.user_id ? (
             <Link
               className="underline-offset-4 hover:underline"
               href={`/dashboard/users/${fetchedProject.user_id}`}
             >
               {fetchedProject.client_name}
             </Link>
-          ) : (
-            <span>{fetchedProject.client_name}</span>
-          )}
+          ) : ( */}
+          <span>{fetchedProject.client_name}</span>
+          {/* )} */}
           <span className="text-sm text-accent-primary-dark">
             &emsp;&ensp;on&ensp;
           </span>
