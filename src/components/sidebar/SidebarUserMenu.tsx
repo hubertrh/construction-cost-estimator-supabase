@@ -88,7 +88,7 @@ export default async function SidebarUserMenu() {
         {userRole === "admin" && (
           <Link
             className="flex items-center gap-2 transition-all duration-300 hover:translate-x-1"
-            href="/admin/dashboard"
+            href="/admin/dashboard/client-requests"
           >
             <Image
               src={dashboardIcon}

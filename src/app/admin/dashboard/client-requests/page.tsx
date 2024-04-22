@@ -3,6 +3,7 @@ import { createClient } from "@/utils/supabase/server";
 import { fetchUserRole } from "@/utils/supabase/userCalls";
 import { DataTable } from "@/components/projectsDataTable/DataTable";
 import { adminProjectsColumns } from "@/components/projectsDataTable/AdminProjectsColumns";
+import DashboardTabs from "@/components/dashboard/DashboardTabs";
 
 export default async function PrivatePage() {
   const supabase = createClient();
@@ -31,7 +32,8 @@ export default async function PrivatePage() {
 
   return (
     <div>
-      <h1 className="mb-6 text-2xl">My Projects</h1>
+      <h1 className="mb-6 text-2xl">Dashboard</h1>
+      <DashboardTabs defaultValue="clientRequests" />
       <div className="container mx-auto min-w-[50rem] py-4">
         <DataTable columns={adminProjectsColumns} data={projects} />
       </div>
