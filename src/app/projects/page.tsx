@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { DataTable } from "@/components/projectsDataTable/DataTable";
-import { clientProjectsColumns } from "@/components/projectsDataTable/Columns";
+import { clientProjectsColumns } from "@/components/projectsDataTable/ClientProjectsColumns";
 
 export default async function Projects() {
   const supabase = createClient();

@@ -13,7 +13,7 @@ interface DebounceInputProps {
 const DebounceInput: FC<DebounceInputProps> = ({
   value: initialValue,
   onChange,
-  debounce = 400,
+  debounce = 300,
   ...props
 }) => {
   const [value, setValue] = useState<string>(initialValue);
