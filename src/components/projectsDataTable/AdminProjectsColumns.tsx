@@ -15,6 +15,7 @@ export type DataTableProject = {
   google_drive_folder_link: string;
   project_postcode: string;
   client_name: string;
+  client_email: string;
   created_at: string;
 };
 
@@ -136,6 +137,22 @@ export const adminProjectsColumns: ColumnDef<DataTableProject>[] = [
 
       // TODO: Implement User Link
       return <p className="w-full max-w-xs truncate">{project.client_name}</p>;
+    },
+  },
+  {
+    accessorKey: "client_email",
+    header: "Client Email",
+    cell: ({ row }) => {
+      const project = row.original;
+
+      return (
+        <a
+          href={`mailto:${project.client_email}`}
+          className="w-full max-w-xs truncate"
+        >
+          {project.client_email}
+        </a>
+      );
     },
   },
   {

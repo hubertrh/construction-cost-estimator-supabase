@@ -21,7 +21,7 @@ export default async function PrivatePage() {
   const { data: projects, error: projectsError } = await supabase
     .from("projects")
     .select(
-      "id, project_status, project_name, google_drive_folder_link, project_postcode, client_name, created_at",
+      "id, project_status, project_name, google_drive_folder_link, project_postcode, client_name, client_email, created_at",
     )
     .order("created_at", { ascending: false });
 
