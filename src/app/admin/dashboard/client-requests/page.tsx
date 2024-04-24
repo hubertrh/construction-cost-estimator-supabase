@@ -8,12 +8,12 @@ import DashboardTabs from "@/components/dashboard/DashboardTabs";
 export default async function PrivatePage() {
   const supabase = createClient();
 
-  const { data: user, error: userError } = await supabase.auth.getUser();
-  if (userError || !user?.user) {
+  const { data: userData, error: userError } = await supabase.auth.getUser();
+  if (userError || !userData?.user) {
     redirect("/auth/login");
   }
 
-  const userRole = await fetchUserRole(supabase, user.user.id);
+  const userRole = await fetchUserRole(supabase, userData.user.id);
   if (userRole !== "admin") {
     return <p>Sorry, you don&apos;t have access to this page</p>;
   }
