@@ -9,19 +9,73 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      nrm: {
+        Row: {
+          el_1: string | null;
+          el_2: string | null;
+          el_3: string | null;
+          el_3_note: string | null;
+          el_4: string | null;
+          el_4_unit: string | null;
+          flag_1: number | null;
+          flag_2: number | null;
+          flag_3: number | null;
+          flag_4: number | null;
+          id: number;
+          measurement_rules: string | null;
+          note_excluded: string | null;
+          note_included: string | null;
+        };
+        Insert: {
+          el_1?: string | null;
+          el_2?: string | null;
+          el_3?: string | null;
+          el_3_note?: string | null;
+          el_4?: string | null;
+          el_4_unit?: string | null;
+          flag_1?: number | null;
+          flag_2?: number | null;
+          flag_3?: number | null;
+          flag_4?: number | null;
+          id?: number;
+          measurement_rules?: string | null;
+          note_excluded?: string | null;
+          note_included?: string | null;
+        };
+        Update: {
+          el_1?: string | null;
+          el_2?: string | null;
+          el_3?: string | null;
+          el_3_note?: string | null;
+          el_4?: string | null;
+          el_4_unit?: string | null;
+          flag_1?: number | null;
+          flag_2?: number | null;
+          flag_3?: number | null;
+          flag_4?: number | null;
+          id?: number;
+          measurement_rules?: string | null;
+          note_excluded?: string | null;
+          note_included?: string | null;
+        };
+        Relationships: [];
+      };
       profiles: {
         Row: {
           app_role: string;
+          created_at: string;
           id: string;
           name: string | null;
         };
         Insert: {
           app_role: string;
+          created_at?: string;
           id: string;
           name?: string | null;
         };
         Update: {
           app_role?: string;
+          created_at?: string;
           id?: string;
           name?: string | null;
         };
@@ -93,6 +147,29 @@ export type Database = {
             columns: ["user_id"];
             isOneToOne: false;
             referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      quotes: {
+        Row: {
+          created_at: string;
+          id: string;
+        };
+        Insert: {
+          created_at?: string;
+          id?: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "public_quotes_id_fkey";
+            columns: ["id"];
+            isOneToOne: true;
+            referencedRelation: "projects";
             referencedColumns: ["id"];
           },
         ];
