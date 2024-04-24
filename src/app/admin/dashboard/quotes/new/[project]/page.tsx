@@ -35,8 +35,6 @@ export default async function NewQuote({ params }: NewQuoteProps) {
     return <p>Failed to fetch NRM data</p>;
   }
 
-  // console.log(nrmData);
-
   const { data: projectData, error: projectError } = await supabase
     .from("projects")
     .select("*")
@@ -47,8 +45,6 @@ export default async function NewQuote({ params }: NewQuoteProps) {
     return <p>Failed to fetch project data</p>;
   }
 
-  // console.log(projectData);
-
   return (
     <div>
       <p className="-mb-3 text-left font-bold text-gray">
@@ -57,29 +53,6 @@ export default async function NewQuote({ params }: NewQuoteProps) {
       </p>
       <QuoteTitleWithRef projectReference={params.project.slice(-6)} />
       <QuoteForm nrmData={nrmData} />
-      {/* <div className="mt-6 text-left">
-        <ul>
-          {nrmData?.map((nrm) =>
-            nrm.flag_2 === 0 ? (
-              <li key={nrm.id}>
-                <p>{nrm.el_1}</p>
-              </li>
-            ) : nrm.flag_3 === 0 ? (
-              <li key={nrm.id}>
-                <p className="ml-4">{nrm.el_2}</p>
-              </li>
-            ) : nrm.flag_4 === 0 ? (
-              <li key={nrm.id}>
-                <p className="ml-8">{nrm.el_3}</p>
-              </li>
-            ) : (
-              <li key={nrm.id}>
-                <p className="ml-12">{nrm.el_4}</p>
-              </li>
-            ),
-          )}
-        </ul>
-      </div> */}
     </div>
   );
 }
