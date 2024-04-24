@@ -46,7 +46,7 @@ export default async function NewQuote({ params }: NewQuoteProps) {
   }
 
   return (
-    <div>
+    <div className="w-[40rem] [&_*]:text-pretty">
       <p className="-mb-3 text-left font-bold text-gray">
         {"// "}
         {projectData[0].project_name}
