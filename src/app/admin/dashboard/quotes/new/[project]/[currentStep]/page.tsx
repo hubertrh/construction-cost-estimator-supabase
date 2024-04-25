@@ -56,11 +56,10 @@ export default async function NewQuote({ params }: NewQuoteProps) {
 
   return (
     <div className="w-[40rem] [&_*]:text-pretty">
-      <p className="-mb-3 text-left font-bold text-gray">
-        {"// "}
-        {projectData[0].project_name}
-      </p>
-      <QuoteTitleWithRef projectReference={params.project.slice(-6)} />
+      <QuoteTitleWithRef
+        projectName={projectData[0].project_name}
+        projectReference={params.project.slice(-6)}
+      />
       <QuoteBreadcrumbs steps={steps} currentStep={params.currentStep} />
       <QuoteForm nrmData={nrmData} />
     </div>
