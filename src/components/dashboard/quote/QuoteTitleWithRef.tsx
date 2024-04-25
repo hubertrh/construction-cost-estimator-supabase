@@ -34,7 +34,10 @@ export default function QuoteTitleWithRef({
         {projectName}
       </p>
       <div className="flex items-center justify-between gap-8">
-        <h1 className="text-2xl font-medium">New Quote</h1>
+        <h1 className="text-2xl font-medium">
+          New Quote&ensp;
+          {/* <span className="text-accent-primary-dark">~£125,000</span> */}
+        </h1>
         <div className="flex items-center gap-2">
           <p className="mt-1 text-gray-500">Project Ref:</p>
           <Badge
