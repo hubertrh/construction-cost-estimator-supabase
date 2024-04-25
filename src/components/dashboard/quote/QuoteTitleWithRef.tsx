@@ -28,7 +28,7 @@ export default function QuoteTitleWithRef({
   };
 
   return (
-    <div className="sticky top-0 z-10 min-w-[28rem] bg-background-light pt-3">
+    <div className="sticky top-0 z-10 min-w-[28rem] bg-background-light pb-1 pt-4">
       <p className="-mb-3 text-left font-bold text-gray">
         {"// "}
         {projectName}

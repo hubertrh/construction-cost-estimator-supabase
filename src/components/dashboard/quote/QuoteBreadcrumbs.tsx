@@ -10,7 +10,7 @@ export default function QuoteBreadcrumbs({
   currentStep,
 }: QuoteBreadcrumbsProps) {
   return (
-    <div className="my-3 flex select-none items-center justify-center gap-2">
+    <div className="my-4 flex select-none items-center justify-center gap-2">
       {steps[parseInt(currentStep)]?.el_1 === undefined &&
         steps[parseInt(currentStep) - 2]?.el_1 && (
           <>
