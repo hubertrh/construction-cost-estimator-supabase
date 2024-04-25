@@ -27,7 +27,6 @@ export default function ProjectPostcodeValidator({
   const router = useRouter();
   const [isUploading, setIsUploading] = useState(false);
   const searchParams = useSearchParams();
-  // const postcode = searchParams.get("postcode");
   const [postcode, setPostcode] = useState<string | null>(
     searchParams.get("postcode") ?? null,
   );
