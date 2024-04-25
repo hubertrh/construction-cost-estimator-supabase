@@ -1,7 +1,5 @@
 import { UUID } from "crypto";
-import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
-import { fetchUserRole } from "@/utils/supabase/userCalls";
 import QuoteTitleWithRef from "@/components/dashboard/quote/QuoteTitleWithRef";
 import QuoteForm from "@/components/dashboard/quote/QuoteForm";
 import QuoteBreadcrumbs from "@/components/dashboard/quote/QuoteBreadcrumbs";
@@ -12,16 +10,6 @@ type NewQuoteProps = {
 
 export default async function NewQuote({ params }: NewQuoteProps) {
   const supabase = createClient();
-  const { data: user, error: userError } = await supabase.auth.getUser();
-
-  if (userError || !user?.user) {
-    redirect("/auth/login");
-  }
-
-  const userRole = await fetchUserRole(supabase, user.user.id);
-  if (userRole !== "admin") {
-    return <p>Sorry, you don&apos;t have access to this page</p>;
-  }
 
   const { data: nrmData, error: nrmError } = await supabase
     .from("nrm")

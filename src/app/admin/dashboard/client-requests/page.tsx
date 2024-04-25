@@ -1,22 +1,10 @@
-import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
-import { fetchUserRole } from "@/utils/supabase/userCalls";
 import { DataTable } from "@/components/projectsDataTable/DataTable";
 import { adminProjectsColumns } from "@/components/projectsDataTable/AdminProjectsColumns";
 import DashboardTabs from "@/components/dashboard/DashboardTabs";
 
 export default async function PrivatePage() {
   const supabase = createClient();
-
-  const { data: userData, error: userError } = await supabase.auth.getUser();
-  if (userError || !userData?.user) {
-    redirect("/auth/login");
-  }
-
-  const userRole = await fetchUserRole(supabase, userData.user.id);
-  if (userRole !== "admin") {
-    return <p>Sorry, you don&apos;t have access to this page</p>;
-  }
 
   const { data: projects, error: projectsError } = await supabase
     .from("projects")
