@@ -3,6 +3,7 @@ import { createClient } from "@/utils/supabase/server";
 import QuoteTitleWithRef from "@/components/dashboard/quote/QuoteTitleWithRef";
 import QuoteForm from "@/components/dashboard/quote/QuoteForm";
 import QuoteBreadcrumbs from "@/components/dashboard/quote/QuoteBreadcrumbs";
+import QuotePagination from "@/components/dashboard/quote/QuotePagination";
 
 type NewQuoteProps = {
   params: { project: UUID; currentStep: string };
@@ -62,6 +63,11 @@ export default async function NewQuote({ params }: NewQuoteProps) {
       />
       <QuoteBreadcrumbs steps={steps} currentStep={params.currentStep} />
       <QuoteForm nrmData={nrmData} />
+      <QuotePagination
+        steps={steps}
+        projectUUID={params.project}
+        currentStep={params.currentStep}
+      />
     </div>
   );
 }
