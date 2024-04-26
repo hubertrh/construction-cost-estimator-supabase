@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { createClient } from "@/utils/supabase/client";
 import getCallbackURL from "@/utils/urlHelpers";
-import googleIcon from "/public/icons/google-blue.svg";
+import googleIcon from "/public/icons/google.svg";
 
 export function LoginForm() {
   const [email, setEmail] = useState("");
@@ -35,8 +35,6 @@ export function LoginForm() {
   };
 
   const handleLoginWithOTP = async () => {
-    console.log(callbackURL);
-
     await supabase.auth.signInWithOtp({
       email,
       options: {
@@ -67,7 +65,7 @@ export function LoginForm() {
               placeholder="email@example.com"
               required
               onChange={handleEmailChange}
-              value={email} // Controlled component
+              value={email}
             />
           </div>
           <Button className="w-full" onClick={() => handleLoginWithOTP()}>

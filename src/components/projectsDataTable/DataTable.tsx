@@ -2,7 +2,6 @@
 
 import {
   ColumnDef,
-  ColumnFiltersState,
   SortingState,
   VisibilityState,
   flexRender,
@@ -16,7 +15,7 @@ import {
 import { useState } from "react";
 import { Columns2, ListFilter } from "lucide-react";
 import { Button } from "../ui/button";
-import { Input } from "../ui/input";
+import DebounceInput from "../ui/DebounceInput";
 import {
   Table,
   TableBody,
@@ -45,8 +44,8 @@ export function DataTable<TData, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [globalFilter, setGlobalFilter] = useState("");
 
   const table = useReactTable({
     data,
@@ -60,13 +59,13 @@ export function DataTable<TData, TValue>({
     },
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
-    onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
+    onGlobalFilterChange: setGlobalFilter,
     state: {
       sorting,
-      columnFilters,
       columnVisibility,
+      globalFilter,
     },
   });
 
@@ -76,18 +75,11 @@ export function DataTable<TData, TValue>({
     <div>
       <div className="flex items-center py-4">
         <div className="flex items-center gap-2">
-          <Input
+          <DebounceInput
             className="w-80"
-            placeholder="Filter project names..."
-            value={
-              (table.getColumn("project_name")?.getFilterValue() as string) ??
-              ""
-            }
-            onChange={(event) =>
-              table
-                .getColumn("project_name")
-                ?.setFilterValue(event.target.value)
-            }
+            placeholder="Filter projects..."
+            value={globalFilter}
+            onChange={(e) => setGlobalFilter(e.target.value)}
           />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -117,6 +109,20 @@ export function DataTable<TData, TValue>({
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
+          <div className="px-2 pb-1 pt-0 text-left text-sm">
+            {table.getFilteredRowModel().rows.length === 1 ? (
+              <p>
+                <span className="text-base font-semibold">1</span> project
+              </p>
+            ) : (
+              <p>
+                <span className="text-base font-semibold">
+                  {table.getFilteredRowModel().rows.length}
+                </span>{" "}
+                projects
+              </p>
+            )}
+          </div>
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -139,7 +145,7 @@ export function DataTable<TData, TValue>({
                       column.toggleVisibility(!!value)
                     }
                   >
-                    {column.id}
+                    {column.id.replace(/_/g, " ")}
                   </DropdownMenuCheckboxItem>
                 );
               })}

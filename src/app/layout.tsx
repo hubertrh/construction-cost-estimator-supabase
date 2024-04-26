@@ -10,19 +10,19 @@ import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/toaster";
 
 const montserrat = Montserrat({
-  weight: ["200", "300", "400"],
+  weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
   subsets: ["latin"],
   display: "swap",
   variable: "--font-montserrat",
 });
 const fontSans = Montserrat({
-  weight: ["200", "300", "400"],
+  weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
   subsets: ["latin"],
   display: "swap",
   variable: "--font-sans",
 });
 const ubuntu = Ubuntu({
-  weight: ["300", "400"],
+  weight: ["300", "400", "500"],
   variable: "--font-ubuntu",
   subsets: ["latin"],
 });
@@ -44,15 +44,15 @@ export default async function RootLayout({
           ${cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}`}
       >
         <NextTopLoader
-          color="#D68B1A"
+          color="#D19130"
           height={5}
           initialPosition={0.2}
           easing="ease"
           speed={500}
         />
         <Sidebar />
-        <main className="grid min-h-dvh place-items-center bg-background p-[10dvh] transition-all duration-200">
-          <div className="max-w-[65vw] bg-background-light px-8 py-12 text-center lg:px-20">
+        <main className="grid min-h-dvh place-items-center bg-background py-[10dvh] transition-all duration-200">
+          <div className="main-darker bg-background-light px-8 py-12 text-center transition-all lg:px-16">
             {children}
           </div>
         </main>

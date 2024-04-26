@@ -11,6 +11,7 @@
   html {
     --main-margin-left: 20rem;
     --arrow-rotate: -45deg;
+    --main-max-width: 65vw;
   }
 
   body {
@@ -37,11 +38,23 @@
     margin-left: var(--main-margin-left);
   }
 
+  .main-darker {
+    max-width: var(--main-max-width);
+  }
+
   .sidebar {
     translate: var(--sidebar-transform) 0;
   }
 
   .sidebar__arrow {
     transform: translate(0.25rem, 0.25rem) rotate(var(--arrow-rotate));
+  }
+
+  .quote-ul ul {
+    @apply relative before:absolute before:-left-6 before:top-[calc(50%-0.5rem)] before:h-[calc(100%-1rem)] before:w-px before:-translate-x-1/2 before:-translate-y-1/2 before:bg-gray-light;
+
+    li {
+      @apply relative before:absolute before:-left-6 before:top-4 before:size-[5px] before:-translate-x-1/2 before:-translate-y-1/2 before:rounded-full before:bg-gray-light after:absolute after:-left-4 after:top-4 after:h-px after:w-4 after:-translate-x-1/2 after:-translate-y-1/2 after:bg-gray-light;
+    }
   }
 }

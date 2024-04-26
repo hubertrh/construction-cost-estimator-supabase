@@ -18,7 +18,7 @@ export default async function Home() {
             position="left"
             href={"/new-estimate-request"}
           >
-            Create New Estimate
+            New Estimate Request
           </ButtonPrimary>
           <ButtonPrimary variant="white" href="/projects">
             My Projects

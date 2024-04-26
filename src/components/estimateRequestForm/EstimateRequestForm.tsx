@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useState, useEffect } from "react";
-import { CloudUpload, Loader2, Plus, X } from "lucide-react";
+import { ArrowUpFromLine, Loader2, Plus, X } from "lucide-react";
 import { User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 import { Badge } from "../ui/badge";
@@ -177,7 +177,7 @@ export function EstimateRequestForm({ user }: EstimateRequestFormProps) {
   return (
     <Form {...form}>
       <div className="mb-8 flex min-w-[28rem] items-center justify-between gap-8">
-        <h1 className="text-2xl font-bold">New Estimate Request</h1>
+        <h1 className="text-2xl font-medium">New Estimate Request</h1>
         <div className="flex items-center gap-2">
           <p className="mt-1 text-gray-500">Ref:</p>
           {projectReference ? (
@@ -461,7 +461,7 @@ export function EstimateRequestForm({ user }: EstimateRequestFormProps) {
             )
           ) : (
             <Button className="mt-12 text-base" type="submit">
-              <CloudUpload className="mr-2 size-4" />
+              <ArrowUpFromLine className="mr-2 size-4" />
               Submit Form
             </Button>
           )}
