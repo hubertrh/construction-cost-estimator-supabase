@@ -1,8 +1,18 @@
 "use client";
 
 import { useState } from "react";
+import { ClipboardMinus, ClipboardPlus, Info, Ruler } from "lucide-react";
 import { Switch } from "../../ui/switch";
+import QuoteNoteParagraphs from "./QuoteNoteParagraphs";
 import { Database } from "@/types/supabase";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function QuoteForm({
   nrmData,
@@ -60,7 +70,19 @@ export default function QuoteForm({
                                 )
                               }
                             />
-                            <p>{nrm3.el_3}</p>
+                            <div className="flex items-center">
+                              <p>{nrm3.el_3}</p>
+                              {nrm3.el_3_note && (
+                                <Popover>
+                                  <PopoverTrigger>
+                                    <Info className="ml-2 size-5 text-accent-primary" />
+                                  </PopoverTrigger>
+                                  <PopoverContent>
+                                    {nrm3.el_3_note}
+                                  </PopoverContent>
+                                </Popover>
+                              )}
+                            </div>
                           </div>
                           {visible[
                             `${nrm3.flag_1}${nrm3.flag_2}${nrm3.flag_3}`
@@ -87,10 +109,82 @@ export default function QuoteForm({
                                           }
                                         />
                                         <div>
-                                          <p>{nrm4.el_4}</p>
+                                          <div className="flex items-center">
+                                            <p>{nrm4.el_4}</p>
+                                            {nrm3.note_included && (
+                                              <Popover>
+                                                <PopoverTrigger>
+                                                  <ClipboardPlus className="ml-2 size-5 text-accent-primary" />
+                                                </PopoverTrigger>
+                                                <PopoverContent>
+                                                  <p className="font-semibold">
+                                                    Included
+                                                  </p>
+                                                  <QuoteNoteParagraphs
+                                                    text={nrm3.note_included}
+                                                    variant="included"
+                                                  />
+                                                </PopoverContent>
+                                              </Popover>
+                                            )}
+                                            {nrm3.note_excluded && (
+                                              <Popover>
+                                                <PopoverTrigger>
+                                                  <ClipboardMinus className="ml-2 size-5 text-accent-primary" />
+                                                </PopoverTrigger>
+                                                <PopoverContent>
+                                                  <p className="font-semibold">
+                                                    Excluded
+                                                  </p>
+                                                  <QuoteNoteParagraphs
+                                                    text={nrm3.note_excluded}
+                                                    variant="excluded"
+                                                  />
+                                                </PopoverContent>
+                                              </Popover>
+                                            )}
+                                          </div>
                                           {visible[
                                             `${nrm4.flag_1}${nrm4.flag_2}${nrm4.flag_3}${nrm4.flag_4}`
-                                          ] && <p>CALCULATIONS</p>}
+                                          ] && (
+                                            <div className="mt-2 grid gap-2">
+                                              <Label htmlFor="email">
+                                                Component: {nrm4.flag_1}.
+                                                {nrm4.flag_2}.{nrm4.flag_3}.
+                                                {nrm4.flag_4}
+                                              </Label>
+                                              <div className="mb-3 flex items-center">
+                                                {nrm3.measurement_rules && (
+                                                  <Popover>
+                                                    <PopoverTrigger>
+                                                      <Ruler className="mr-2 size-5 text-accent-primary" />
+                                                    </PopoverTrigger>
+                                                    <PopoverContent>
+                                                      <p className="font-semibold">
+                                                        Measurement Rules
+                                                      </p>
+                                                      <QuoteNoteParagraphs
+                                                        text={
+                                                          nrm3.measurement_rules
+                                                        }
+                                                        variant="measurement"
+                                                      />
+                                                    </PopoverContent>
+                                                  </Popover>
+                                                )}
+                                                <Input
+                                                  id={`input-${nrm4.flag_1}${nrm4.flag_2}${nrm4.flag_3}${nrm4.flag_4}`}
+                                                  placeholder="Amount (number) of units"
+                                                  required
+                                                  // onChange={handleEmailChange}
+                                                  // value={email}
+                                                />
+                                                <p className="ml-2 grid aspect-square h-full select-none place-items-center rounded-md border border-accent-primary/30 font-medium">
+                                                  {nrm4.el_4_unit}
+                                                </p>
+                                              </div>
+                                            </div>
+                                          )}
                                         </div>
                                       </div>
                                     </li>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { RefreshCw } from "lucide-react";
 import { Badge } from "../../ui/badge";
 
 type QuoteTitleWithRefProps = {
@@ -34,10 +35,14 @@ export default function QuoteTitleWithRef({
         {projectName}
       </p>
       <div className="flex items-center justify-between gap-8">
-        <h1 className="text-2xl font-medium">
-          New Quote&ensp;
-          {/* <span className="text-accent-primary-dark">~£125,000</span> */}
-        </h1>
+        <div className="flex items-center">
+          <h1 className="text-2xl font-medium">
+            New Quote&emsp;
+            {/* TODO: */}
+            {/* <span className="text-accent-primary-dark">~£125,000</span> */}
+          </h1>
+          {/* <RefreshCw className="ml-2 size-5 text-gray hover:text-accent-primary-dark" /> */}
+        </div>
         <div className="flex items-center gap-2">
           <p className="mt-1 text-gray-500">Project Ref:</p>
           <Badge

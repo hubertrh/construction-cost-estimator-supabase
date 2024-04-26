@@ -40,11 +40,6 @@ export default async function NewQuote({ params }: NewQuoteProps) {
     return <p>Failed to fetch steps data</p>;
   }
 
-  console.log(steps);
-  console.log(
-    `steps[parseInt(params.formStep) - 2].el_1 = ${steps[parseInt(params.currentStep) - 2]?.el_1}`,
-  );
-
   const { data: projectData, error: projectError } = await supabase
     .from("projects")
     .select("*")
@@ -63,11 +58,7 @@ export default async function NewQuote({ params }: NewQuoteProps) {
       />
       <QuoteBreadcrumbs steps={steps} currentStep={params.currentStep} />
       <QuoteForm nrmData={nrmData} />
-      <QuotePagination
-        steps={steps}
-        projectUUID={params.project}
-        currentStep={params.currentStep}
-      />
+      <QuotePagination steps={steps} currentStep={params.currentStep} />
     </div>
   );
 }
