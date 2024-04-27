@@ -1,4 +1,3 @@
-import { UUID } from "crypto";
 import {
   Pagination,
   PaginationContent,
@@ -10,13 +9,11 @@ import {
 
 type QuotePaginationProps = {
   steps: { el_1: string | null }[];
-  projectUUID: UUID;
   currentStep: string;
 };
 
 export default function QuotePagination({
   steps,
-  projectUUID,
   currentStep,
 }: QuotePaginationProps) {
   const totalSteps = steps.length;
@@ -27,7 +24,8 @@ export default function QuotePagination({
         {steps[parseInt(currentStep) - 2]?.el_1 && (
           <PaginationItem>
             <PaginationPrevious
-              href={`/admin/dashboard/quotes/new/${projectUUID}/${parseInt(currentStep) - 1}`}
+              className="text-accent-primary-dark"
+              href={`./${parseInt(currentStep) - 1}`}
             />
           </PaginationItem>
         )}
@@ -37,7 +35,7 @@ export default function QuotePagination({
           return (
             <PaginationItem key={step}>
               <PaginationLink
-                href={`/admin/dashboard/quotes/new/${projectUUID}/${step}`}
+                href={step === parseInt(currentStep) ? "#!" : `./${step}`}
                 isActive={step === parseInt(currentStep)}
               >
                 {step}
@@ -49,7 +47,8 @@ export default function QuotePagination({
         {steps[parseInt(currentStep)]?.el_1 && (
           <PaginationItem>
             <PaginationNext
-              href={`/admin/dashboard/quotes/new/${projectUUID}/${parseInt(currentStep) + 1}`}
+              className="text-accent-primary-dark"
+              href={`./${parseInt(currentStep) + 1}`}
             />
           </PaginationItem>
         )}

@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Mail } from "lucide-react";
+import { Loader2, Mail } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import Divider from "./ui/Divider";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,8 +20,15 @@ import googleIcon from "/public/icons/google.svg";
 
 export function LoginForm() {
   const [email, setEmail] = useState("");
+  const [sendingMagicLink, setSendingMagicLink] = useState(false);
+  const router = useRouter();
   const callbackURL = getCallbackURL();
   const supabase = createClient();
+
+  const siteURL =
+    process?.env?.NEXT_PUBLIC_SITE_URL ?? // Set this to your site URL in production env
+    process?.env?.NEXT_PUBLIC_VERCEL_URL ?? // Automatically set by Vercel
+    "http://localhost:3000/";
 
   const handleLoginWithOAuth = async (provider: "google") => {
     await supabase.auth.signInWithOAuth({
@@ -35,12 +43,16 @@ export function LoginForm() {
   };
 
   const handleLoginWithOTP = async () => {
+    setSendingMagicLink(true);
+
     await supabase.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: "http://localhost:3000/",
+        emailRedirectTo: siteURL,
       },
     });
+
+    router.push("/auth/otp-sent");
   };
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,8 +80,16 @@ export function LoginForm() {
               value={email}
             />
           </div>
-          <Button className="w-full" onClick={() => handleLoginWithOTP()}>
-            <Mail className="mr-2 size-4" />
+          <Button
+            className="w-full"
+            disabled={sendingMagicLink}
+            onClick={() => handleLoginWithOTP()}
+          >
+            {sendingMagicLink ? (
+              <Loader2 className="mr-2 size-4 animate-spin" />
+            ) : (
+              <Mail className="mr-2 size-4" />
+            )}
             Send Magic Link
           </Button>
           <Divider />
