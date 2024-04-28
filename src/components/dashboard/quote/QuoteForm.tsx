@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { ClipboardMinus, ClipboardPlus, Info, Ruler } from "lucide-react";
 import { Switch } from "../../ui/switch";
 import QuoteNoteParagraphs from "./QuoteNoteParagraphs";
@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/popover";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function QuoteForm({
   nrmData,
@@ -24,11 +23,22 @@ export default function QuoteForm({
   const level4 = nrmData.filter((nrmRow) => nrmRow.flag_4 !== 0);
 
   const [visible, setVisible] = useState<{ [key: string]: boolean }>({});
+  const [inputData, setInputData] = useState<{ [key: string]: string }>({});
 
   const toggleVisibility = (id: string) => {
     setVisible((prev) => ({
       ...prev,
       [id]: !prev[id],
+    }));
+  };
+
+  const handleInputChange = (
+    event: ChangeEvent<HTMLInputElement>,
+    id: string,
+  ) => {
+    setInputData((prev) => ({
+      ...prev,
+      [id]: event.target.value,
     }));
   };
 
@@ -148,7 +158,9 @@ export default function QuoteForm({
                                             `${nrm4.flag_1}${nrm4.flag_2}${nrm4.flag_3}${nrm4.flag_4}`
                                           ] && (
                                             <div className="mt-2 grid gap-2">
-                                              <Label htmlFor="email">
+                                              <Label
+                                                htmlFor={`input-${nrm4.flag_1}${nrm4.flag_2}${nrm4.flag_3}${nrm4.flag_4}`}
+                                              >
                                                 Component: {nrm4.flag_1}.
                                                 {nrm4.flag_2}.{nrm4.flag_3}.
                                                 {nrm4.flag_4}
@@ -176,8 +188,17 @@ export default function QuoteForm({
                                                   id={`input-${nrm4.flag_1}${nrm4.flag_2}${nrm4.flag_3}${nrm4.flag_4}`}
                                                   placeholder="Amount (number) of units"
                                                   required
-                                                  // onChange={handleEmailChange}
-                                                  // value={email}
+                                                  onChange={(event) =>
+                                                    handleInputChange(
+                                                      event,
+                                                      `${nrm4.flag_1}${nrm4.flag_2}${nrm4.flag_3}${nrm4.flag_4}`,
+                                                    )
+                                                  }
+                                                  value={
+                                                    inputData[
+                                                      `${nrm4.flag_1}${nrm4.flag_2}${nrm4.flag_3}${nrm4.flag_4}`
+                                                    ] || ""
+                                                  }
                                                 />
                                                 <p className="ml-2 grid aspect-square h-full select-none place-items-center rounded-md border border-accent-primary/30 font-medium">
                                                   {nrm4.el_4_unit}
