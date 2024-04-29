@@ -42,7 +42,7 @@ export function EstimateRequestForm({ user }: EstimateRequestFormProps) {
   const [fileUploadSuccess, setFileUploadSuccess] = useState<
     Record<number, boolean>
   >({});
-  const router = useRouter();
+  const [isFinalising, setIsFinalising] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -148,6 +148,7 @@ export function EstimateRequestForm({ user }: EstimateRequestFormProps) {
         console.error("Error with upload promises:", error);
       })
       .finally(() => {
+        setIsFinalising(true);
         setTimeout(() => {
           window.scrollTo({ top: 0, behavior: "smooth" });
         }, 1000);
@@ -176,6 +177,11 @@ export function EstimateRequestForm({ user }: EstimateRequestFormProps) {
 
   return (
     <Form {...form}>
+      {isFinalising && (
+        <div className="absolute inset-0 z-20 grid place-items-center bg-background/60">
+          <Loader2 className="sticky inset-y-1/3 size-12 animate-spin" />
+        </div>
+      )}
       <div className="mb-8 flex min-w-[28rem] items-center justify-between gap-8">
         <h1 className="text-2xl font-medium">New Estimate Request</h1>
         <div className="flex items-center gap-2">
