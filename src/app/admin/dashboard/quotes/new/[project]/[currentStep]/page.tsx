@@ -4,6 +4,7 @@ import QuoteTitleWithRef from "@/components/dashboard/quote/QuoteTitleWithRef";
 import QuoteForm from "@/components/dashboard/quote/QuoteForm";
 import QuoteBreadcrumbs from "@/components/dashboard/quote/QuoteBreadcrumbs";
 import QuotePagination from "@/components/dashboard/quote/QuotePagination";
+import QuoteStepInfoAccordion from "@/components/dashboard/quote/QuoteStepInfoAccordion";
 
 type NewQuoteProps = {
   params: { project: UUID; currentStep: string };
@@ -59,6 +60,7 @@ export default async function NewQuote({ params }: NewQuoteProps) {
         projectReference={params.project.slice(-6)}
       />
       <QuoteBreadcrumbs steps={steps} currentStep={params.currentStep} />
+      <QuoteStepInfoAccordion steps={steps} currentStep={params.currentStep} />
       <QuoteForm nrmData={nrmData} />
       <QuotePagination steps={steps} currentStep={params.currentStep} />
     </div>
