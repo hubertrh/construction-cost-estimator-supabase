@@ -200,7 +200,7 @@ export default function QuoteForm({
                                                     ] || ""
                                                   }
                                                 />
-                                                <p className="ml-2 grid h-full select-none place-items-center rounded-md border border-accent-primary/30 px-2 font-medium">
+                                                <p className="ml-2 grid h-full select-none place-items-center !text-nowrap rounded-md border border-accent-primary/30 px-2 font-medium">
                                                   {nrm4.el_4_unit}
                                                 </p>
                                               </div>
