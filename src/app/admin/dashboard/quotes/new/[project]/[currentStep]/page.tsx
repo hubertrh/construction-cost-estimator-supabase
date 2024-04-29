@@ -54,7 +54,7 @@ export default async function NewQuote({ params }: NewQuoteProps) {
   }
 
   return (
-    <div className="w-[40rem] [&_*]:text-pretty">
+    <div className="min-h-[calc(100vh-20dvh-6rem)] w-[40rem] [&_*]:text-pretty">
       <QuoteTitleWithRef
         projectName={projectData[0].project_name}
         projectReference={params.project.slice(-6)}
