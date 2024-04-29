@@ -61,7 +61,7 @@ export function EstimateRequestForm({ user }: EstimateRequestFormProps) {
       projectCity: "",
       projectPostcode: "",
       projectDescription: "",
-      desiredOHP: undefined,
+      desiredOHP: "",
       contractorsCustomPreliminaries: "",
       files: [],
     },
