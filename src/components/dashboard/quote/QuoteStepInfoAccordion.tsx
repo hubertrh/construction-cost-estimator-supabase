@@ -18,7 +18,9 @@ export default function QuoteStepInfoAccordion({
   steps,
   currentStep,
 }: QuoteStepInfoAccordionProps) {
-  const paragraphs = steps[Number(currentStep) - 1].el_3_note?.split("\n");
+  const paragraphs = steps[Number(currentStep) - 1].el_3_note
+    ?.split("\n")
+    .filter(Boolean);
 
   return (
     <Accordion
