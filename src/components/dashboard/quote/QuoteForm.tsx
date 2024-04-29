@@ -132,7 +132,6 @@ export default function QuoteForm({
                                                   </p>
                                                   <QuoteNoteParagraphs
                                                     text={nrm3.note_included}
-                                                    variant="included"
                                                   />
                                                 </PopoverContent>
                                               </Popover>
@@ -148,7 +147,6 @@ export default function QuoteForm({
                                                   </p>
                                                   <QuoteNoteParagraphs
                                                     text={nrm3.note_excluded}
-                                                    variant="excluded"
                                                   />
                                                 </PopoverContent>
                                               </Popover>
@@ -179,7 +177,6 @@ export default function QuoteForm({
                                                         text={
                                                           nrm3.measurement_rules
                                                         }
-                                                        variant="measurement"
                                                       />
                                                     </PopoverContent>
                                                   </Popover>
