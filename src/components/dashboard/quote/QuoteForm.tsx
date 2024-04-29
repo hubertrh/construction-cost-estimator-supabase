@@ -43,7 +43,7 @@ export default function QuoteForm({
   };
 
   return (
-    <ul className="quote-ul mb-2 ml-8 mt-6 text-left">
+    <ul className="quote-ul mx-8 mb-2 mt-6 text-left">
       {level2.map(
         (nrm2) =>
           nrm2.flag_2 !== 0 && (
