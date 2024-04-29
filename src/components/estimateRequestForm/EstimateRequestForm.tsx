@@ -342,7 +342,15 @@ export function EstimateRequestForm({ user }: EstimateRequestFormProps) {
               <FormControl>
                 <div className="flex items-center">
                   <p className="mx-2 font-semibold">%</p>
-                  <Input disabled={isUploading} placeholder="20" {...field} />
+                  <Input
+                    type="number"
+                    onKeyDown={(e) =>
+                      ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()
+                    }
+                    disabled={isUploading}
+                    placeholder="20"
+                    {...field}
+                  />
                 </div>
               </FormControl>
               <FormMessage />
