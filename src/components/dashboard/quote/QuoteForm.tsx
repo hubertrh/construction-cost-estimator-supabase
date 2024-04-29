@@ -23,7 +23,7 @@ export default function QuoteForm({
   const level4 = nrmData.filter((nrmRow) => nrmRow.flag_4 !== 0);
 
   const [visible, setVisible] = useState<{ [key: string]: boolean }>({});
-  const [inputData, setInputData] = useState<{ [key: string]: string }>({});
+  const [inputData, setInputData] = useState<{ [key: string]: number }>({});
 
   const toggleVisibility = (id: string) => {
     setVisible((prev) => ({
@@ -38,7 +38,7 @@ export default function QuoteForm({
   ) => {
     setInputData((prev) => ({
       ...prev,
-      [id]: event.target.value,
+      [id]: Number(event.target.value),
     }));
   };
 
@@ -155,14 +155,22 @@ export default function QuoteForm({
                                           {visible[
                                             `${nrm4.flag_1}${nrm4.flag_2}${nrm4.flag_3}${nrm4.flag_4}`
                                           ] && (
-                                            <div className="mt-2 grid gap-2">
-                                              <Label
-                                                htmlFor={`input-${nrm4.flag_1}${nrm4.flag_2}${nrm4.flag_3}${nrm4.flag_4}`}
-                                              >
-                                                Component: {nrm4.flag_1}.
-                                                {nrm4.flag_2}.{nrm4.flag_3}.
-                                                {nrm4.flag_4}
-                                              </Label>
+                                            <div className="mt-1 grid gap-1">
+                                              <div className="flex items-center justify-between">
+                                                <Label
+                                                  htmlFor={`amount-${nrm4.flag_1}${nrm4.flag_2}${nrm4.flag_3}${nrm4.flag_4}`}
+                                                >
+                                                  Component: {nrm4.flag_1}.
+                                                  {nrm4.flag_2}.{nrm4.flag_3}.
+                                                  {nrm4.flag_4}
+                                                </Label>
+                                                <Label
+                                                  htmlFor={`cost-${nrm4.flag_1}${nrm4.flag_2}${nrm4.flag_3}${nrm4.flag_4}`}
+                                                  className="w-24"
+                                                >
+                                                  Cost:
+                                                </Label>
+                                              </div>
                                               <div className="mb-3 flex items-center">
                                                 {nrm3.measurement_rules && (
                                                   <Popover>
@@ -182,24 +190,65 @@ export default function QuoteForm({
                                                   </Popover>
                                                 )}
                                                 <Input
-                                                  id={`input-${nrm4.flag_1}${nrm4.flag_2}${nrm4.flag_3}${nrm4.flag_4}`}
+                                                  id={`amount-${nrm4.flag_1}${nrm4.flag_2}${nrm4.flag_3}${nrm4.flag_4}`}
+                                                  type="number"
                                                   placeholder="Amount (number) of units"
                                                   required
-                                                  onChange={(event) =>
+                                                  onKeyDown={(e) =>
+                                                    [
+                                                      "e",
+                                                      "E",
+                                                      "+",
+                                                      "-",
+                                                    ].includes(e.key) &&
+                                                    e.preventDefault()
+                                                  }
+                                                  onChange={(event) => {
                                                     handleInputChange(
                                                       event,
-                                                      `${nrm4.flag_1}${nrm4.flag_2}${nrm4.flag_3}${nrm4.flag_4}`,
-                                                    )
-                                                  }
+                                                      `amount-${nrm4.flag_1}${nrm4.flag_2}${nrm4.flag_3}${nrm4.flag_4}`,
+                                                    );
+                                                  }}
                                                   value={
                                                     inputData[
-                                                      `${nrm4.flag_1}${nrm4.flag_2}${nrm4.flag_3}${nrm4.flag_4}`
+                                                      `amount-${nrm4.flag_1}${nrm4.flag_2}${nrm4.flag_3}${nrm4.flag_4}`
                                                     ] || ""
                                                   }
                                                 />
                                                 <p className="ml-2 grid h-full select-none place-items-center !text-nowrap rounded-md border border-accent-primary/30 px-2 font-medium">
                                                   {nrm4.el_4_unit}
                                                 </p>
+                                                <p className="ml-6 grid h-full place-items-center">
+                                                  £
+                                                </p>
+                                                <Input
+                                                  className="ml-2 w-24"
+                                                  id={`cost-${nrm4.flag_1}${nrm4.flag_2}${nrm4.flag_3}${nrm4.flag_4}`}
+                                                  type="number"
+                                                  // TODO:
+                                                  placeholder="Cost"
+                                                  required
+                                                  value={
+                                                    inputData[
+                                                      `cost-${nrm4.flag_1}${nrm4.flag_2}${nrm4.flag_3}${nrm4.flag_4}`
+                                                    ] || ""
+                                                  }
+                                                  onKeyDown={(e) =>
+                                                    [
+                                                      "e",
+                                                      "E",
+                                                      "+",
+                                                      "-",
+                                                    ].includes(e.key) &&
+                                                    e.preventDefault()
+                                                  }
+                                                  onChange={(event) => {
+                                                    handleInputChange(
+                                                      event,
+                                                      `cost-${nrm4.flag_1}${nrm4.flag_2}${nrm4.flag_3}${nrm4.flag_4}`,
+                                                    );
+                                                  }}
+                                                />
                                               </div>
                                             </div>
                                           )}
