@@ -108,7 +108,7 @@ export function EstimateRequestForm({ user }: EstimateRequestFormProps) {
 
         xhr.onload = () => {
           if (xhr.status === 200) {
-            const response = JSON.parse(xhr.responseText);
+            // const response = JSON.parse(xhr.responseText);
             setFileProgress((prev) => ({ ...prev, [index]: 100 }));
             setFileUploadSuccess((prev) => ({ ...prev, [index]: true }));
             resolve(xhr.responseText);
