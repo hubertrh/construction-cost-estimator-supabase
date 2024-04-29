@@ -118,7 +118,7 @@ export default function QuoteForm({
                                             )
                                           }
                                         />
-                                        <div>
+                                        <div className="w-full">
                                           <div className="flex items-center">
                                             <p>{nrm4.el_4}</p>
                                             {nrm3.note_included && (
@@ -200,7 +200,7 @@ export default function QuoteForm({
                                                     ] || ""
                                                   }
                                                 />
-                                                <p className="ml-2 grid aspect-square h-full select-none place-items-center rounded-md border border-accent-primary/30 font-medium">
+                                                <p className="ml-2 grid h-full select-none place-items-center rounded-md border border-accent-primary/30 px-2 font-medium">
                                                   {nrm4.el_4_unit}
                                                 </p>
                                               </div>
