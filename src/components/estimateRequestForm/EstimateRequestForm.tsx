@@ -376,7 +376,7 @@ export function EstimateRequestForm({ user }: EstimateRequestFormProps) {
                 <FormLabel>Project File {index + 1}</FormLabel>
                 <FormControl>
                   <div className="flex flex-col">
-                    <div className="relative flex items-center">
+                    <div className="relative z-10 flex items-center">
                       {isUploading && !fileUploadSuccess[index] && (
                         <div
                           className={`absolute right-0 top-1/2 -translate-y-1/2 ${index === fileInputs.length - 1 && fileInputs.length > 1 ? "mr-[3.7rem]" : "mr-4"}
