@@ -28,8 +28,10 @@ export default async function NewQuote({ params }: NewQuoteProps) {
 
   const { data: steps, error: stepsError } = await supabase
     .from("nrm")
-    .select("el_1")
-    .neq("el_1", null)
+    .select("el_1, el_3_note")
+    .eq("flag_2", "0")
+    .eq("flag_3", "0")
+    .eq("flag_4", "0")
     .order("flag_1")
     .order("flag_2")
     .order("flag_3")
