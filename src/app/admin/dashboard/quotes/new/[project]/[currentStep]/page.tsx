@@ -10,6 +10,14 @@ type NewQuoteProps = {
 export default async function NewQuote({ params }: NewQuoteProps) {
   const supabase = createClient();
 
+  const { data: userData, error: userError } = await supabase.auth.getUser();
+  if (userError || !userData?.user) {
+    console.error("Failed to fetch user");
+    return <p>Failed to fetch user</p>;
+  }
+
+  const userRole = await fetchUserRole(supabase, userData.user.id);
+
   const { data: nrmData, error: nrmError } = await supabase
     .from("nrm")
     .select("*")
