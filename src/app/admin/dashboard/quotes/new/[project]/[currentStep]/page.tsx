@@ -1,10 +1,7 @@
 import { UUID } from "crypto";
 import { createClient } from "@/utils/supabase/server";
-import QuoteTitleWithRef from "@/components/dashboard/quote/QuoteTitleWithRef";
-import QuoteForm from "@/components/dashboard/quote/QuoteForm";
-import QuoteBreadcrumbs from "@/components/dashboard/quote/QuoteBreadcrumbs";
-import QuotePagination from "@/components/dashboard/quote/QuotePagination";
-import QuoteStepInfoAccordion from "@/components/dashboard/quote/QuoteStepInfoAccordion";
+import { fetchUserRole } from "@/utils/supabase/userCalls";
+import QuoteClientWrapper from "@/components/dashboard/quote/QuoteClientWrapper";
 
 type NewQuoteProps = {
   params: { project: UUID; currentStep: string };
@@ -55,14 +52,12 @@ export default async function NewQuote({ params }: NewQuoteProps) {
 
   return (
     <div className="min-h-[calc(100vh-20dvh-6rem)] w-[40rem] [&_*]:text-pretty">
-      <QuoteTitleWithRef
-        projectName={projectData[0].project_name}
-        projectReference={params.project.slice(-6)}
+      <QuoteClientWrapper
+        params={params}
+        projectData={projectData}
+        nrmData={nrmData}
+        steps={steps}
       />
-      <QuoteBreadcrumbs steps={steps} currentStep={params.currentStep} />
-      <QuoteStepInfoAccordion steps={steps} currentStep={params.currentStep} />
-      <QuoteForm nrmData={nrmData} />
-      <QuotePagination steps={steps} currentStep={params.currentStep} />
     </div>
   );
 }

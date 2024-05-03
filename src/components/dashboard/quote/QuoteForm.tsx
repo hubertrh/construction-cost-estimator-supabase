@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { ClipboardMinus, ClipboardPlus, Info, Ruler } from "lucide-react";
 import { Switch } from "../../ui/switch";
 import QuoteNoteParagraphs from "./QuoteNoteParagraphs";
@@ -13,17 +13,25 @@ import {
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 
-export default function QuoteForm({
-  nrmData,
-}: {
+type QuoteFormProps = {
   nrmData: Database["public"]["Tables"]["nrm"]["Row"][];
-}) {
+  currentBuilder: string;
+};
+
+export default function QuoteForm({ nrmData, currentBuilder }: QuoteFormProps) {
   const level2 = nrmData.filter((nrmRow) => nrmRow.flag_3 === 0);
   const level3 = nrmData.filter((nrmRow) => nrmRow.flag_4 === 0);
   const level4 = nrmData.filter((nrmRow) => nrmRow.flag_4 !== 0);
+  level4.forEach((obj, index) => {
+    console.log(`Object ${index + 1}: ${JSON.stringify(obj)}`);
+  });
 
   const [visible, setVisible] = useState<{ [key: string]: boolean }>({});
   const [inputData, setInputData] = useState<{ [key: string]: number }>({});
+
+  useEffect(() => {
+    console.log("Selected value changed:", currentBuilder);
+  }, [currentBuilder]);
 
   const toggleVisibility = (id: string) => {
     setVisible((prev) => ({
