@@ -5,6 +5,7 @@ const routes = {
   clientRequests: "/admin/dashboard/client-requests",
   clients: "/admin/dashboard/clients",
   contractors: "/admin/dashboard/contractors",
+  rates: "/admin/dashboard/rates",
 };
 
 export default function DashboardTabs({

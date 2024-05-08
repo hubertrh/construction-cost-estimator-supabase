@@ -52,7 +52,7 @@ export default async function RootLayout({
         />
         <Sidebar />
         <main className="grid min-h-dvh place-items-center bg-background py-[10dvh] transition-all duration-200">
-          <div className="main-darker bg-background-light px-8 py-12 text-center transition-all lg:px-16">
+          <div className="main-darker relative bg-background-light px-8 py-12 text-center transition-all lg:px-16">
             {children}
           </div>
         </main>

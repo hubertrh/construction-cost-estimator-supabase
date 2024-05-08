@@ -42,7 +42,7 @@ export function EstimateRequestForm({ user }: EstimateRequestFormProps) {
   const [fileUploadSuccess, setFileUploadSuccess] = useState<
     Record<number, boolean>
   >({});
-  const router = useRouter();
+  const [isFinalising, setIsFinalising] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -61,7 +61,7 @@ export function EstimateRequestForm({ user }: EstimateRequestFormProps) {
       projectCity: "",
       projectPostcode: "",
       projectDescription: "",
-      desiredOHP: undefined,
+      desiredOHP: "",
       contractorsCustomPreliminaries: "",
       files: [],
     },
@@ -108,7 +108,7 @@ export function EstimateRequestForm({ user }: EstimateRequestFormProps) {
 
         xhr.onload = () => {
           if (xhr.status === 200) {
-            const response = JSON.parse(xhr.responseText);
+            // const response = JSON.parse(xhr.responseText);
             setFileProgress((prev) => ({ ...prev, [index]: 100 }));
             setFileUploadSuccess((prev) => ({ ...prev, [index]: true }));
             resolve(xhr.responseText);
@@ -148,6 +148,7 @@ export function EstimateRequestForm({ user }: EstimateRequestFormProps) {
         console.error("Error with upload promises:", error);
       })
       .finally(() => {
+        setIsFinalising(true);
         setTimeout(() => {
           window.scrollTo({ top: 0, behavior: "smooth" });
         }, 1000);
@@ -176,6 +177,11 @@ export function EstimateRequestForm({ user }: EstimateRequestFormProps) {
 
   return (
     <Form {...form}>
+      {isFinalising && (
+        <div className="absolute inset-0 z-20 grid place-items-center bg-background/60">
+          <Loader2 className="sticky inset-y-1/3 size-12 animate-spin" />
+        </div>
+      )}
       <div className="mb-8 flex min-w-[28rem] items-center justify-between gap-8">
         <h1 className="text-2xl font-medium">New Estimate Request</h1>
         <div className="flex items-center gap-2">
@@ -336,7 +342,15 @@ export function EstimateRequestForm({ user }: EstimateRequestFormProps) {
               <FormControl>
                 <div className="flex items-center">
                   <p className="mx-2 font-semibold">%</p>
-                  <Input disabled={isUploading} placeholder="20" {...field} />
+                  <Input
+                    type="number"
+                    onKeyDown={(e) =>
+                      ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()
+                    }
+                    disabled={isUploading}
+                    placeholder="20"
+                    {...field}
+                  />
                 </div>
               </FormControl>
               <FormMessage />
@@ -370,7 +384,7 @@ export function EstimateRequestForm({ user }: EstimateRequestFormProps) {
                 <FormLabel>Project File {index + 1}</FormLabel>
                 <FormControl>
                   <div className="flex flex-col">
-                    <div className="relative flex items-center">
+                    <div className="relative z-10 flex items-center">
                       {isUploading && !fileUploadSuccess[index] && (
                         <div
                           className={`absolute right-0 top-1/2 -translate-y-1/2 ${index === fileInputs.length - 1 && fileInputs.length > 1 ? "mr-[3.7rem]" : "mr-4"}

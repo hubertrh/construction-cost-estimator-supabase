@@ -9,6 +9,95 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      contractor_costs: {
+        Row: {
+          "0.1.1.1": number | null;
+          "0.1.1.2": number | null;
+          "0.1.2.1": number | null;
+          "0.1.2.2": number | null;
+          "0.1.3.1": number | null;
+          "0.1.3.2": number | null;
+          "0.2.1.1": number | null;
+          "0.2.1.2": number | null;
+          "0.2.1.3": number | null;
+          contractor_id: string | null;
+          id: string;
+        };
+        Insert: {
+          "0.1.1.1"?: number | null;
+          "0.1.1.2"?: number | null;
+          "0.1.2.1"?: number | null;
+          "0.1.2.2"?: number | null;
+          "0.1.3.1"?: number | null;
+          "0.1.3.2"?: number | null;
+          "0.2.1.1"?: number | null;
+          "0.2.1.2"?: number | null;
+          "0.2.1.3"?: number | null;
+          contractor_id?: string | null;
+          id?: string;
+        };
+        Update: {
+          "0.1.1.1"?: number | null;
+          "0.1.1.2"?: number | null;
+          "0.1.2.1"?: number | null;
+          "0.1.2.2"?: number | null;
+          "0.1.3.1"?: number | null;
+          "0.1.3.2"?: number | null;
+          "0.2.1.1"?: number | null;
+          "0.2.1.2"?: number | null;
+          "0.2.1.3"?: number | null;
+          contractor_id?: string | null;
+          id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "costs_contractor_id_fkey";
+            columns: ["contractor_id"];
+            isOneToOne: true;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      default_costs: {
+        Row: {
+          "0.1.1.1": number | null;
+          "0.1.1.2": number | null;
+          "0.1.2.1": number | null;
+          "0.1.2.2": number | null;
+          "0.1.3.1": number | null;
+          "0.1.3.2": number | null;
+          "0.2.1.1": number | null;
+          "0.2.1.2": number | null;
+          "0.2.1.3": number | null;
+          id: string;
+        };
+        Insert: {
+          "0.1.1.1"?: number | null;
+          "0.1.1.2"?: number | null;
+          "0.1.2.1"?: number | null;
+          "0.1.2.2"?: number | null;
+          "0.1.3.1"?: number | null;
+          "0.1.3.2"?: number | null;
+          "0.2.1.1"?: number | null;
+          "0.2.1.2"?: number | null;
+          "0.2.1.3"?: number | null;
+          id?: string;
+        };
+        Update: {
+          "0.1.1.1"?: number | null;
+          "0.1.1.2"?: number | null;
+          "0.1.2.1"?: number | null;
+          "0.1.2.2"?: number | null;
+          "0.1.3.1"?: number | null;
+          "0.1.3.2"?: number | null;
+          "0.2.1.1"?: number | null;
+          "0.2.1.2"?: number | null;
+          "0.2.1.3"?: number | null;
+          id?: string;
+        };
+        Relationships: [];
+      };
       nrm: {
         Row: {
           el_1: string | null;
@@ -62,19 +151,19 @@ export type Database = {
       };
       profiles: {
         Row: {
-          app_role: string;
+          app_role: Database["public"]["Enums"]["app_role"];
           created_at: string;
           id: string;
           name: string | null;
         };
         Insert: {
-          app_role: string;
+          app_role: Database["public"]["Enums"]["app_role"];
           created_at?: string;
           id: string;
           name?: string | null;
         };
         Update: {
-          app_role?: string;
+          app_role?: Database["public"]["Enums"]["app_role"];
           created_at?: string;
           id?: string;
           name?: string | null;
@@ -155,24 +244,19 @@ export type Database = {
         Row: {
           created_at: string;
           id: string;
+          project_id: string;
         };
         Insert: {
           created_at?: string;
           id?: string;
+          project_id: string;
         };
         Update: {
           created_at?: string;
           id?: string;
+          project_id?: string;
         };
-        Relationships: [
-          {
-            foreignKeyName: "public_quotes_id_fkey";
-            columns: ["id"];
-            isOneToOne: true;
-            referencedRelation: "projects";
-            referencedColumns: ["id"];
-          },
-        ];
+        Relationships: [];
       };
     };
     Views: {
@@ -182,6 +266,7 @@ export type Database = {
       [_ in never]: never;
     };
     Enums: {
+      app_role: "admin" | "client" | "contractor";
       project_status: "pending" | "ready" | "cancelled" | "on hold";
     };
     CompositeTypes: {

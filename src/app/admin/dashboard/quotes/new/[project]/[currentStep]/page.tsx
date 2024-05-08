@@ -1,9 +1,9 @@
 import { UUID } from "crypto";
 import { createClient } from "@/utils/supabase/server";
-import QuoteTitleWithRef from "@/components/dashboard/quote/QuoteTitleWithRef";
-import QuoteForm from "@/components/dashboard/quote/QuoteForm";
-import QuoteBreadcrumbs from "@/components/dashboard/quote/QuoteBreadcrumbs";
-import QuotePagination from "@/components/dashboard/quote/QuotePagination";
+import { fetchUserRole } from "@/utils/supabase/userCalls";
+import QuoteClientWrapper from "@/components/dashboard/quote/QuoteClientWrapper";
+import { fetchCosts } from "@/utils/supabase/costsCalls";
+import { Database } from "@/types/supabase";
 
 type NewQuoteProps = {
   params: { project: UUID; currentStep: string };
@@ -11,6 +11,14 @@ type NewQuoteProps = {
 
 export default async function NewQuote({ params }: NewQuoteProps) {
   const supabase = createClient();
+
+  const { data: userData, error: userError } = await supabase.auth.getUser();
+  if (userError || !userData?.user) {
+    console.error("Failed to fetch user");
+    return <p>Failed to fetch user</p>;
+  }
+
+  const userRole = await fetchUserRole(supabase, userData.user.id);
 
   const { data: nrmData, error: nrmError } = await supabase
     .from("nrm")
@@ -28,8 +36,10 @@ export default async function NewQuote({ params }: NewQuoteProps) {
 
   const { data: steps, error: stepsError } = await supabase
     .from("nrm")
-    .select("el_1")
-    .neq("el_1", null)
+    .select("el_1, el_3_note")
+    .eq("flag_2", "0")
+    .eq("flag_3", "0")
+    .eq("flag_4", "0")
     .order("flag_1")
     .order("flag_2")
     .order("flag_3")
@@ -50,15 +60,27 @@ export default async function NewQuote({ params }: NewQuoteProps) {
     return <p>Failed to fetch project data</p>;
   }
 
+  const { contractorsComboboxList, costsData } = await fetchCosts(
+    supabase,
+    userData.user.id,
+    userRole,
+  );
+
+  const typedCostsData: Database["public"]["Tables"]["contractor_costs"]["Row"][] =
+    costsData;
+
+  console.log(contractorsComboboxList, typedCostsData);
+
   return (
-    <div className="w-[40rem] [&_*]:text-pretty">
-      <QuoteTitleWithRef
-        projectName={projectData[0].project_name}
-        projectReference={params.project.slice(-6)}
+    <div className="min-h-[calc(100vh-20dvh-6rem)] w-[45rem] [&_*]:text-pretty">
+      <QuoteClientWrapper
+        params={params}
+        projectData={projectData}
+        nrmData={nrmData}
+        steps={steps}
+        contractorsComboboxList={contractorsComboboxList}
+        costsData={typedCostsData}
       />
-      <QuoteBreadcrumbs steps={steps} currentStep={params.currentStep} />
-      <QuoteForm nrmData={nrmData} />
-      <QuotePagination steps={steps} currentStep={params.currentStep} />
     </div>
   );
 }
