@@ -28,14 +28,6 @@ export default function QuoteTitleWithRef({
 }: QuoteTitleWithRefProps) {
   const [refCopyStatus, setRefCopyStatus] = useState("");
   const [refHoverStatus, setRefHoverStatus] = useState(false);
-  const [selectedValue, setSelectedValue] = useState("");
-
-  // const handleDropdownChange = (e: ChangeEvent<HTMLSelectElement>) => {
-  //   const value = e.target.value;
-  //   setSelectedValue(value);
-  //   // Pass the value to the parent component
-  //   onChange(value);
-  // };
 
   const handleProjectReferenceCopy = () => {
     navigator.clipboard.writeText(projectReference);
