@@ -44,23 +44,17 @@ export default function QuoteForm({
   const level4Ref = useRef(level4);
 
   useEffect(() => {
-    console.log("Current contractor changed:", currentContractor);
-
     setCurrentContractorCosts(
       costsData.find((costRow) => costRow.id === currentContractor),
     );
   }, [currentContractor, costsData]);
 
   useEffect(() => {
-    console.log("Current contractor costs changed:", currentContractorCosts);
-
     level4Ref.current.forEach((obj) => {
       const inputKey = `cost-${obj.flag_1}${obj.flag_2}${obj.flag_3}${obj.flag_4}`;
       const costKey = `${obj.flag_1}.${obj.flag_2}.${obj.flag_3}.${obj.flag_4}`;
 
-      console.log(`line66: ${inputDataRef.current[inputKey]}`);
-
-      if (inputDataRef.current[inputKey] === undefined) {
+      if (!inputDataRef.current[inputKey]) {
         setInputData((prev) => ({
           ...prev,
           [inputKey]: Number(
@@ -93,11 +87,28 @@ export default function QuoteForm({
     event: ChangeEvent<HTMLInputElement>,
     id: string,
   ) => {
-    console.log(`event.target.value: ${event.target.value}`);
-
     setInputData((prev) => ({
       ...prev,
       [id]: Number(event.target.value),
+    }));
+  };
+
+  const handleCostReset = (
+    flag1: number | null,
+    flag2: number | null,
+    flag3: number | null,
+    flag4: number | null,
+  ) => {
+    const inputKey = `cost-${flag1}${flag2}${flag3}${flag4}`;
+    const costKey = `${flag1}.${flag2}.${flag3}.${flag4}`;
+
+    setInputData((prev) => ({
+      ...prev,
+      [inputKey]: Number(
+        currentContractorCosts?.[
+          costKey as keyof typeof currentContractorCosts
+        ] || 0,
+      ),
     }));
   };
 
@@ -229,7 +240,18 @@ export default function QuoteForm({
                                                   >
                                                     Cost:
                                                   </Label>
-                                                  <RotateCcw className="size-4 text-accent-primary" />
+                                                  <button
+                                                    onClick={() => {
+                                                      handleCostReset(
+                                                        nrm4.flag_1,
+                                                        nrm4.flag_2,
+                                                        nrm4.flag_3,
+                                                        nrm4.flag_4,
+                                                      );
+                                                    }}
+                                                  >
+                                                    <RotateCcw className="size-4 text-accent-primary" />
+                                                  </button>
                                                 </div>
                                               </div>
                                               <div className="mb-3 flex items-center">
