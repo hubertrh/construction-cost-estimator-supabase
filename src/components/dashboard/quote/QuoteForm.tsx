@@ -1,13 +1,12 @@
 "use client";
 
-import React, { ChangeEvent, use, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import {
   ClipboardMinus,
   ClipboardPlus,
   Info,
   RotateCcw,
   Ruler,
-  Undo,
 } from "lucide-react";
 import { Switch } from "../../ui/switch";
 import QuoteNoteParagraphs from "./QuoteNoteParagraphs";
