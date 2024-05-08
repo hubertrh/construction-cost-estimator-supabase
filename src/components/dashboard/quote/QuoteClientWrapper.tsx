@@ -10,20 +10,25 @@ import QuoteTitleWithRef from "./QuoteTitleWithRef";
 import { Database } from "@/types/supabase";
 
 type QuoteClientWrapperProps = {
+  userId: UUID;
   params: { project: UUID; currentStep: string };
   projectData: Database["public"]["Tables"]["projects"]["Row"][];
   nrmData: Database["public"]["Tables"]["nrm"]["Row"][];
-
   steps: {
     el_1: string | null;
     el_3_note: string | null;
   }[];
-
-  contractorsComboboxList: { label: string; value: string; costId: UUID }[];
+  contractorsComboboxList: {
+    label: string;
+    value: string;
+    costId: UUID;
+    userId: UUID;
+  }[];
   costsData: Database["public"]["Tables"]["contractor_costs"]["Row"][];
 };
 
 export default function QuoteClientWrapper({
+  userId,
   params,
   projectData,
   nrmData,
@@ -44,6 +49,7 @@ export default function QuoteClientWrapper({
         projectReference={params.project.slice(-6)}
         onChange={handleDropdownChange}
         contractorsComboboxList={contractorsComboboxList}
+        userId={userId}
       />
       <QuoteBreadcrumbs steps={steps} currentStep={params.currentStep} />
       <QuoteStepInfoAccordion steps={steps} currentStep={params.currentStep} />

@@ -74,6 +74,7 @@ export default async function NewQuote({ params }: NewQuoteProps) {
   return (
     <div className="min-h-[calc(100vh-20dvh-6rem)] w-[45rem] [&_*]:text-pretty">
       <QuoteClientWrapper
+        userId={userData.user.id as UUID}
         params={params}
         projectData={projectData}
         nrmData={nrmData}

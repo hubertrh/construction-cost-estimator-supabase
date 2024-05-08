@@ -7,13 +7,20 @@ import { Badge } from "../../ui/badge";
 import QuoteCombobox from "./QuoteCombobox";
 
 type QuoteTitleWithRefProps = {
+  userId: UUID;
   projectName: string;
   projectReference: string;
   onChange: (value: string) => void;
-  contractorsComboboxList: { label: string; value: string; costId: UUID }[];
+  contractorsComboboxList: {
+    label: string;
+    value: string;
+    costId: UUID;
+    userId: UUID;
+  }[];
 };
 
 export default function QuoteTitleWithRef({
+  userId,
   projectName,
   projectReference,
   onChange,
@@ -69,6 +76,7 @@ export default function QuoteTitleWithRef({
         <div className="flex items-center">
           <h1 className="text-2xl font-medium">New Quote&emsp;</h1>
           <QuoteCombobox
+            userId={userId}
             contractorsComboboxList={contractorsComboboxList}
             onChange={onChange}
           />

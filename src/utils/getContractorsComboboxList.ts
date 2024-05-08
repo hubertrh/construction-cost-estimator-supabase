@@ -25,6 +25,7 @@ export async function getContractorsComboboxList({
     label: contractor.name,
     value: contractor.name,
     costId: contractor.contractor_costs.id,
+    userId: contractor.id,
   }));
 
   const admins = await fetchAdmins(supabaseClient);
