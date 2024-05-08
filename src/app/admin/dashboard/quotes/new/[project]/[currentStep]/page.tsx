@@ -2,6 +2,8 @@ import { UUID } from "crypto";
 import { createClient } from "@/utils/supabase/server";
 import { fetchUserRole } from "@/utils/supabase/userCalls";
 import QuoteClientWrapper from "@/components/dashboard/quote/QuoteClientWrapper";
+import { fetchCosts } from "@/utils/supabase/costsCalls";
+import { Database } from "@/types/supabase";
 
 type NewQuoteProps = {
   params: { project: UUID; currentStep: string };
@@ -58,13 +60,26 @@ export default async function NewQuote({ params }: NewQuoteProps) {
     return <p>Failed to fetch project data</p>;
   }
 
+  const { contractorsComboboxList, costsData } = await fetchCosts(
+    supabase,
+    userData.user.id,
+    userRole,
+  );
+
+  const typedCostsData: Database["public"]["Tables"]["contractor_costs"]["Row"][] =
+    costsData;
+
+  console.log(contractorsComboboxList, typedCostsData);
+
   return (
-    <div className="min-h-[calc(100vh-20dvh-6rem)] w-[40rem] [&_*]:text-pretty">
+    <div className="min-h-[calc(100vh-20dvh-6rem)] w-[45rem] [&_*]:text-pretty">
       <QuoteClientWrapper
         params={params}
         projectData={projectData}
         nrmData={nrmData}
         steps={steps}
+        contractorsComboboxList={contractorsComboboxList}
+        costsData={typedCostsData}
       />
     </div>
   );

@@ -1,4 +1,5 @@
 import { SupabaseClient } from "@supabase/supabase-js";
+import { getContractorsComboboxList } from "../getContractorsComboboxList";
 
 // API call to fetch costs
 export async function fetchCosts(
@@ -6,38 +7,53 @@ export async function fetchCosts(
   userId: string,
   userRole: string,
 ) {
-  if (userRole === "admin") {
-    const { data, error } = await supabaseClient
-      .from("builder_costs")
-      .select("*");
+  // if (userRole === "admin") {
+  const contractors = await fetchAllContractors(supabaseClient);
+  if (!contractors) throw new Error("Failed to fetch contractors");
 
-    if (error) throw new Error("Failed to fetch user role");
-    return data;
-  }
+  let contractorsComboboxList = await getContractorsComboboxList({
+    contractors,
+    supabaseClient,
+  });
 
-  if (userRole === "builder") {
-    const { data, error } = await supabaseClient
-      .from("builder_costs")
-      .select("*")
-      .eq("builder_id", userId)
-      .single();
+  const { data: costsData, error: costsError } = await supabaseClient
+    .from("contractor_costs")
+    .select("*");
 
-    if (error) throw new Error("Failed to fetch user role");
-    return data;
-  }
+  if (costsError) throw new Error("Failed to fetch costs");
+
+  // const { data: defaultCostsData, error: defaultCostsError } =
+  //   await supabaseClient
+  //     .from("default_costs")
+  //     .select("*")
+  //     .order("created_at", { ascending: false })
+  //     .single();
+
+  // if (defaultCostsError) throw new Error("Failed to fetch default costs");
+
+  return {
+    contractorsComboboxList,
+    costsData,
+  };
 }
 
-export async function fetchAllBuilders(
-  supabaseClient: SupabaseClient,
-  userRole: string,
-) {
-  if (userRole === "admin") {
-    const { data, error } = await supabaseClient
-      .from("profiles")
-      .select("id, name")
-      .eq("app_role", "builder");
+export async function fetchAllContractors(supabaseClient: SupabaseClient) {
+  const { data, error } = await supabaseClient
+    .from("profiles")
+    .select("id, name, contractor_costs(id)")
+    .not("contractor_costs", "is", null);
 
-    if (error) throw new Error("Failed to fetch builders");
-    return data;
-  }
+  if (error) throw new Error("Failed to fetch contractors");
+
+  const formattedData = data.map((contractor: any) => {
+    return {
+      id: contractor.id,
+      name: contractor.name,
+      contractor_costs: {
+        id: contractor.contractor_costs.id,
+      },
+    };
+  });
+
+  return formattedData;
 }

@@ -1,7 +1,14 @@
 "use client";
 
-import React, { ChangeEvent, useEffect, useState } from "react";
-import { ClipboardMinus, ClipboardPlus, Info, Ruler } from "lucide-react";
+import React, { ChangeEvent, use, useEffect, useRef, useState } from "react";
+import {
+  ClipboardMinus,
+  ClipboardPlus,
+  Info,
+  RotateCcw,
+  Ruler,
+  Undo,
+} from "lucide-react";
 import { Switch } from "../../ui/switch";
 import QuoteNoteParagraphs from "./QuoteNoteParagraphs";
 import { Database } from "@/types/supabase";
@@ -15,23 +22,65 @@ import { Input } from "@/components/ui/input";
 
 type QuoteFormProps = {
   nrmData: Database["public"]["Tables"]["nrm"]["Row"][];
-  currentBuilder: string;
+  currentContractor: string;
+  costsData: Database["public"]["Tables"]["contractor_costs"]["Row"][];
 };
 
-export default function QuoteForm({ nrmData, currentBuilder }: QuoteFormProps) {
+export default function QuoteForm({
+  nrmData,
+  currentContractor,
+  costsData,
+}: QuoteFormProps) {
   const level2 = nrmData.filter((nrmRow) => nrmRow.flag_3 === 0);
   const level3 = nrmData.filter((nrmRow) => nrmRow.flag_4 === 0);
   const level4 = nrmData.filter((nrmRow) => nrmRow.flag_4 !== 0);
-  level4.forEach((obj, index) => {
-    console.log(`Object ${index + 1}: ${JSON.stringify(obj)}`);
-  });
 
   const [visible, setVisible] = useState<{ [key: string]: boolean }>({});
   const [inputData, setInputData] = useState<{ [key: string]: number }>({});
+  const [currentContractorCosts, setCurrentContractorCosts] =
+    useState<Database["public"]["Tables"]["contractor_costs"]["Row"]>();
+
+  const inputDataRef = useRef(inputData);
+  const level4Ref = useRef(level4);
 
   useEffect(() => {
-    console.log("Selected value changed:", currentBuilder);
-  }, [currentBuilder]);
+    console.log("Current contractor changed:", currentContractor);
+
+    setCurrentContractorCosts(
+      costsData.find((costRow) => costRow.id === currentContractor),
+    );
+  }, [currentContractor, costsData]);
+
+  useEffect(() => {
+    console.log("Current contractor costs changed:", currentContractorCosts);
+
+    level4Ref.current.forEach((obj) => {
+      const inputKey = `cost-${obj.flag_1}${obj.flag_2}${obj.flag_3}${obj.flag_4}`;
+      const costKey = `${obj.flag_1}.${obj.flag_2}.${obj.flag_3}.${obj.flag_4}`;
+
+      console.log(`line66: ${inputDataRef.current[inputKey]}`);
+
+      if (inputDataRef.current[inputKey] === undefined) {
+        setInputData((prev) => ({
+          ...prev,
+          [inputKey]: Number(
+            currentContractorCosts?.[
+              costKey as keyof typeof currentContractorCosts
+            ] || 0,
+          ),
+        }));
+      }
+    });
+  }, [currentContractorCosts]);
+
+  // Update refs when props change
+  useEffect(() => {
+    inputDataRef.current = inputData;
+  }, [inputData]);
+
+  useEffect(() => {
+    level4Ref.current = level4;
+  }, [level4]);
 
   const toggleVisibility = (id: string) => {
     setVisible((prev) => ({
@@ -44,6 +93,8 @@ export default function QuoteForm({ nrmData, currentBuilder }: QuoteFormProps) {
     event: ChangeEvent<HTMLInputElement>,
     id: string,
   ) => {
+    console.log(`event.target.value: ${event.target.value}`);
+
     setInputData((prev) => ({
       ...prev,
       [id]: Number(event.target.value),
@@ -172,12 +223,14 @@ export default function QuoteForm({ nrmData, currentBuilder }: QuoteFormProps) {
                                                   {nrm4.flag_2}.{nrm4.flag_3}.
                                                   {nrm4.flag_4}
                                                 </Label>
-                                                <Label
-                                                  htmlFor={`cost-${nrm4.flag_1}${nrm4.flag_2}${nrm4.flag_3}${nrm4.flag_4}`}
-                                                  className="w-24"
-                                                >
-                                                  Cost:
-                                                </Label>
+                                                <div className="flex w-24 items-center justify-between">
+                                                  <Label
+                                                    htmlFor={`cost-${nrm4.flag_1}${nrm4.flag_2}${nrm4.flag_3}${nrm4.flag_4}`}
+                                                  >
+                                                    Cost:
+                                                  </Label>
+                                                  <RotateCcw className="size-4 text-accent-primary" />
+                                                </div>
                                               </div>
                                               <div className="mb-3 flex items-center">
                                                 {nrm3.measurement_rules && (
@@ -226,7 +279,7 @@ export default function QuoteForm({ nrmData, currentBuilder }: QuoteFormProps) {
                                                 <p className="ml-2 grid h-full select-none place-items-center !text-nowrap rounded-md border border-accent-primary/30 px-2 font-medium">
                                                   {nrm4.el_4_unit}
                                                 </p>
-                                                <p className="ml-6 grid h-full place-items-center">
+                                                <p className="ml-6 grid h-full select-none place-items-center">
                                                   £
                                                 </p>
                                                 <Input
@@ -234,7 +287,7 @@ export default function QuoteForm({ nrmData, currentBuilder }: QuoteFormProps) {
                                                   id={`cost-${nrm4.flag_1}${nrm4.flag_2}${nrm4.flag_3}${nrm4.flag_4}`}
                                                   type="number"
                                                   // TODO:
-                                                  placeholder="Cost"
+                                                  placeholder="123.45"
                                                   required
                                                   value={
                                                     inputData[
