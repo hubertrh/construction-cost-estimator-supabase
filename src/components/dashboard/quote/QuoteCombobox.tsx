@@ -38,7 +38,7 @@ export default function QuoteCombobox({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-80 justify-between"
+          className="h-auto w-80 justify-between py-1"
         >
           {value
             ? contractorsComboboxList.find(
