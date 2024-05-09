@@ -37,6 +37,9 @@ export default function QuoteClientWrapper({
   costsData,
 }: QuoteClientWrapperProps) {
   const [currentContractor, setCurrentContractor] = useState("default");
+  const [localStorageUpdated, setLocalStorageUpdated] = useState(
+    new Date().getTime(),
+  );
 
   const handleDropdownChange = (value: string) => {
     setCurrentContractor(value);
@@ -51,6 +54,7 @@ export default function QuoteClientWrapper({
         onChange={handleDropdownChange}
         contractorsComboboxList={contractorsComboboxList}
         userId={userId}
+        localStorageUpdated={localStorageUpdated}
       />
       <QuoteBreadcrumbs steps={steps} currentStep={params.currentStep} />
       <QuoteStepInfoAccordion steps={steps} currentStep={params.currentStep} />
@@ -59,6 +63,7 @@ export default function QuoteClientWrapper({
         currentContractor={currentContractor}
         costsData={costsData}
         quoteReference={params.quoteId.slice(-6)}
+        setLocalStorageUpdated={setLocalStorageUpdated}
       />
       <QuotePagination steps={steps} currentStep={params.currentStep} />
     </>

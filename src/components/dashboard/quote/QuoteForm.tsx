@@ -1,6 +1,13 @@
 "use client";
 
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   ClipboardMinus,
   ClipboardPlus,
@@ -24,6 +31,7 @@ type QuoteFormProps = {
   currentContractor: string;
   costsData: Database["public"]["Tables"]["contractor_costs"]["Row"][];
   quoteReference: string;
+  setLocalStorageUpdated: Dispatch<SetStateAction<number>>;
 };
 
 export default function QuoteForm({
@@ -31,6 +39,7 @@ export default function QuoteForm({
   currentContractor,
   costsData,
   quoteReference,
+  setLocalStorageUpdated,
 }: QuoteFormProps) {
   const level2 = nrmData.filter((nrmRow) => nrmRow.flag_3 === 0);
   const level3 = nrmData.filter((nrmRow) => nrmRow.flag_4 === 0);
@@ -93,7 +102,8 @@ export default function QuoteForm({
 
     saveToLocalStorage(`quoteInputs-${quoteReference}`, inputData);
     saveToLocalStorage(`quoteFlags-${quoteReference}`, isFlagVisible);
-  }, [inputData, isFlagVisible, quoteReference]);
+    setLocalStorageUpdated(new Date().getTime());
+  }, [inputData, isFlagVisible, quoteReference, setLocalStorageUpdated]);
 
   useEffect(() => {
     level4Ref.current = level4;
