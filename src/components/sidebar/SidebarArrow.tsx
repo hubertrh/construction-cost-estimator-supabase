@@ -1,12 +1,26 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+
+function debounce(fn: () => void, ms = 100) {
+  let timeout: NodeJS.Timeout;
+
+  return function executedFunction() {
+    const later = () => {
+      clearTimeout(timeout);
+      fn();
+    };
+
+    clearTimeout(timeout);
+    timeout = setTimeout(later, ms);
+  };
+}
 
 export default function SidebarArrow() {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(window.innerWidth > 1320);
 
-  const handleClick = () => {
+  const updateStyles = useCallback(() => {
     const transformValue = isCollapsed ? "0%" : "-95%";
     const marginValue = isCollapsed ? "20rem" : "1rem";
     const maxWidthValue = isCollapsed ? "65vw" : "95vw";
@@ -24,9 +38,27 @@ export default function SidebarArrow() {
       maxWidthValue,
     );
     document.documentElement.style.setProperty("--arrow-rotate", rotateValue);
+  }, [isCollapsed]);
 
+  // Update styles on mount and when isCollapsed changes
+  useEffect(() => {
+    updateStyles();
+  }, [isCollapsed, updateStyles]);
+
+  useEffect(() => {
+    const handleResize = debounce(() => {
+      const isWide = window.innerWidth > 1320;
+      setIsCollapsed(isWide);
+    }, 100);
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  function handleClick() {
+    updateStyles();
     setIsCollapsed(!isCollapsed);
-  };
+  }
 
   return (
     <button
