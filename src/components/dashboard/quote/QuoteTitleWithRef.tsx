@@ -3,7 +3,6 @@
 import { UUID } from "crypto";
 import { useEffect, useState } from "react";
 import { RefreshCw } from "lucide-react";
-import { Badge } from "../../ui/badge";
 import QuoteCombobox from "./QuoteCombobox";
 import HoverBadge from "@/components/ui/HoverBadge";
 
@@ -44,11 +43,9 @@ export default function QuoteTitleWithRef({
         const itemId = key.split("cost-")[1]; // Extract the item ID
         const cost = parsedQuoteInputs[key]; // Get the cost from the key
 
-        // Construct the corresponding amount key
-        const amountKey = `amount-${itemId}`;
+        const amountKey = `amount-${itemId}`; // Construct the corresponding amount key
         const amount = parsedQuoteInputs[amountKey] || 0; // Get the amount or default to 0 if undefined
 
-        // Calculate the total cost for this item
         totalCost += cost * amount;
       }
     });
