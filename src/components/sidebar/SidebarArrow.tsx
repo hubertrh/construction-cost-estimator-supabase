@@ -18,13 +18,13 @@ function debounce(fn: () => void, ms = 100) {
 }
 
 export default function SidebarArrow() {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(true);
 
   const updateStyles = useCallback(() => {
-    const transformValue = isCollapsed ? "0%" : "-95%";
-    const marginValue = isCollapsed ? "20rem" : "1rem";
-    const maxWidthValue = isCollapsed ? "65vw" : "95vw";
-    const rotateValue = isCollapsed ? "-45deg" : "135deg";
+    const transformValue = isExpanded ? "0%" : "-95%";
+    const marginValue = isExpanded ? "20rem" : "1rem";
+    const maxWidthValue = isExpanded ? "65vw" : "95vw";
+    const rotateValue = isExpanded ? "-45deg" : "135deg";
     document.documentElement.style.setProperty(
       "--sidebar-transform",
       transformValue,
@@ -38,17 +38,17 @@ export default function SidebarArrow() {
       maxWidthValue,
     );
     document.documentElement.style.setProperty("--arrow-rotate", rotateValue);
-  }, [isCollapsed]);
+  }, [isExpanded]);
 
   // Update styles on mount and when isCollapsed changes
   useEffect(() => {
     updateStyles();
-  }, [isCollapsed, updateStyles]);
+  }, [isExpanded, updateStyles]);
 
   useEffect(() => {
     const handleResize = debounce(() => {
       const isWide = window.innerWidth > 1320;
-      setIsCollapsed(isWide);
+      setIsExpanded(isWide);
     }, 100);
 
     window.addEventListener("resize", handleResize);
@@ -57,7 +57,7 @@ export default function SidebarArrow() {
 
   function handleClick() {
     updateStyles();
-    setIsCollapsed(!isCollapsed);
+    setIsExpanded(!isExpanded);
   }
 
   return (
