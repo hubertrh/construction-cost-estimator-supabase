@@ -68,7 +68,7 @@ export function EstimateRequestForm({ user }: EstimateRequestFormProps) {
   });
 
   const handleProjectReferenceCopy = () => {
-    navigator.clipboard.writeText(projectReference);
+    navigator.clipboard.writeText(projectReference.toUpperCase());
     setRefCopyStatus("copied");
     setTimeout(() => {
       setRefCopyStatus("");

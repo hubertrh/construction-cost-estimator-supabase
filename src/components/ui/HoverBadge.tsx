@@ -13,7 +13,7 @@ export default function HoverBadge({ label, reference }: HoverBadgeProps) {
   const [copyStatus, setCopyStatus] = useState("");
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(reference);
+    navigator.clipboard.writeText(reference.toUpperCase());
     setCopyStatus("copied");
     setTimeout(() => {
       setCopyStatus("");
