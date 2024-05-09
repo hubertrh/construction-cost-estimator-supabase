@@ -18,7 +18,7 @@ function debounce(fn: () => void, ms = 100) {
 }
 
 export default function SidebarArrow() {
-  const [isCollapsed, setIsCollapsed] = useState(window.innerWidth > 1320);
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const updateStyles = useCallback(() => {
     const transformValue = isCollapsed ? "0%" : "-95%";
