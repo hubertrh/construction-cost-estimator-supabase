@@ -1,7 +1,7 @@
 "use client";
 
 import { UUID } from "crypto";
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 import { RefreshCw } from "lucide-react";
 import { Badge } from "../../ui/badge";
 import QuoteCombobox from "./QuoteCombobox";
@@ -28,6 +28,7 @@ export default function QuoteTitleWithRef({
 }: QuoteTitleWithRefProps) {
   const [refCopyStatus, setRefCopyStatus] = useState("");
   const [refHoverStatus, setRefHoverStatus] = useState(false);
+  const [quoteTotalCost, setQuoteTotalCost] = useState(0);
 
   const handleProjectReferenceCopy = () => {
     navigator.clipboard.writeText(projectReference);
@@ -40,6 +41,36 @@ export default function QuoteTitleWithRef({
   const handleHover = () => {
     setRefHoverStatus(!refHoverStatus);
   };
+
+  const handleQuoteRefresh = () => {
+    const quoteInputs = localStorage.getItem("quoteInputs");
+    const parsedQuoteInputs = quoteInputs ? JSON.parse(quoteInputs) : {};
+
+    let totalCost = 0;
+
+    // Loop through each key in the data object
+    Object.keys(parsedQuoteInputs).forEach((key) => {
+      // Check if the key is for a cost and find its corresponding amount
+      if (key.startsWith("cost-")) {
+        const itemId = key.split("cost-")[1]; // Extract the item ID
+        const cost = parsedQuoteInputs[key]; // Get the cost from the key
+
+        // Construct the corresponding amount key
+        const amountKey = `amount-${itemId}`;
+        const amount = parsedQuoteInputs[amountKey] || 0; // Get the amount or default to 0 if undefined
+
+        // Calculate the total cost for this item
+        totalCost += cost * amount;
+      }
+    });
+
+    localStorage.setItem("quoteTotalCost", totalCost.toString());
+    setQuoteTotalCost(totalCost);
+  };
+
+  useEffect(() => {
+    handleQuoteRefresh();
+  }, []);
 
   return (
     <div className="sticky top-0 z-10 min-w-[28rem] bg-background-light pb-1 pt-4">
@@ -74,9 +105,10 @@ export default function QuoteTitleWithRef({
           />
         </div>
         <div className="flex items-center">
-          {/* TODO: */}
-          <h2 className="p-0 text-2xl font-medium">~£125,000</h2>
-          <RefreshCw className="ml-2 size-5 cursor-pointer text-gray hover:text-accent-primary-dark" />
+          <h2 className="p-0 text-2xl font-medium">~£{quoteTotalCost}</h2>
+          <button className="ml-2" onClick={handleQuoteRefresh}>
+            <RefreshCw className="size-5 text-gray hover:text-accent-primary-dark" />
+          </button>
         </div>
       </div>
     </div>

@@ -66,38 +66,47 @@ export default function QuoteForm({
     });
   }, [currentContractorCosts]);
 
-  // Update refs when props change
   useEffect(() => {
+    // Update refs when props change
     inputDataRef.current = inputData;
+
+    const existingData = localStorage.getItem("quoteInputs");
+    const parsedExistingData = existingData ? JSON.parse(existingData) : {};
+
+    // Add new keys and update existing ones
+    let updatedData = { ...parsedExistingData };
+
+    Object.keys(inputData).forEach((key) => {
+      updatedData[key] = inputData[key];
+    });
+
+    localStorage.setItem("quoteInputs", JSON.stringify(updatedData));
   }, [inputData]);
 
   useEffect(() => {
     level4Ref.current = level4;
   }, [level4]);
 
-  const toggleVisibility = (id: string) => {
+  function toggleVisibility(id: string) {
     setVisible((prev) => ({
       ...prev,
       [id]: !prev[id],
     }));
-  };
+  }
 
-  const handleInputChange = (
-    event: ChangeEvent<HTMLInputElement>,
-    id: string,
-  ) => {
+  function handleInputChange(event: ChangeEvent<HTMLInputElement>, id: string) {
     setInputData((prev) => ({
       ...prev,
       [id]: Number(event.target.value),
     }));
-  };
+  }
 
-  const handleCostReset = (
+  function handleCostReset(
     flag1: number | null,
     flag2: number | null,
     flag3: number | null,
     flag4: number | null,
-  ) => {
+  ) {
     const inputKey = `cost-${flag1}${flag2}${flag3}${flag4}`;
     const costKey = `${flag1}.${flag2}.${flag3}.${flag4}`;
 
@@ -109,7 +118,7 @@ export default function QuoteForm({
         ] || 0,
       ),
     }));
-  };
+  }
 
   return (
     <ul className="quote-ul mx-8 mb-2 mt-6 text-left">
@@ -307,9 +316,9 @@ export default function QuoteForm({
                                                   className="ml-2 w-24"
                                                   id={`cost-${nrm4.flag_1}${nrm4.flag_2}${nrm4.flag_3}${nrm4.flag_4}`}
                                                   type="number"
-                                                  // TODO:
                                                   placeholder="123.45"
                                                   required
+                                                  // FIXME: Fetch from local storage first
                                                   value={
                                                     inputData[
                                                       `cost-${nrm4.flag_1}${nrm4.flag_2}${nrm4.flag_3}${nrm4.flag_4}`
