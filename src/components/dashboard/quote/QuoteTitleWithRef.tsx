@@ -1,10 +1,11 @@
 "use client";
 
 import { UUID } from "crypto";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { RefreshCw } from "lucide-react";
 import { Badge } from "../../ui/badge";
 import QuoteCombobox from "./QuoteCombobox";
+import HoverBadge from "@/components/ui/HoverBadge";
 
 type QuoteTitleWithRefProps = {
   userId: UUID;
@@ -26,21 +27,7 @@ export default function QuoteTitleWithRef({
   onChange,
   contractorsComboboxList,
 }: QuoteTitleWithRefProps) {
-  const [refCopyStatus, setRefCopyStatus] = useState("");
-  const [refHoverStatus, setRefHoverStatus] = useState(false);
   const [quoteTotalCost, setQuoteTotalCost] = useState(0);
-
-  const handleProjectReferenceCopy = () => {
-    navigator.clipboard.writeText(projectReference);
-    setRefCopyStatus("copied");
-    setTimeout(() => {
-      setRefCopyStatus("");
-    }, 1000);
-  };
-
-  const handleHover = () => {
-    setRefHoverStatus(!refHoverStatus);
-  };
 
   const handleQuoteRefresh = () => {
     const quoteInputs = localStorage.getItem("quoteInputs");
@@ -79,20 +66,10 @@ export default function QuoteTitleWithRef({
           {"// "}
           {projectName}
         </p>
-        <div className="flex items-center gap-2">
-          <p className="mt-1 text-gray-500">Project Ref:</p>
-          <Badge
-            className="w-20 cursor-pointer text-center uppercase"
-            onMouseEnter={handleHover}
-            onMouseLeave={handleHover}
-            onClick={handleProjectReferenceCopy}
-          >
-            {refCopyStatus === "copied"
-              ? "Copied"
-              : refHoverStatus
-                ? "Copy"
-                : projectReference}
-          </Badge>
+        <div className="flex items-center gap-4">
+          <HoverBadge label="P" reference={projectReference} />
+          {/* FIXME: */}
+          <HoverBadge label="Q" reference="XXXXXX" />
         </div>
       </div>
       <div className="flex items-center justify-between gap-8">
