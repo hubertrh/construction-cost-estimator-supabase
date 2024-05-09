@@ -11,6 +11,7 @@ type QuoteTitleWithRefProps = {
   userId: UUID;
   projectName: string;
   projectReference: string;
+  quoteReference: string;
   onChange: (value: string) => void;
   contractorsComboboxList: {
     label: string;
@@ -24,6 +25,7 @@ export default function QuoteTitleWithRef({
   userId,
   projectName,
   projectReference,
+  quoteReference,
   onChange,
   contractorsComboboxList,
 }: QuoteTitleWithRefProps) {
@@ -68,8 +70,7 @@ export default function QuoteTitleWithRef({
         </p>
         <div className="flex items-center gap-4">
           <HoverBadge label="P" reference={projectReference} />
-          {/* FIXME: */}
-          <HoverBadge label="Q" reference="XXXXXX" />
+          <HoverBadge label="Q" reference={quoteReference} />
         </div>
       </div>
       <div className="flex items-center justify-between gap-8">

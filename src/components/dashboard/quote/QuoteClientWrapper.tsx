@@ -11,7 +11,7 @@ import { Database } from "@/types/supabase";
 
 type QuoteClientWrapperProps = {
   userId: UUID;
-  params: { project: UUID; currentStep: string };
+  params: { projectId: UUID; quoteId: UUID; currentStep: string };
   projectData: Database["public"]["Tables"]["projects"]["Row"][];
   nrmData: Database["public"]["Tables"]["nrm"]["Row"][];
   steps: {
@@ -46,7 +46,8 @@ export default function QuoteClientWrapper({
     <>
       <QuoteTitleWithRef
         projectName={projectData[0].project_name}
-        projectReference={params.project.slice(-6)}
+        projectReference={params.projectId.slice(-6)}
+        quoteReference={params.quoteId.slice(-6)}
         onChange={handleDropdownChange}
         contractorsComboboxList={contractorsComboboxList}
         userId={userId}

@@ -6,7 +6,7 @@ import { fetchCosts } from "@/utils/supabase/costsCalls";
 import { Database } from "@/types/supabase";
 
 type NewQuoteProps = {
-  params: { project: UUID; currentStep: string };
+  params: { projectId: UUID; quoteId: UUID; currentStep: string };
 };
 
 export default async function NewQuote({ params }: NewQuoteProps) {
@@ -53,7 +53,7 @@ export default async function NewQuote({ params }: NewQuoteProps) {
   const { data: projectData, error: projectError } = await supabase
     .from("projects")
     .select("*")
-    .eq("id", params.project);
+    .eq("id", params.projectId);
 
   if (projectError) {
     console.error(projectError);
