@@ -1,7 +1,7 @@
 "use client";
 
 import { UUID } from "crypto";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { RefreshCw } from "lucide-react";
 import QuoteCombobox from "./QuoteCombobox";
 import HoverBadge from "@/components/ui/HoverBadge";
@@ -30,8 +30,8 @@ export default function QuoteTitleWithRef({
 }: QuoteTitleWithRefProps) {
   const [quoteTotalCost, setQuoteTotalCost] = useState(0);
 
-  const handleQuoteRefresh = () => {
-    const quoteInputs = localStorage.getItem("quoteInputs");
+  const handleQuoteRefresh = useCallback(() => {
+    const quoteInputs = localStorage.getItem(`quoteInputs-${quoteReference}`);
     const parsedQuoteInputs = quoteInputs ? JSON.parse(quoteInputs) : {};
 
     let totalCost = 0;
@@ -50,13 +50,16 @@ export default function QuoteTitleWithRef({
       }
     });
 
-    localStorage.setItem("quoteTotalCost", totalCost.toString());
+    localStorage.setItem(
+      `quoteTotalCost-${quoteReference}`,
+      totalCost.toString(),
+    );
     setQuoteTotalCost(totalCost);
-  };
+  }, [quoteReference]);
 
   useEffect(() => {
     handleQuoteRefresh();
-  }, []);
+  }, [handleQuoteRefresh]);
 
   return (
     <div className="sticky top-0 z-10 min-w-[28rem] bg-background-light pb-1 pt-4">

@@ -58,6 +58,7 @@ export default function QuoteClientWrapper({
         nrmData={nrmData}
         currentContractor={currentContractor}
         costsData={costsData}
+        quoteReference={params.quoteId.slice(-6)}
       />
       <QuotePagination steps={steps} currentStep={params.currentStep} />
     </>

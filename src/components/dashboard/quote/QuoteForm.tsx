@@ -23,18 +23,22 @@ type QuoteFormProps = {
   nrmData: Database["public"]["Tables"]["nrm"]["Row"][];
   currentContractor: string;
   costsData: Database["public"]["Tables"]["contractor_costs"]["Row"][];
+  quoteReference: string;
 };
 
 export default function QuoteForm({
   nrmData,
   currentContractor,
   costsData,
+  quoteReference,
 }: QuoteFormProps) {
   const level2 = nrmData.filter((nrmRow) => nrmRow.flag_3 === 0);
   const level3 = nrmData.filter((nrmRow) => nrmRow.flag_4 === 0);
   const level4 = nrmData.filter((nrmRow) => nrmRow.flag_4 !== 0);
 
-  const [visible, setVisible] = useState<{ [key: string]: boolean }>({});
+  const [isFlagVisible, setIsFlagVisible] = useState<{
+    [key: string]: boolean;
+  }>({});
   const [inputData, setInputData] = useState<{ [key: string]: number }>({});
   const [currentContractorCosts, setCurrentContractorCosts] =
     useState<Database["public"]["Tables"]["contractor_costs"]["Row"]>();
@@ -69,26 +73,34 @@ export default function QuoteForm({
   useEffect(() => {
     // Update refs when props change
     inputDataRef.current = inputData;
-
-    const existingData = localStorage.getItem("quoteInputs");
-    const parsedExistingData = existingData ? JSON.parse(existingData) : {};
-
-    // Add new keys and update existing ones
-    let updatedData = { ...parsedExistingData };
-
-    Object.keys(inputData).forEach((key) => {
-      updatedData[key] = inputData[key];
-    });
-
-    localStorage.setItem("quoteInputs", JSON.stringify(updatedData));
   }, [inputData]);
+
+  useEffect(() => {
+    function saveToLocalStorage(
+      storageKey: string,
+      data: {
+        [key: string]: number | boolean;
+      },
+    ) {
+      const existingData = localStorage.getItem(storageKey);
+      const parsedExistingData = existingData ? JSON.parse(existingData) : {};
+
+      // Add new keys and update existing ones
+      const updatedData = { ...parsedExistingData, ...data };
+
+      localStorage.setItem(storageKey, JSON.stringify(updatedData));
+    }
+
+    saveToLocalStorage(`quoteInputs-${quoteReference}`, inputData);
+    saveToLocalStorage(`quoteFlags-${quoteReference}`, isFlagVisible);
+  }, [inputData, isFlagVisible, quoteReference]);
 
   useEffect(() => {
     level4Ref.current = level4;
   }, [level4]);
 
   function toggleVisibility(id: string) {
-    setVisible((prev) => ({
+    setIsFlagVisible((prev) => ({
       ...prev,
       [id]: !prev[id],
     }));
@@ -129,14 +141,14 @@ export default function QuoteForm({
               <div className="flex">
                 <Switch
                   className="mr-2 mt-1"
-                  checked={!!visible[`${nrm2.flag_1}${nrm2.flag_2}`]}
+                  checked={!!isFlagVisible[`${nrm2.flag_1}${nrm2.flag_2}`]}
                   onCheckedChange={() =>
                     toggleVisibility(`${nrm2.flag_1}${nrm2.flag_2}`)
                   }
                 />
                 <p>{nrm2.el_2}</p>
               </div>
-              {visible[`${nrm2.flag_1}${nrm2.flag_2}`] && (
+              {isFlagVisible[`${nrm2.flag_1}${nrm2.flag_2}`] && (
                 <ul className="mb-2 ml-8">
                   {level3.map(
                     (nrm3) =>
@@ -148,7 +160,7 @@ export default function QuoteForm({
                             <Switch
                               className="mr-2 mt-1"
                               checked={
-                                !!visible[
+                                !!isFlagVisible[
                                   `${nrm3.flag_1}${nrm3.flag_2}${nrm3.flag_3}`
                                 ]
                               }
@@ -172,7 +184,7 @@ export default function QuoteForm({
                               )}
                             </div>
                           </div>
-                          {visible[
+                          {isFlagVisible[
                             `${nrm3.flag_1}${nrm3.flag_2}${nrm3.flag_3}`
                           ] && (
                             <ul className="mb-2 ml-8">
@@ -186,7 +198,7 @@ export default function QuoteForm({
                                         <Switch
                                           className="mr-2 mt-1"
                                           checked={
-                                            !!visible[
+                                            !!isFlagVisible[
                                               `${nrm4.flag_1}${nrm4.flag_2}${nrm4.flag_3}${nrm4.flag_4}`
                                             ]
                                           }
@@ -230,7 +242,7 @@ export default function QuoteForm({
                                               </Popover>
                                             )}
                                           </div>
-                                          {visible[
+                                          {isFlagVisible[
                                             `${nrm4.flag_1}${nrm4.flag_2}${nrm4.flag_3}${nrm4.flag_4}`
                                           ] && (
                                             <div className="mt-1 grid gap-1">
