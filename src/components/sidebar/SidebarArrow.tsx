@@ -40,6 +40,11 @@ export default function SidebarArrow() {
     document.documentElement.style.setProperty("--arrow-rotate", rotateValue);
   }, [isExpanded]);
 
+  useEffect(() => {
+    const isWide = window.innerWidth > 1320;
+    setIsExpanded(isWide);
+  }, []);
+
   // Update styles on mount and when isCollapsed changes
   useEffect(() => {
     updateStyles();
