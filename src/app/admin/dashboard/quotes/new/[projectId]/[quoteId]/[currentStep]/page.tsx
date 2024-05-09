@@ -4,18 +4,13 @@ import { fetchUserRole } from "@/utils/supabase/userCalls";
 import QuoteClientWrapper from "@/components/dashboard/quote/QuoteClientWrapper";
 import { fetchCosts } from "@/utils/supabase/costsCalls";
 import { Database } from "@/types/supabase";
+import isValidUUID from "@/utils/uuidHelpers";
 
 type NewQuoteProps = {
   params: { projectId: UUID; quoteId: UUID; currentStep: string };
 };
 
 export default async function NewQuote({ params }: NewQuoteProps) {
-  function isValidUUID(uuid: string) {
-    return /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(
-      uuid,
-    );
-  }
-
   if (!isValidUUID(params.projectId)) {
     console.error("Invalid project ID");
     return <p>Invalid project ID</p>;
