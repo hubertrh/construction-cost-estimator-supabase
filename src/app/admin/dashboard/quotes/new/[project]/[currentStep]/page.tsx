@@ -69,8 +69,6 @@ export default async function NewQuote({ params }: NewQuoteProps) {
   const typedCostsData: Database["public"]["Tables"]["contractor_costs"]["Row"][] =
     costsData;
 
-  console.log(contractorsComboboxList, typedCostsData);
-
   return (
     <div className="min-h-[calc(100vh-20dvh-6rem)] w-[45rem] [&_*]:text-pretty">
       <QuoteClientWrapper
