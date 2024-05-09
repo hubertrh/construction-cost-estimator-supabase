@@ -1,7 +1,7 @@
 "use client";
 
 import { UUID } from "crypto";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
 import {
   Popover,
@@ -38,6 +38,9 @@ export default function QuoteCombobox({
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
 
+  const onChangeRef = useRef(onChange);
+  onChangeRef.current = onChange;
+
   // set the contractor based on provided userId
   useEffect(() => {
     const userContractor = contractorsComboboxList.find(
@@ -45,9 +48,9 @@ export default function QuoteCombobox({
     );
     if (userContractor) {
       setValue(userContractor.value);
-      onChange(userContractor.costId);
+      onChangeRef.current(userContractor.costId);
     }
-  }, [contractorsComboboxList, onChange, userId]);
+  }, [contractorsComboboxList, userId]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
