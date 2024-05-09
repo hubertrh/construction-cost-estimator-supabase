@@ -10,6 +10,22 @@ type NewQuoteProps = {
 };
 
 export default async function NewQuote({ params }: NewQuoteProps) {
+  function isValidUUID(uuid: string) {
+    return /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(
+      uuid,
+    );
+  }
+
+  if (!isValidUUID(params.projectId)) {
+    console.error("Invalid project ID");
+    return <p>Invalid project ID</p>;
+  }
+
+  if (!isValidUUID(params.quoteId)) {
+    console.error("Invalid quote ID");
+    return <p>Invalid quote ID</p>;
+  }
+
   const supabase = createClient();
 
   const { data: userData, error: userError } = await supabase.auth.getUser();
