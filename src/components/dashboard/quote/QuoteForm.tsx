@@ -50,7 +50,11 @@ export default function QuoteForm({
   const [isFlagVisible, setIsFlagVisible] = useState<{
     [key: string]: boolean;
   }>((quoteData[0]?.quote_flags as { [key: string]: boolean }) || {});
-  const [inputData, setInputData] = useState<{ [key: string]: number }>({});
+
+  const [inputData, setInputData] = useState<{ [key: string]: number }>(
+    (quoteData[0]?.quote_inputs as { [key: string]: number }) || {},
+  );
+
   const [currentContractorCosts, setCurrentContractorCosts] =
     useState<Database["public"]["Tables"]["contractor_costs"]["Row"]>();
 
