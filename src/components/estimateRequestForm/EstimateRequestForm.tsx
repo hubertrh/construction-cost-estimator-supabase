@@ -154,7 +154,7 @@ export function EstimateRequestForm({ user }: EstimateRequestFormProps) {
         }, 1000);
         setTimeout(() => {
           toast({
-            title: "Estimate Request Submitted!",
+            title: "🎉\u2003Estimate Request Submitted!",
             description: `Your request for ${values.projectName} has been submitted successfully`,
           });
         }, 2000);
