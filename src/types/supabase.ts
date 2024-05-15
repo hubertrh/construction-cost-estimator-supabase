@@ -4,278 +4,287 @@ export type Json =
   | boolean
   | null
   | { [key: string]: Json | undefined }
-  | Json[];
+  | Json[]
 
 export type Database = {
   public: {
     Tables: {
       contractor_costs: {
         Row: {
-          "0.1.1.1": number | null;
-          "0.1.1.2": number | null;
-          "0.1.2.1": number | null;
-          "0.1.2.2": number | null;
-          "0.1.3.1": number | null;
-          "0.1.3.2": number | null;
-          "0.2.1.1": number | null;
-          "0.2.1.2": number | null;
-          "0.2.1.3": number | null;
-          contractor_id: string | null;
-          id: string;
-        };
+          "0.1.1.1": number | null
+          "0.1.1.2": number | null
+          "0.1.2.1": number | null
+          "0.1.2.2": number | null
+          "0.1.3.1": number | null
+          "0.1.3.2": number | null
+          "0.2.1.1": number | null
+          "0.2.1.2": number | null
+          "0.2.1.3": number | null
+          contractor_id: string | null
+          id: string
+        }
         Insert: {
-          "0.1.1.1"?: number | null;
-          "0.1.1.2"?: number | null;
-          "0.1.2.1"?: number | null;
-          "0.1.2.2"?: number | null;
-          "0.1.3.1"?: number | null;
-          "0.1.3.2"?: number | null;
-          "0.2.1.1"?: number | null;
-          "0.2.1.2"?: number | null;
-          "0.2.1.3"?: number | null;
-          contractor_id?: string | null;
-          id?: string;
-        };
+          "0.1.1.1"?: number | null
+          "0.1.1.2"?: number | null
+          "0.1.2.1"?: number | null
+          "0.1.2.2"?: number | null
+          "0.1.3.1"?: number | null
+          "0.1.3.2"?: number | null
+          "0.2.1.1"?: number | null
+          "0.2.1.2"?: number | null
+          "0.2.1.3"?: number | null
+          contractor_id?: string | null
+          id?: string
+        }
         Update: {
-          "0.1.1.1"?: number | null;
-          "0.1.1.2"?: number | null;
-          "0.1.2.1"?: number | null;
-          "0.1.2.2"?: number | null;
-          "0.1.3.1"?: number | null;
-          "0.1.3.2"?: number | null;
-          "0.2.1.1"?: number | null;
-          "0.2.1.2"?: number | null;
-          "0.2.1.3"?: number | null;
-          contractor_id?: string | null;
-          id?: string;
-        };
+          "0.1.1.1"?: number | null
+          "0.1.1.2"?: number | null
+          "0.1.2.1"?: number | null
+          "0.1.2.2"?: number | null
+          "0.1.3.1"?: number | null
+          "0.1.3.2"?: number | null
+          "0.2.1.1"?: number | null
+          "0.2.1.2"?: number | null
+          "0.2.1.3"?: number | null
+          contractor_id?: string | null
+          id?: string
+        }
         Relationships: [
           {
-            foreignKeyName: "costs_contractor_id_fkey";
-            columns: ["contractor_id"];
-            isOneToOne: true;
-            referencedRelation: "profiles";
-            referencedColumns: ["id"];
+            foreignKeyName: "builder_costs_contractor_id_fkey"
+            columns: ["contractor_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
           },
-        ];
-      };
+        ]
+      }
       default_costs: {
         Row: {
-          "0.1.1.1": number | null;
-          "0.1.1.2": number | null;
-          "0.1.2.1": number | null;
-          "0.1.2.2": number | null;
-          "0.1.3.1": number | null;
-          "0.1.3.2": number | null;
-          "0.2.1.1": number | null;
-          "0.2.1.2": number | null;
-          "0.2.1.3": number | null;
-          id: string;
-        };
+          "0.1.1.1": number | null
+          "0.1.1.2": number | null
+          "0.1.2.1": number | null
+          "0.1.2.2": number | null
+          "0.1.3.1": number | null
+          "0.1.3.2": number | null
+          "0.2.1.1": number | null
+          "0.2.1.2": number | null
+          "0.2.1.3": number | null
+          created_at: string | null
+          id: string
+        }
         Insert: {
-          "0.1.1.1"?: number | null;
-          "0.1.1.2"?: number | null;
-          "0.1.2.1"?: number | null;
-          "0.1.2.2"?: number | null;
-          "0.1.3.1"?: number | null;
-          "0.1.3.2"?: number | null;
-          "0.2.1.1"?: number | null;
-          "0.2.1.2"?: number | null;
-          "0.2.1.3"?: number | null;
-          id?: string;
-        };
+          "0.1.1.1"?: number | null
+          "0.1.1.2"?: number | null
+          "0.1.2.1"?: number | null
+          "0.1.2.2"?: number | null
+          "0.1.3.1"?: number | null
+          "0.1.3.2"?: number | null
+          "0.2.1.1"?: number | null
+          "0.2.1.2"?: number | null
+          "0.2.1.3"?: number | null
+          created_at?: string | null
+          id?: string
+        }
         Update: {
-          "0.1.1.1"?: number | null;
-          "0.1.1.2"?: number | null;
-          "0.1.2.1"?: number | null;
-          "0.1.2.2"?: number | null;
-          "0.1.3.1"?: number | null;
-          "0.1.3.2"?: number | null;
-          "0.2.1.1"?: number | null;
-          "0.2.1.2"?: number | null;
-          "0.2.1.3"?: number | null;
-          id?: string;
-        };
-        Relationships: [];
-      };
+          "0.1.1.1"?: number | null
+          "0.1.1.2"?: number | null
+          "0.1.2.1"?: number | null
+          "0.1.2.2"?: number | null
+          "0.1.3.1"?: number | null
+          "0.1.3.2"?: number | null
+          "0.2.1.1"?: number | null
+          "0.2.1.2"?: number | null
+          "0.2.1.3"?: number | null
+          created_at?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
       nrm: {
         Row: {
-          el_1: string | null;
-          el_2: string | null;
-          el_3: string | null;
-          el_3_note: string | null;
-          el_4: string | null;
-          el_4_unit: string | null;
-          flag_1: number | null;
-          flag_2: number | null;
-          flag_3: number | null;
-          flag_4: number | null;
-          id: number;
-          measurement_rules: string | null;
-          note_excluded: string | null;
-          note_included: string | null;
-        };
+          el_1: string | null
+          el_2: string | null
+          el_3: string | null
+          el_3_note: string | null
+          el_4: string | null
+          el_4_unit: string | null
+          flag_1: number | null
+          flag_2: number | null
+          flag_3: number | null
+          flag_4: number | null
+          id: number
+          measurement_rules: string | null
+          note_excluded: string | null
+          note_included: string | null
+        }
         Insert: {
-          el_1?: string | null;
-          el_2?: string | null;
-          el_3?: string | null;
-          el_3_note?: string | null;
-          el_4?: string | null;
-          el_4_unit?: string | null;
-          flag_1?: number | null;
-          flag_2?: number | null;
-          flag_3?: number | null;
-          flag_4?: number | null;
-          id?: number;
-          measurement_rules?: string | null;
-          note_excluded?: string | null;
-          note_included?: string | null;
-        };
+          el_1?: string | null
+          el_2?: string | null
+          el_3?: string | null
+          el_3_note?: string | null
+          el_4?: string | null
+          el_4_unit?: string | null
+          flag_1?: number | null
+          flag_2?: number | null
+          flag_3?: number | null
+          flag_4?: number | null
+          id?: number
+          measurement_rules?: string | null
+          note_excluded?: string | null
+          note_included?: string | null
+        }
         Update: {
-          el_1?: string | null;
-          el_2?: string | null;
-          el_3?: string | null;
-          el_3_note?: string | null;
-          el_4?: string | null;
-          el_4_unit?: string | null;
-          flag_1?: number | null;
-          flag_2?: number | null;
-          flag_3?: number | null;
-          flag_4?: number | null;
-          id?: number;
-          measurement_rules?: string | null;
-          note_excluded?: string | null;
-          note_included?: string | null;
-        };
-        Relationships: [];
-      };
+          el_1?: string | null
+          el_2?: string | null
+          el_3?: string | null
+          el_3_note?: string | null
+          el_4?: string | null
+          el_4_unit?: string | null
+          flag_1?: number | null
+          flag_2?: number | null
+          flag_3?: number | null
+          flag_4?: number | null
+          id?: number
+          measurement_rules?: string | null
+          note_excluded?: string | null
+          note_included?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
-          app_role: Database["public"]["Enums"]["app_role"];
-          created_at: string;
-          id: string;
-          name: string | null;
-        };
+          app_role: Database["public"]["Enums"]["app_role"]
+          created_at: string
+          id: string
+          name: string | null
+        }
         Insert: {
-          app_role: Database["public"]["Enums"]["app_role"];
-          created_at?: string;
-          id: string;
-          name?: string | null;
-        };
+          app_role: Database["public"]["Enums"]["app_role"]
+          created_at?: string
+          id: string
+          name?: string | null
+        }
         Update: {
-          app_role?: Database["public"]["Enums"]["app_role"];
-          created_at?: string;
-          id?: string;
-          name?: string | null;
-        };
+          app_role?: Database["public"]["Enums"]["app_role"]
+          created_at?: string
+          id?: string
+          name?: string | null
+        }
         Relationships: [
           {
-            foreignKeyName: "profiles_id_fkey";
-            columns: ["id"];
-            isOneToOne: true;
-            referencedRelation: "users";
-            referencedColumns: ["id"];
+            foreignKeyName: "profiles_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
           },
-        ];
-      };
+        ]
+      }
       projects: {
         Row: {
-          client_email: string;
-          client_name: string;
-          contractor_preliminaries: string | null;
-          created_at: string;
-          desired_ohp: number;
-          google_drive_folder_link: string;
-          id: string;
-          project_city: string;
-          project_description: string | null;
-          project_name: string;
-          project_postcode: string;
-          project_status: Database["public"]["Enums"]["project_status"];
-          project_street_address: string;
-          updated_at: string;
-          user_id: string | null;
-        };
+          client_email: string
+          client_name: string
+          contractor_preliminaries: string | null
+          created_at: string
+          desired_ohp: number
+          google_drive_folder_link: string
+          id: string
+          project_city: string
+          project_description: string | null
+          project_name: string
+          project_postcode: string
+          project_status: Database["public"]["Enums"]["project_status"]
+          project_street_address: string
+          updated_at: string
+          user_id: string | null
+        }
         Insert: {
-          client_email: string;
-          client_name: string;
-          contractor_preliminaries?: string | null;
-          created_at?: string;
-          desired_ohp: number;
-          google_drive_folder_link: string;
-          id?: string;
-          project_city: string;
-          project_description?: string | null;
-          project_name: string;
-          project_postcode: string;
-          project_status?: Database["public"]["Enums"]["project_status"];
-          project_street_address: string;
-          updated_at?: string;
-          user_id?: string | null;
-        };
+          client_email: string
+          client_name: string
+          contractor_preliminaries?: string | null
+          created_at?: string
+          desired_ohp: number
+          google_drive_folder_link: string
+          id?: string
+          project_city: string
+          project_description?: string | null
+          project_name: string
+          project_postcode: string
+          project_status?: Database["public"]["Enums"]["project_status"]
+          project_street_address: string
+          updated_at?: string
+          user_id?: string | null
+        }
         Update: {
-          client_email?: string;
-          client_name?: string;
-          contractor_preliminaries?: string | null;
-          created_at?: string;
-          desired_ohp?: number;
-          google_drive_folder_link?: string;
-          id?: string;
-          project_city?: string;
-          project_description?: string | null;
-          project_name?: string;
-          project_postcode?: string;
-          project_status?: Database["public"]["Enums"]["project_status"];
-          project_street_address?: string;
-          updated_at?: string;
-          user_id?: string | null;
-        };
+          client_email?: string
+          client_name?: string
+          contractor_preliminaries?: string | null
+          created_at?: string
+          desired_ohp?: number
+          google_drive_folder_link?: string
+          id?: string
+          project_city?: string
+          project_description?: string | null
+          project_name?: string
+          project_postcode?: string
+          project_status?: Database["public"]["Enums"]["project_status"]
+          project_street_address?: string
+          updated_at?: string
+          user_id?: string | null
+        }
         Relationships: [
           {
-            foreignKeyName: "public_projects_user_fkey";
-            columns: ["user_id"];
-            isOneToOne: false;
-            referencedRelation: "profiles";
-            referencedColumns: ["id"];
+            foreignKeyName: "public_projects_user_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
           },
-        ];
-      };
+        ]
+      }
       quotes: {
         Row: {
-          created_at: string;
-          id: string;
-          project_id: string;
-        };
+          created_at: string
+          id: string
+          project_id: string
+          quote_flags: Json
+          quote_inputs: Json
+        }
         Insert: {
-          created_at?: string;
-          id?: string;
-          project_id: string;
-        };
+          created_at?: string
+          id?: string
+          project_id: string
+          quote_flags: Json
+          quote_inputs: Json
+        }
         Update: {
-          created_at?: string;
-          id?: string;
-          project_id?: string;
-        };
-        Relationships: [];
-      };
-    };
+          created_at?: string
+          id?: string
+          project_id?: string
+          quote_flags?: Json
+          quote_inputs?: Json
+        }
+        Relationships: []
+      }
+    }
     Views: {
-      [_ in never]: never;
-    };
+      [_ in never]: never
+    }
     Functions: {
-      [_ in never]: never;
-    };
+      [_ in never]: never
+    }
     Enums: {
-      app_role: "admin" | "client" | "contractor";
-      project_status: "pending" | "ready" | "cancelled" | "on hold";
-    };
+      app_role: "admin" | "client" | "builder"
+      project_status: "pending" | "ready" | "cancelled" | "on hold"
+    }
     CompositeTypes: {
-      [_ in never]: never;
-    };
-  };
-};
+      [_ in never]: never
+    }
+  }
+}
 
-type PublicSchema = Database[Extract<keyof Database, "public">];
+type PublicSchema = Database[Extract<keyof Database, "public">]
 
 export type Tables<
   PublicTableNameOrOptions extends
@@ -288,7 +297,7 @@ export type Tables<
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
       Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
-      Row: infer R;
+      Row: infer R
     }
     ? R
     : never
@@ -296,11 +305,11 @@ export type Tables<
         PublicSchema["Views"])
     ? (PublicSchema["Tables"] &
         PublicSchema["Views"])[PublicTableNameOrOptions] extends {
-        Row: infer R;
+        Row: infer R
       }
       ? R
       : never
-    : never;
+    : never
 
 export type TablesInsert<
   PublicTableNameOrOptions extends
@@ -311,17 +320,17 @@ export type TablesInsert<
     : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Insert: infer I;
+      Insert: infer I
     }
     ? I
     : never
   : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
     ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
-        Insert: infer I;
+        Insert: infer I
       }
       ? I
       : never
-    : never;
+    : never
 
 export type TablesUpdate<
   PublicTableNameOrOptions extends
@@ -332,17 +341,17 @@ export type TablesUpdate<
     : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Update: infer U;
+      Update: infer U
     }
     ? U
     : never
   : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
     ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
-        Update: infer U;
+        Update: infer U
       }
       ? U
       : never
-    : never;
+    : never
 
 export type Enums<
   PublicEnumNameOrOptions extends
@@ -355,4 +364,4 @@ export type Enums<
   ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
     ? PublicSchema["Enums"][PublicEnumNameOrOptions]
-    : never;
+    : never
