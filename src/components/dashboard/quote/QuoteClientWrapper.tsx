@@ -56,7 +56,7 @@ export default function QuoteClientWrapper({
         userId={userId}
         localStorageUpdated={localStorageUpdated}
       />
-      <QuoteBreadcrumbs steps={steps} currentStep={params.currentStep} />
+      <QuoteBreadcrumbs steps={steps} params={params} />
       <QuoteStepInfoAccordion steps={steps} currentStep={params.currentStep} />
       <QuoteForm
         nrmData={nrmData}

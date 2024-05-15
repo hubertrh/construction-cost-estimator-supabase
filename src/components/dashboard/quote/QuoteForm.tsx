@@ -55,6 +55,15 @@ export default function QuoteForm({
   const inputDataRef = useRef(inputData);
   const level4Ref = useRef(level4);
 
+  // Update refs when props change
+  useEffect(() => {
+    inputDataRef.current = inputData;
+  }, [inputData]);
+
+  useEffect(() => {
+    level4Ref.current = level4;
+  }, [level4]);
+
   useEffect(() => {
     setCurrentContractorCosts(
       costsData.find((costRow) => costRow.id === currentContractor),
@@ -80,11 +89,6 @@ export default function QuoteForm({
   }, [currentContractorCosts]);
 
   useEffect(() => {
-    // Update refs when props change
-    inputDataRef.current = inputData;
-  }, [inputData]);
-
-  useEffect(() => {
     function saveToLocalStorage(
       storageKey: string,
       data: {
@@ -104,10 +108,6 @@ export default function QuoteForm({
     saveToLocalStorage(`quoteFlags-${quoteReference}`, isFlagVisible);
     setLocalStorageUpdated(new Date().getTime());
   }, [inputData, isFlagVisible, quoteReference, setLocalStorageUpdated]);
-
-  useEffect(() => {
-    level4Ref.current = level4;
-  }, [level4]);
 
   function toggleVisibility(id: string) {
     setIsFlagVisible((prev) => ({

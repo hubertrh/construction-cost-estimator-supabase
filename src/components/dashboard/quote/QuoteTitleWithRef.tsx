@@ -2,7 +2,6 @@
 
 import { UUID } from "crypto";
 import { useCallback, useEffect, useState } from "react";
-import { RefreshCw } from "lucide-react";
 import QuoteCombobox from "./QuoteCombobox";
 import HoverBadge from "@/components/ui/HoverBadge";
 
@@ -49,6 +48,15 @@ export default function QuoteTitleWithRef({
         const flag2 = itemId.slice(-3)[0];
         const flag3 = itemId.slice(-2)[0];
 
+        // TODO: estimated cost of the group elements
+
+        // take the amounts from the passed prop which was directly TODO: fetched in the parent component.
+
+        // first flag is the current step which is always on, it will not have anything — the function can return or take 0.
+        // if only 1 & 2 flags are on, take the 1st amount from the prop.
+        // if only 1 & 2 & 3 flags are on, take the 2nd amount from the prop.
+        // if all the flags are on including the flag responsible for the input, it should count the amount from the input (localStorage).
+
         if (
           !parsedQuoteFlags[`${flag1}${flag2}`] ||
           !parsedQuoteFlags[`${flag1}${flag2}${flag3}`] ||
@@ -56,7 +64,7 @@ export default function QuoteTitleWithRef({
         )
           return; // Skip if the item is not selected for the quote
 
-        const amountKey = `amount-${itemId}`; // Construct the corresponding amount key
+        const amountKey = `amount-${itemId}`; // Construct the key
         const amount = parsedQuoteInputs[amountKey] || 0; // Get the amount or default to 0 if undefined
         const cost = parsedQuoteInputs[key]; // Get the cost from the key
 
