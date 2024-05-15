@@ -1,6 +1,5 @@
 import { UUID } from "crypto";
 import { ChevronRightIcon } from "lucide-react";
-import Link from "next/link";
 import QuoteBreadcrumbsButton from "./QuoteBreadcrumbsButton";
 
 type QuoteBreadcrumbsProps = {

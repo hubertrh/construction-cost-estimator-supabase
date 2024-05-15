@@ -45,15 +45,15 @@ export default function QuoteBreadcrumbsButton({
     } catch (error) {
       setIsSaving(false);
       toast({
-        title: "Failed to save quote",
+        title: "❗️\u2003Failed to save quote",
       });
       return;
     }
 
-    setIsSaving(false);
     toast({
-      title: "Quote saved!",
+      title: "🎉\u2003Quote saved!",
     });
+
     router.push(href);
   }
 
