@@ -55,6 +55,7 @@ export default function QuoteBreadcrumbsButton({
     });
 
     router.push(href);
+    router.refresh();
   }
 
   return (

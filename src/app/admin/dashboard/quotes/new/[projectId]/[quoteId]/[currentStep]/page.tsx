@@ -71,6 +71,16 @@ export default async function NewQuote({ params }: NewQuoteProps) {
     return <p>Failed to fetch project data</p>;
   }
 
+  const { data: quoteData, error: quoteError } = await supabase
+    .from("quotes")
+    .select("*")
+    .eq("id", params.quoteId);
+
+  if (quoteError) {
+    console.error(quoteError);
+    return <p>Failed to fetch quote data</p>;
+  }
+
   const { contractorsComboboxList, costsData } = await fetchCosts(
     supabase,
     userData.user.id,
@@ -90,6 +100,7 @@ export default async function NewQuote({ params }: NewQuoteProps) {
         steps={steps}
         contractorsComboboxList={contractorsComboboxList}
         costsData={typedCostsData}
+        quoteData={quoteData}
       />
     </div>
   );

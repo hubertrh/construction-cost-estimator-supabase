@@ -32,6 +32,7 @@ type QuoteFormProps = {
   costsData: Database["public"]["Tables"]["contractor_costs"]["Row"][];
   quoteReference: string;
   setLocalStorageUpdated: Dispatch<SetStateAction<number>>;
+  quoteData: Database["public"]["Tables"]["quotes"]["Row"][];
 };
 
 export default function QuoteForm({
@@ -40,6 +41,7 @@ export default function QuoteForm({
   costsData,
   quoteReference,
   setLocalStorageUpdated,
+  quoteData,
 }: QuoteFormProps) {
   const level2 = nrmData.filter((nrmRow) => nrmRow.flag_3 === 0);
   const level3 = nrmData.filter((nrmRow) => nrmRow.flag_4 === 0);
@@ -47,7 +49,7 @@ export default function QuoteForm({
 
   const [isFlagVisible, setIsFlagVisible] = useState<{
     [key: string]: boolean;
-  }>({});
+  }>((quoteData[0]?.quote_flags as { [key: string]: boolean }) || {});
   const [inputData, setInputData] = useState<{ [key: string]: number }>({});
   const [currentContractorCosts, setCurrentContractorCosts] =
     useState<Database["public"]["Tables"]["contractor_costs"]["Row"]>();

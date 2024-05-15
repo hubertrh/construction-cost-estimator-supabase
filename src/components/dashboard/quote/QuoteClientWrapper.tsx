@@ -25,6 +25,7 @@ type QuoteClientWrapperProps = {
     userId: UUID;
   }[];
   costsData: Database["public"]["Tables"]["contractor_costs"]["Row"][];
+  quoteData: Database["public"]["Tables"]["quotes"]["Row"][];
 };
 
 export default function QuoteClientWrapper({
@@ -35,6 +36,7 @@ export default function QuoteClientWrapper({
   steps,
   contractorsComboboxList,
   costsData,
+  quoteData,
 }: QuoteClientWrapperProps) {
   const [currentContractor, setCurrentContractor] = useState("default");
   const [localStorageUpdated, setLocalStorageUpdated] = useState(
@@ -64,8 +66,9 @@ export default function QuoteClientWrapper({
         costsData={costsData}
         quoteReference={params.quoteId.slice(-6)}
         setLocalStorageUpdated={setLocalStorageUpdated}
+        quoteData={quoteData}
       />
-      <QuotePagination steps={steps} currentStep={params.currentStep} />
+      <QuotePagination steps={steps} params={params} />
     </>
   );
 }
