@@ -25,15 +25,14 @@ export default function QuotePagination({
   params: { quoteId, projectId, currentStep },
 }: QuotePaginationProps) {
   const totalSteps = steps.length;
-  const quoteReference = quoteId.slice(-6);
 
   const router = useRouter();
   const { toast } = useToast();
   const [loadingStep, setLoadingStep] = useState<string | null>(null);
 
   async function saveQuote(href: string, step: string) {
-    const quoteInputs = localStorage.getItem(`quoteInputs-${quoteReference}`);
-    const quoteFlags = localStorage.getItem(`quoteFlags-${quoteReference}`);
+    const quoteInputs = localStorage.getItem(`quoteInputs-${quoteId}`);
+    const quoteFlags = localStorage.getItem(`quoteFlags-${quoteId}`);
 
     toast({
       title: "Saving quote...",

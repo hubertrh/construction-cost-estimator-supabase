@@ -20,15 +20,13 @@ export default function QuoteBreadcrumbsButton({
   projectId,
   children,
 }: QuoteBreadcrumbsButtonProps) {
-  const quoteReference = quoteId.slice(-6);
-
   const router = useRouter();
   const { toast } = useToast();
   const [isSaving, setIsSaving] = useState(false);
 
   async function saveQuote() {
-    const quoteInputs = localStorage.getItem(`quoteInputs-${quoteReference}`);
-    const quoteFlags = localStorage.getItem(`quoteFlags-${quoteReference}`);
+    const quoteInputs = localStorage.getItem(`quoteInputs-${quoteId}`);
+    const quoteFlags = localStorage.getItem(`quoteFlags-${quoteId}`);
 
     toast({
       title: "Saving quote...",

@@ -8,8 +8,8 @@ import HoverBadge from "@/components/ui/HoverBadge";
 type QuoteTitleWithRefProps = {
   userId: UUID;
   projectName: string;
-  projectReference: string;
-  quoteReference: string;
+  projectId: string;
+  quoteId: string;
   quoteContractorId: UUID | null;
   onChange: (value: UUID | null) => void;
   contractorsComboboxList: {
@@ -24,8 +24,8 @@ type QuoteTitleWithRefProps = {
 export default function QuoteTitleWithRef({
   userId,
   projectName,
-  projectReference,
-  quoteReference,
+  projectId,
+  quoteId,
   quoteContractorId,
   onChange,
   contractorsComboboxList,
@@ -34,9 +34,9 @@ export default function QuoteTitleWithRef({
   const [quoteTotalCost, setQuoteTotalCost] = useState(0);
 
   const handleQuoteRefresh = useCallback(() => {
-    const quoteInputs = localStorage.getItem(`quoteInputs-${quoteReference}`);
+    const quoteInputs = localStorage.getItem(`quoteInputs-${quoteId}`);
     const parsedQuoteInputs = quoteInputs ? JSON.parse(quoteInputs) : {};
-    const quoteFlags = localStorage.getItem(`quoteFlags-${quoteReference}`);
+    const quoteFlags = localStorage.getItem(`quoteFlags-${quoteId}`);
     const parsedQuoteFlags = quoteFlags ? JSON.parse(quoteFlags) : {};
 
     let totalCost = 0;
@@ -74,12 +74,9 @@ export default function QuoteTitleWithRef({
       }
     });
 
-    localStorage.setItem(
-      `quoteTotalCost-${quoteReference}`,
-      totalCost.toString(),
-    );
+    localStorage.setItem(`quoteTotalCost-${quoteId}`, totalCost.toString());
     setQuoteTotalCost(totalCost);
-  }, [quoteReference]);
+  }, [quoteId]);
 
   useEffect(() => {
     handleQuoteRefresh();
@@ -93,8 +90,8 @@ export default function QuoteTitleWithRef({
           {projectName}
         </p>
         <div className="flex items-center gap-4">
-          <HoverBadge label="P" reference={projectReference} />
-          <HoverBadge label="Q" reference={quoteReference} />
+          <HoverBadge label="P" reference={projectId.slice(-6)} />
+          <HoverBadge label="Q" reference={quoteId.slice(-6)} />
         </div>
       </div>
       <div className="flex items-center justify-between gap-8">

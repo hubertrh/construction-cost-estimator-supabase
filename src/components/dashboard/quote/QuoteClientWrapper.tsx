@@ -53,8 +53,8 @@ export default function QuoteClientWrapper({
     <>
       <QuoteTitleWithRef
         projectName={projectData[0].project_name}
-        projectReference={params.projectId.slice(-6)}
-        quoteReference={params.quoteId.slice(-6)}
+        projectId={params.projectId}
+        quoteId={params.quoteId}
         quoteContractorId={quoteContractorId ? quoteContractorId : null}
         onChange={handleDropdownChange}
         contractorsComboboxList={contractorsComboboxList}
@@ -67,7 +67,7 @@ export default function QuoteClientWrapper({
         nrmData={nrmData}
         currentContractor={currentContractor}
         costsData={costsData}
-        quoteReference={params.quoteId.slice(-6)}
+        quoteId={params.quoteId}
         setLocalStorageUpdated={setLocalStorageUpdated}
         quoteData={quoteData}
       />
