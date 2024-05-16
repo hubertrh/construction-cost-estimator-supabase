@@ -245,6 +245,7 @@ export type Database = {
       };
       quotes: {
         Row: {
+          contractor_id: string | null;
           created_at: string;
           id: string;
           project_id: string;
@@ -252,6 +253,7 @@ export type Database = {
           quote_inputs: Json;
         };
         Insert: {
+          contractor_id?: string | null;
           created_at?: string;
           id?: string;
           project_id: string;
@@ -259,13 +261,22 @@ export type Database = {
           quote_inputs: Json;
         };
         Update: {
+          contractor_id?: string | null;
           created_at?: string;
           id?: string;
           project_id?: string;
           quote_flags?: Json;
           quote_inputs?: Json;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "quotes_contractor_id_fkey";
+            columns: ["contractor_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
       };
     };
     Views: {
@@ -275,7 +286,7 @@ export type Database = {
       [_ in never]: never;
     };
     Enums: {
-      app_role: "admin" | "client" | "builder";
+      app_role: "admin" | "client" | "contractor";
       project_status: "pending" | "ready" | "cancelled" | "on hold";
     };
     CompositeTypes: {
