@@ -40,31 +40,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const supabase = createClient();
-  const { data: userData, error: userError } = await supabase.auth.getUser();
-
-  function Content() {
-    return (
-      <>
-        <NextTopLoader
-          color="#D19130"
-          height={5}
-          initialPosition={0.2}
-          easing="ease"
-          speed={500}
-        />
-        <Sidebar />
-        <main className="grid min-h-dvh place-items-center bg-background py-[10dvh] transition-all duration-200">
-          <div className="main-darker relative bg-background-light px-8 py-12 text-center transition-all lg:px-16">
-            {children}
-          </div>
-        </main>
-        <Toaster />
-        <Footer />
-        <Analytics />
-        <SpeedInsights />
-      </>
-    );
-  }
+  const { data: userData } = await supabase.auth.getUser();
 
   return (
     <html lang="en">
@@ -72,13 +48,25 @@ export default async function RootLayout({
         className={`${montserrat.className} ${ubuntu.variable} bg-background-dark 
           ${cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}`}
       >
-        {userError || !userData?.user ? (
-          <Content />
-        ) : (
-          <UserProvider userData={userData}>
-            <Content />
-          </UserProvider>
-        )}
+        <UserProvider userData={userData}>
+          <NextTopLoader
+            color="#D19130"
+            height={5}
+            initialPosition={0.2}
+            easing="ease"
+            speed={500}
+          />
+          <Sidebar />
+          <main className="grid min-h-dvh place-items-center bg-background py-[10dvh] transition-all duration-200">
+            <div className="main-darker relative bg-background-light px-8 py-12 text-center transition-all lg:px-16">
+              {children}
+            </div>
+          </main>
+          <Toaster />
+          <Footer />
+          <Analytics />
+          <SpeedInsights />
+        </UserProvider>
       </body>
     </html>
   );

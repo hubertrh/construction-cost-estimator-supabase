@@ -4,7 +4,7 @@ import { User } from "@supabase/supabase-js";
 import { createContext } from "react";
 
 type UserProviderProps = {
-  userData: { user: User };
+  userData: { user: User | null };
   children: React.ReactNode;
 };
 
