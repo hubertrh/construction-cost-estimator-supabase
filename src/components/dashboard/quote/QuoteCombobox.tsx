@@ -28,7 +28,7 @@ type QuoteComboboxProps = {
     costId: UUID;
     userId: UUID;
   }[];
-  onChange: (value: string) => void;
+  onChange: (value: UUID | null) => void;
 };
 
 export default function QuoteCombobox({
@@ -94,7 +94,7 @@ export default function QuoteCombobox({
                   value={contractor.value}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue);
-                    onChange(currentValue === value ? "" : contractor.costId);
+                    onChange(currentValue === value ? null : contractor.costId);
                     setOpen(false);
                   }}
                 >

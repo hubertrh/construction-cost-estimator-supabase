@@ -1,5 +1,6 @@
 "use client";
 
+import { UUID } from "crypto";
 import {
   ChangeEvent,
   Dispatch,
@@ -28,7 +29,7 @@ import { Input } from "@/components/ui/input";
 
 type QuoteFormProps = {
   nrmData: Database["public"]["Tables"]["nrm"]["Row"][];
-  currentContractor: string;
+  currentContractor: UUID | null;
   costsData: Database["public"]["Tables"]["contractor_costs"]["Row"][];
   quoteReference: string;
   setLocalStorageUpdated: Dispatch<SetStateAction<number>>;

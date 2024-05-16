@@ -38,14 +38,14 @@ export default function QuoteClientWrapper({
   costsData,
   quoteData,
 }: QuoteClientWrapperProps) {
-  const [currentContractor, setCurrentContractor] = useState("default");
+  const [currentContractor, setCurrentContractor] = useState<UUID | null>(null);
   const [localStorageUpdated, setLocalStorageUpdated] = useState(
     new Date().getTime(),
   );
 
   const quoteContractorId = quoteData[0]?.contractor_id as UUID;
 
-  const handleDropdownChange = (value: string) => {
+  const handleDropdownChange = (value: UUID | null) => {
     setCurrentContractor(value);
   };
 

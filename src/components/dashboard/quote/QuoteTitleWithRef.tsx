@@ -11,7 +11,7 @@ type QuoteTitleWithRefProps = {
   projectReference: string;
   quoteReference: string;
   quoteContractorId: UUID | null;
-  onChange: (value: string) => void;
+  onChange: (value: UUID | null) => void;
   contractorsComboboxList: {
     label: string;
     value: string;
