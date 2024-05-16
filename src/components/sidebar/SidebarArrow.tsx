@@ -1,16 +1,30 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+
+function debounce(fn: () => void, ms = 100) {
+  let timeout: NodeJS.Timeout;
+
+  return function executedFunction() {
+    const later = () => {
+      clearTimeout(timeout);
+      fn();
+    };
+
+    clearTimeout(timeout);
+    timeout = setTimeout(later, ms);
+  };
+}
 
 export default function SidebarArrow() {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(true);
 
-  const handleClick = () => {
-    const transformValue = isCollapsed ? "0%" : "-95%";
-    const marginValue = isCollapsed ? "20rem" : "1rem";
-    const maxWidthValue = isCollapsed ? "65vw" : "95vw";
-    const rotateValue = isCollapsed ? "-45deg" : "135deg";
+  const updateStyles = useCallback(() => {
+    const transformValue = isExpanded ? "0%" : "-95%";
+    const marginValue = isExpanded ? "20rem" : "1rem";
+    const maxWidthValue = isExpanded ? "65vw" : "95vw";
+    const rotateValue = isExpanded ? "-45deg" : "135deg";
     document.documentElement.style.setProperty(
       "--sidebar-transform",
       transformValue,
@@ -24,9 +38,32 @@ export default function SidebarArrow() {
       maxWidthValue,
     );
     document.documentElement.style.setProperty("--arrow-rotate", rotateValue);
+  }, [isExpanded]);
 
-    setIsCollapsed(!isCollapsed);
-  };
+  useEffect(() => {
+    const isWide = window.innerWidth > 1320;
+    setIsExpanded(isWide);
+  }, []);
+
+  // Update styles on mount and when isCollapsed changes
+  useEffect(() => {
+    updateStyles();
+  }, [isExpanded, updateStyles]);
+
+  useEffect(() => {
+    const handleResize = debounce(() => {
+      const isWide = window.innerWidth > 1320;
+      setIsExpanded(isWide);
+    }, 100);
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  function handleClick() {
+    updateStyles();
+    setIsExpanded(!isExpanded);
+  }
 
   return (
     <button

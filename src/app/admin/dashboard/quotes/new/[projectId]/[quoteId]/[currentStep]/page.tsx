@@ -4,12 +4,23 @@ import { fetchUserRole } from "@/utils/supabase/userCalls";
 import QuoteClientWrapper from "@/components/dashboard/quote/QuoteClientWrapper";
 import { fetchCosts } from "@/utils/supabase/costsCalls";
 import { Database } from "@/types/supabase";
+import isValidUUID from "@/utils/uuidHelpers";
 
 type NewQuoteProps = {
-  params: { project: UUID; currentStep: string };
+  params: { projectId: UUID; quoteId: UUID; currentStep: string };
 };
 
 export default async function NewQuote({ params }: NewQuoteProps) {
+  if (!isValidUUID(params.projectId)) {
+    console.error("Invalid project ID");
+    return <p>Invalid project ID</p>;
+  }
+
+  if (!isValidUUID(params.quoteId)) {
+    console.error("Invalid quote ID");
+    return <p>Invalid quote ID</p>;
+  }
+
   const supabase = createClient();
 
   const { data: userData, error: userError } = await supabase.auth.getUser();
@@ -53,11 +64,21 @@ export default async function NewQuote({ params }: NewQuoteProps) {
   const { data: projectData, error: projectError } = await supabase
     .from("projects")
     .select("*")
-    .eq("id", params.project);
+    .eq("id", params.projectId);
 
   if (projectError) {
     console.error(projectError);
     return <p>Failed to fetch project data</p>;
+  }
+
+  const { data: quoteData, error: quoteError } = await supabase
+    .from("quotes")
+    .select("*")
+    .eq("id", params.quoteId);
+
+  if (quoteError) {
+    console.error(quoteError);
+    return <p>Failed to fetch quote data</p>;
   }
 
   const { contractorsComboboxList, costsData } = await fetchCosts(
@@ -69,17 +90,17 @@ export default async function NewQuote({ params }: NewQuoteProps) {
   const typedCostsData: Database["public"]["Tables"]["contractor_costs"]["Row"][] =
     costsData;
 
-  console.log(contractorsComboboxList, typedCostsData);
-
   return (
     <div className="min-h-[calc(100vh-20dvh-6rem)] w-[45rem] [&_*]:text-pretty">
       <QuoteClientWrapper
+        userId={userData.user.id as UUID}
         params={params}
         projectData={projectData}
         nrmData={nrmData}
         steps={steps}
         contractorsComboboxList={contractorsComboboxList}
         costsData={typedCostsData}
+        quoteData={quoteData}
       />
     </div>
   );

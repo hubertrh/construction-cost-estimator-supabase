@@ -108,7 +108,7 @@ export function LoginForm() {
               />
               Continue with Google
             </Button>
-            {/* TODO: */}
+            {/* TODO: Add login with Microsoft */}
             {/* <Button
               variant="outline"
               className="w-full"

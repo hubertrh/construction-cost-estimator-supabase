@@ -22,7 +22,7 @@ export async function fetchCosts(
 
   if (costsError) throw new Error("Failed to fetch costs");
 
-  // TODO:
+  // TODO: Fetch default costs
   // const { data: defaultCostsData, error: defaultCostsError } =
   //   await supabaseClient
   //     .from("default_costs")

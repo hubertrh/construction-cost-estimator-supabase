@@ -1,46 +1,87 @@
 "use client";
 
 import { UUID } from "crypto";
-import { useState } from "react";
-import { RefreshCw } from "lucide-react";
-import { Badge } from "../../ui/badge";
+import { useCallback, useEffect, useState } from "react";
 import QuoteCombobox from "./QuoteCombobox";
+import HoverBadge from "@/components/ui/HoverBadge";
 
 type QuoteTitleWithRefProps = {
+  userId: UUID;
   projectName: string;
   projectReference: string;
+  quoteReference: string;
   onChange: (value: string) => void;
-  contractorsComboboxList: { label: string; value: string; costId: UUID }[];
+  contractorsComboboxList: {
+    label: string;
+    value: string;
+    costId: UUID;
+    userId: UUID;
+  }[];
+  localStorageUpdated: number;
 };
 
 export default function QuoteTitleWithRef({
+  userId,
   projectName,
   projectReference,
+  quoteReference,
   onChange,
   contractorsComboboxList,
+  localStorageUpdated,
 }: QuoteTitleWithRefProps) {
-  const [refCopyStatus, setRefCopyStatus] = useState("");
-  const [refHoverStatus, setRefHoverStatus] = useState(false);
-  const [selectedValue, setSelectedValue] = useState("");
+  const [quoteTotalCost, setQuoteTotalCost] = useState(0);
 
-  // const handleDropdownChange = (e: ChangeEvent<HTMLSelectElement>) => {
-  //   const value = e.target.value;
-  //   setSelectedValue(value);
-  //   // Pass the value to the parent component
-  //   onChange(value);
-  // };
+  const handleQuoteRefresh = useCallback(() => {
+    const quoteInputs = localStorage.getItem(`quoteInputs-${quoteReference}`);
+    const parsedQuoteInputs = quoteInputs ? JSON.parse(quoteInputs) : {};
+    const quoteFlags = localStorage.getItem(`quoteFlags-${quoteReference}`);
+    const parsedQuoteFlags = quoteFlags ? JSON.parse(quoteFlags) : {};
 
-  const handleProjectReferenceCopy = () => {
-    navigator.clipboard.writeText(projectReference);
-    setRefCopyStatus("copied");
-    setTimeout(() => {
-      setRefCopyStatus("");
-    }, 1000);
-  };
+    let totalCost = 0;
 
-  const handleHover = () => {
-    setRefHoverStatus(!refHoverStatus);
-  };
+    // Loop through each key in the data object
+    Object.keys(parsedQuoteInputs).forEach((key) => {
+      // Check if the key is for a cost and find its corresponding amount
+      if (key.startsWith("cost-")) {
+        const itemId = key.split("cost-")[1]; // Extract the item ID
+        const flag1 = itemId.slice(-4)[0];
+        const flag2 = itemId.slice(-3)[0];
+        const flag3 = itemId.slice(-2)[0];
+
+        // TODO: estimated cost of the group elements
+
+        // take the amounts from the passed prop which was directly TODO: fetched in the parent component.
+
+        // first flag is the current step which is always on, it will not have anything — the function can return or take 0.
+        // if only 1 & 2 flags are on, take the 1st amount from the prop.
+        // if only 1 & 2 & 3 flags are on, take the 2nd amount from the prop.
+        // if all the flags are on including the flag responsible for the input, it should count the amount from the input (localStorage).
+
+        if (
+          !parsedQuoteFlags[`${flag1}${flag2}`] ||
+          !parsedQuoteFlags[`${flag1}${flag2}${flag3}`] ||
+          !parsedQuoteFlags[itemId]
+        )
+          return; // Skip if the item is not selected for the quote
+
+        const amountKey = `amount-${itemId}`; // Construct the key
+        const amount = parsedQuoteInputs[amountKey] || 0; // Get the amount or default to 0 if undefined
+        const cost = parsedQuoteInputs[key]; // Get the cost from the key
+
+        totalCost += cost * amount;
+      }
+    });
+
+    localStorage.setItem(
+      `quoteTotalCost-${quoteReference}`,
+      totalCost.toString(),
+    );
+    setQuoteTotalCost(totalCost);
+  }, [quoteReference]);
+
+  useEffect(() => {
+    handleQuoteRefresh();
+  }, [handleQuoteRefresh, localStorageUpdated]);
 
   return (
     <div className="sticky top-0 z-10 min-w-[28rem] bg-background-light pb-1 pt-4">
@@ -49,35 +90,21 @@ export default function QuoteTitleWithRef({
           {"// "}
           {projectName}
         </p>
-        <div className="flex items-center gap-2">
-          <p className="mt-1 text-gray-500">Project Ref:</p>
-          <Badge
-            className="w-20 cursor-pointer text-center uppercase"
-            onMouseEnter={handleHover}
-            onMouseLeave={handleHover}
-            onClick={handleProjectReferenceCopy}
-          >
-            {refCopyStatus === "copied"
-              ? "Copied"
-              : refHoverStatus
-                ? "Copy"
-                : projectReference}
-          </Badge>
+        <div className="flex items-center gap-4">
+          <HoverBadge label="P" reference={projectReference} />
+          <HoverBadge label="Q" reference={quoteReference} />
         </div>
       </div>
       <div className="flex items-center justify-between gap-8">
         <div className="flex items-center">
           <h1 className="text-2xl font-medium">New Quote&emsp;</h1>
           <QuoteCombobox
+            userId={userId}
             contractorsComboboxList={contractorsComboboxList}
             onChange={onChange}
           />
         </div>
-        <div className="flex items-center">
-          {/* TODO: */}
-          <h2 className="p-0 text-2xl font-medium">~£125,000</h2>
-          <RefreshCw className="ml-2 size-5 cursor-pointer text-gray hover:text-accent-primary-dark" />
-        </div>
+        <h2 className="p-0 text-2xl font-medium">~ £{quoteTotalCost}</h2>
       </div>
     </div>
   );

@@ -51,7 +51,7 @@ export type Database = {
         };
         Relationships: [
           {
-            foreignKeyName: "costs_contractor_id_fkey";
+            foreignKeyName: "builder_costs_contractor_id_fkey";
             columns: ["contractor_id"];
             isOneToOne: true;
             referencedRelation: "profiles";
@@ -70,6 +70,7 @@ export type Database = {
           "0.2.1.1": number | null;
           "0.2.1.2": number | null;
           "0.2.1.3": number | null;
+          created_at: string | null;
           id: string;
         };
         Insert: {
@@ -82,6 +83,7 @@ export type Database = {
           "0.2.1.1"?: number | null;
           "0.2.1.2"?: number | null;
           "0.2.1.3"?: number | null;
+          created_at?: string | null;
           id?: string;
         };
         Update: {
@@ -94,6 +96,7 @@ export type Database = {
           "0.2.1.1"?: number | null;
           "0.2.1.2"?: number | null;
           "0.2.1.3"?: number | null;
+          created_at?: string | null;
           id?: string;
         };
         Relationships: [];
@@ -245,16 +248,22 @@ export type Database = {
           created_at: string;
           id: string;
           project_id: string;
+          quote_flags: Json;
+          quote_inputs: Json;
         };
         Insert: {
           created_at?: string;
           id?: string;
           project_id: string;
+          quote_flags: Json;
+          quote_inputs: Json;
         };
         Update: {
           created_at?: string;
           id?: string;
           project_id?: string;
+          quote_flags?: Json;
+          quote_inputs?: Json;
         };
         Relationships: [];
       };
@@ -266,7 +275,7 @@ export type Database = {
       [_ in never]: never;
     };
     Enums: {
-      app_role: "admin" | "client" | "contractor";
+      app_role: "admin" | "client" | "builder";
       project_status: "pending" | "ready" | "cancelled" | "on hold";
     };
     CompositeTypes: {

@@ -1,6 +1,13 @@
 "use client";
 
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   ClipboardMinus,
   ClipboardPlus,
@@ -23,24 +30,45 @@ type QuoteFormProps = {
   nrmData: Database["public"]["Tables"]["nrm"]["Row"][];
   currentContractor: string;
   costsData: Database["public"]["Tables"]["contractor_costs"]["Row"][];
+  quoteReference: string;
+  setLocalStorageUpdated: Dispatch<SetStateAction<number>>;
+  quoteData: Database["public"]["Tables"]["quotes"]["Row"][];
 };
 
 export default function QuoteForm({
   nrmData,
   currentContractor,
   costsData,
+  quoteReference,
+  setLocalStorageUpdated,
+  quoteData,
 }: QuoteFormProps) {
   const level2 = nrmData.filter((nrmRow) => nrmRow.flag_3 === 0);
   const level3 = nrmData.filter((nrmRow) => nrmRow.flag_4 === 0);
   const level4 = nrmData.filter((nrmRow) => nrmRow.flag_4 !== 0);
 
-  const [visible, setVisible] = useState<{ [key: string]: boolean }>({});
-  const [inputData, setInputData] = useState<{ [key: string]: number }>({});
+  const [isFlagVisible, setIsFlagVisible] = useState<{
+    [key: string]: boolean;
+  }>((quoteData[0]?.quote_flags as { [key: string]: boolean }) || {});
+
+  const [inputData, setInputData] = useState<{ [key: string]: number }>(
+    (quoteData[0]?.quote_inputs as { [key: string]: number }) || {},
+  );
+
   const [currentContractorCosts, setCurrentContractorCosts] =
     useState<Database["public"]["Tables"]["contractor_costs"]["Row"]>();
 
   const inputDataRef = useRef(inputData);
   const level4Ref = useRef(level4);
+
+  // Update refs when props change
+  useEffect(() => {
+    inputDataRef.current = inputData;
+  }, [inputData]);
+
+  useEffect(() => {
+    level4Ref.current = level4;
+  }, [level4]);
 
   useEffect(() => {
     setCurrentContractorCosts(
@@ -66,38 +94,47 @@ export default function QuoteForm({
     });
   }, [currentContractorCosts]);
 
-  // Update refs when props change
   useEffect(() => {
-    inputDataRef.current = inputData;
-  }, [inputData]);
+    function saveToLocalStorage(
+      storageKey: string,
+      data: {
+        [key: string]: number | boolean;
+      },
+    ) {
+      const existingData = localStorage.getItem(storageKey);
+      const parsedExistingData = existingData ? JSON.parse(existingData) : {};
 
-  useEffect(() => {
-    level4Ref.current = level4;
-  }, [level4]);
+      // Add new keys and update existing ones
+      const updatedData = { ...parsedExistingData, ...data };
 
-  const toggleVisibility = (id: string) => {
-    setVisible((prev) => ({
+      localStorage.setItem(storageKey, JSON.stringify(updatedData));
+    }
+
+    saveToLocalStorage(`quoteInputs-${quoteReference}`, inputData);
+    saveToLocalStorage(`quoteFlags-${quoteReference}`, isFlagVisible);
+    setLocalStorageUpdated(new Date().getTime());
+  }, [inputData, isFlagVisible, quoteReference, setLocalStorageUpdated]);
+
+  function toggleVisibility(id: string) {
+    setIsFlagVisible((prev) => ({
       ...prev,
       [id]: !prev[id],
     }));
-  };
+  }
 
-  const handleInputChange = (
-    event: ChangeEvent<HTMLInputElement>,
-    id: string,
-  ) => {
+  function handleInputChange(event: ChangeEvent<HTMLInputElement>, id: string) {
     setInputData((prev) => ({
       ...prev,
       [id]: Number(event.target.value),
     }));
-  };
+  }
 
-  const handleCostReset = (
+  function handleCostReset(
     flag1: number | null,
     flag2: number | null,
     flag3: number | null,
     flag4: number | null,
-  ) => {
+  ) {
     const inputKey = `cost-${flag1}${flag2}${flag3}${flag4}`;
     const costKey = `${flag1}.${flag2}.${flag3}.${flag4}`;
 
@@ -109,7 +146,7 @@ export default function QuoteForm({
         ] || 0,
       ),
     }));
-  };
+  }
 
   return (
     <ul className="quote-ul mx-8 mb-2 mt-6 text-left">
@@ -120,14 +157,14 @@ export default function QuoteForm({
               <div className="flex">
                 <Switch
                   className="mr-2 mt-1"
-                  checked={!!visible[`${nrm2.flag_1}${nrm2.flag_2}`]}
+                  checked={!!isFlagVisible[`${nrm2.flag_1}${nrm2.flag_2}`]}
                   onCheckedChange={() =>
                     toggleVisibility(`${nrm2.flag_1}${nrm2.flag_2}`)
                   }
                 />
                 <p>{nrm2.el_2}</p>
               </div>
-              {visible[`${nrm2.flag_1}${nrm2.flag_2}`] && (
+              {isFlagVisible[`${nrm2.flag_1}${nrm2.flag_2}`] && (
                 <ul className="mb-2 ml-8">
                   {level3.map(
                     (nrm3) =>
@@ -139,7 +176,7 @@ export default function QuoteForm({
                             <Switch
                               className="mr-2 mt-1"
                               checked={
-                                !!visible[
+                                !!isFlagVisible[
                                   `${nrm3.flag_1}${nrm3.flag_2}${nrm3.flag_3}`
                                 ]
                               }
@@ -163,7 +200,7 @@ export default function QuoteForm({
                               )}
                             </div>
                           </div>
-                          {visible[
+                          {isFlagVisible[
                             `${nrm3.flag_1}${nrm3.flag_2}${nrm3.flag_3}`
                           ] && (
                             <ul className="mb-2 ml-8">
@@ -177,7 +214,7 @@ export default function QuoteForm({
                                         <Switch
                                           className="mr-2 mt-1"
                                           checked={
-                                            !!visible[
+                                            !!isFlagVisible[
                                               `${nrm4.flag_1}${nrm4.flag_2}${nrm4.flag_3}${nrm4.flag_4}`
                                             ]
                                           }
@@ -221,7 +258,7 @@ export default function QuoteForm({
                                               </Popover>
                                             )}
                                           </div>
-                                          {visible[
+                                          {isFlagVisible[
                                             `${nrm4.flag_1}${nrm4.flag_2}${nrm4.flag_3}${nrm4.flag_4}`
                                           ] && (
                                             <div className="mt-1 grid gap-1">
@@ -307,9 +344,9 @@ export default function QuoteForm({
                                                   className="ml-2 w-24"
                                                   id={`cost-${nrm4.flag_1}${nrm4.flag_2}${nrm4.flag_3}${nrm4.flag_4}`}
                                                   type="number"
-                                                  // TODO:
                                                   placeholder="123.45"
                                                   required
+                                                  // FIXME: Fetch from local storage first
                                                   value={
                                                     inputData[
                                                       `cost-${nrm4.flag_1}${nrm4.flag_2}${nrm4.flag_3}${nrm4.flag_4}`

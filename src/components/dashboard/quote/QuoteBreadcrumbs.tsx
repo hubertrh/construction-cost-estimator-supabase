@@ -1,32 +1,43 @@
+import { UUID } from "crypto";
 import { ChevronRightIcon } from "lucide-react";
-import Link from "next/link";
+import QuoteBreadcrumbsButton from "./QuoteBreadcrumbsButton";
 
 type QuoteBreadcrumbsProps = {
   steps: { el_1: string | null }[];
-  currentStep: string;
+  params: { projectId: UUID; quoteId: UUID; currentStep: string };
 };
 
 export default function QuoteBreadcrumbs({
   steps,
-  currentStep,
+  params,
 }: QuoteBreadcrumbsProps) {
+  const { currentStep } = params;
+
   return (
     <div className="my-4 flex select-none items-center justify-center gap-2">
       {steps[parseInt(currentStep)]?.el_1 === undefined &&
         steps[parseInt(currentStep) - 2]?.el_1 && (
           <>
-            <Link href={`./${parseInt(currentStep) - 2}`} className="text-gray">
+            <QuoteBreadcrumbsButton
+              href={`./${parseInt(currentStep) - 2}`}
+              projectId={params.projectId}
+              quoteId={params.quoteId}
+            >
               {steps[parseInt(currentStep) - 3].el_1}
-            </Link>
+            </QuoteBreadcrumbsButton>
             <ChevronRightIcon className="size-6 text-gray" />
           </>
         )}
 
       {steps[parseInt(currentStep) - 2]?.el_1 && (
         <>
-          <Link href={`./${parseInt(currentStep) - 1}`} className="text-gray">
+          <QuoteBreadcrumbsButton
+            href={`./${parseInt(currentStep) - 1}`}
+            projectId={params.projectId}
+            quoteId={params.quoteId}
+          >
             {steps[parseInt(currentStep) - 2].el_1}
-          </Link>
+          </QuoteBreadcrumbsButton>
           <ChevronRightIcon className="size-6 text-gray" />
         </>
       )}
@@ -38,9 +49,13 @@ export default function QuoteBreadcrumbs({
       {steps[parseInt(currentStep)]?.el_1 && (
         <>
           <ChevronRightIcon className="size-6 text-gray" />
-          <Link href={`./${parseInt(currentStep) + 1}`} className="text-gray">
+          <QuoteBreadcrumbsButton
+            href={`./${parseInt(currentStep) + 1}`}
+            projectId={params.projectId}
+            quoteId={params.quoteId}
+          >
             {steps[parseInt(currentStep)].el_1}
-          </Link>
+          </QuoteBreadcrumbsButton>
         </>
       )}
 
@@ -48,9 +63,13 @@ export default function QuoteBreadcrumbs({
         steps[parseInt(currentStep) + 1]?.el_1 && (
           <>
             <ChevronRightIcon className="size-6 text-gray" />
-            <Link href={`./${parseInt(currentStep) + 2}`} className="text-gray">
+            <QuoteBreadcrumbsButton
+              href={`./${parseInt(currentStep) + 2}`}
+              projectId={params.projectId}
+              quoteId={params.quoteId}
+            >
               {steps[parseInt(currentStep) + 1].el_1}
-            </Link>
+            </QuoteBreadcrumbsButton>
           </>
         )}
     </div>
