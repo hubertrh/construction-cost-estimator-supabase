@@ -10,6 +10,7 @@ type QuoteTitleWithRefProps = {
   projectName: string;
   projectReference: string;
   quoteReference: string;
+  quoteContractorId: UUID | null;
   onChange: (value: string) => void;
   contractorsComboboxList: {
     label: string;
@@ -25,6 +26,7 @@ export default function QuoteTitleWithRef({
   projectName,
   projectReference,
   quoteReference,
+  quoteContractorId,
   onChange,
   contractorsComboboxList,
   localStorageUpdated,
@@ -100,6 +102,7 @@ export default function QuoteTitleWithRef({
           <h1 className="text-2xl font-medium">New Quote&emsp;</h1>
           <QuoteCombobox
             userId={userId}
+            quoteContractorId={quoteContractorId}
             contractorsComboboxList={contractorsComboboxList}
             onChange={onChange}
           />

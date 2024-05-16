@@ -43,6 +43,8 @@ export default function QuoteClientWrapper({
     new Date().getTime(),
   );
 
+  const quoteContractorId = quoteData[0]?.contractor_id as UUID;
+
   const handleDropdownChange = (value: string) => {
     setCurrentContractor(value);
   };
@@ -53,6 +55,7 @@ export default function QuoteClientWrapper({
         projectName={projectData[0].project_name}
         projectReference={params.projectId.slice(-6)}
         quoteReference={params.quoteId.slice(-6)}
+        quoteContractorId={quoteContractorId ? quoteContractorId : null}
         onChange={handleDropdownChange}
         contractorsComboboxList={contractorsComboboxList}
         userId={userId}

@@ -21,6 +21,7 @@ import { cn } from "@/lib/utils";
 
 type QuoteComboboxProps = {
   userId: UUID;
+  quoteContractorId: UUID | null;
   contractorsComboboxList: {
     label: string;
     value: string;
@@ -32,6 +33,7 @@ type QuoteComboboxProps = {
 
 export default function QuoteCombobox({
   userId,
+  quoteContractorId,
   contractorsComboboxList,
   onChange,
 }: QuoteComboboxProps) {
@@ -41,8 +43,19 @@ export default function QuoteCombobox({
   const onChangeRef = useRef(onChange);
   onChangeRef.current = onChange;
 
-  // set the contractor based on provided userId
+  // set the contractor based on provided quoteContractorId or userId
   useEffect(() => {
+    if (quoteContractorId) {
+      const quoteContractor = contractorsComboboxList.find(
+        (contractor) => contractor.userId === quoteContractorId,
+      );
+      if (quoteContractor) {
+        setValue(quoteContractor.value);
+        onChangeRef.current(quoteContractor.costId);
+        return;
+      }
+    }
+
     const userContractor = contractorsComboboxList.find(
       (contractor) => contractor.userId === userId,
     );
@@ -50,7 +63,7 @@ export default function QuoteCombobox({
       setValue(userContractor.value);
       onChangeRef.current(userContractor.costId);
     }
-  }, [contractorsComboboxList, userId]);
+  }, [contractorsComboboxList, userId, quoteContractorId]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
