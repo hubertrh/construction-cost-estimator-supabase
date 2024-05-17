@@ -1,4 +1,4 @@
-import { SupabaseClient } from "@supabase/supabase-js";
+import { AuthError, SupabaseClient, User } from "@supabase/supabase-js";
 import Link from "next/link";
 import ProjectLink from "./ProjectLink";
 import { createClient } from "@/utils/supabase/server";
@@ -33,14 +33,24 @@ async function fetchProjects(
   return { projects: data, message: null };
 }
 
+type SidebarRecentProjectsProps = {
+  userData:
+    | {
+        user: User;
+      }
+    | {
+        user: null;
+      };
+  userError: AuthError | null;
+};
+
 // Main sidebar component
-export default async function SidebarRecentProjects() {
-  const supabase = createClient();
-
+export default async function SidebarRecentProjects({
+  userData,
+  userError,
+}: SidebarRecentProjectsProps) {
   try {
-    const { data: user, error: userError } = await supabase.auth.getUser();
-
-    if (userError || !user?.user)
+    if (userError || !userData?.user)
       return (
         <div className="bg-accent-primary-dark p-4 font-ubuntu">
           <p className="mb-2 text-lg font-normal">Recent Projects</p>
@@ -56,19 +66,22 @@ export default async function SidebarRecentProjects() {
         </div>
       );
 
-    const userRole = await fetchUserRole(supabase, user.user.id);
+    const supabase = createClient();
+    const userRole = await fetchUserRole(supabase, userData.user.id);
+
     const sidebarProjectsQueryOptions = {
       order: "updated_at",
       orderDirection: { ascending: false },
       limit: 7,
       filterColumn: userRole === "client" ? "user_id" : "project_status",
-      filterValue: userRole === "client" ? user.user.id : "pending",
+      filterValue: userRole === "client" ? userData.user.id : "pending",
     };
 
     const { projects, message: projectsMessage } = await fetchProjects(
       supabase,
       sidebarProjectsQueryOptions,
     );
+
     if (projectsMessage)
       return (
         <div className="bg-accent-primary-dark p-4 font-ubuntu">
