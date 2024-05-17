@@ -3,7 +3,7 @@ import { DataTable } from "@/components/projectsDataTable/DataTable";
 import { adminProjectsColumns } from "@/components/projectsDataTable/AdminProjectsColumns";
 import DashboardTabs from "@/components/dashboard/DashboardTabs";
 
-export default async function PrivatePage() {
+export default async function ClientRequests() {
   const supabase = createClient();
 
   const { data: projects, error: projectsError } = await supabase
