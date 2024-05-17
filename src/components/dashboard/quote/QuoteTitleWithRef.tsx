@@ -50,7 +50,7 @@ export default function QuoteTitleWithRef({
         const flag2 = itemId.slice(-3)[0];
         const flag3 = itemId.slice(-2)[0];
 
-        // TODO: estimated cost of the group elements
+        // TODO: Estimated cost of the group elements
 
         // take the amounts from the passed prop which was directly TODO: fetched in the parent component.
 
