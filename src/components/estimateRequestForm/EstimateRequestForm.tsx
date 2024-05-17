@@ -397,7 +397,7 @@ export function EstimateRequestForm({ user }: EstimateRequestFormProps) {
                         disabled={isUploading}
                         type="file"
                         required
-                        className={`h-fit text-xs file:mr-4 file:rounded file:bg-accent-secondary file:px-3 file:py-2 file:text-white file:transition-all file:duration-200 file:hover:scale-[103%] file:hover:shadow ${
+                        className={`h-fit text-xs file:mr-4 file:cursor-pointer file:rounded file:border file:border-solid file:border-accent-primary/80 file:bg-white file:px-3 file:py-2 file:transition-all file:duration-200 file:hover:scale-[103%] file:hover:bg-white/60 file:hover:text-slate-900 file:hover:shadow ${
                           fileUploadSuccess[index]
                             ? "file:bg-white file:text-black disabled:bg-green-500/40"
                             : ""
