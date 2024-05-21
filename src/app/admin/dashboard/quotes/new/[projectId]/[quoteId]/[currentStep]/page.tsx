@@ -13,11 +13,13 @@ type NewQuoteProps = {
 export default async function NewQuote({ params }: NewQuoteProps) {
   if (!isValidUUID(params.projectId)) {
     console.error("Invalid project ID");
+    console.error(`Invalid project ID: ${params.projectId}`);
     return <p>Invalid project ID</p>;
   }
 
   if (!isValidUUID(params.quoteId)) {
     console.error("Invalid quote ID");
+    console.error(`Invalid quote ID: ${params.quoteId}`);
     return <p>Invalid quote ID</p>;
   }
 
@@ -69,6 +71,12 @@ export default async function NewQuote({ params }: NewQuoteProps) {
   if (projectError) {
     console.error(projectError);
     return <p>Failed to fetch project data</p>;
+  }
+
+  if (!projectData || projectData.length === 0) {
+    console.error("Project not found");
+    console.error(`Project not found: ${params.projectId}`);
+    return <p>Project not found</p>;
   }
 
   const { data: quoteData, error: quoteError } = await supabase
