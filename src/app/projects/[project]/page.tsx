@@ -27,7 +27,8 @@ export default async function Project({ params }: ProjectProps) {
   // ask for postcode if user is not the owner of the project
   if (userError || !user?.user) {
     return (
-      <Suspense>
+      // TODO: Create a fallback component for the Suspense component
+      <Suspense fallback={<p>Loading...</p>}>
         <ProjectPostcodeValidator fetchedProject={fetchedProject} />
       </Suspense>
     );
