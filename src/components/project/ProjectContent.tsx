@@ -158,30 +158,28 @@ export default async function projectContent({
             </Link>
           </Button>
         </div>
-        {isProjectOwner || userRole === "admin" ? (
-          <div>
-            {quotesData.length === 0 ? (
-              <p>No quotes available for this project</p>
-            ) : (
-              <ul>
-                {quotesData.map((quote) => (
-                  <li key={quote.id}>
-                    <Link href={`/dashboard/quotes/${quote.id}`}>
-                      <p>
-                        Quote ID:{" "}
-                        <span className="font-semibold uppercase">
-                          {quote.id.slice(-6)}
-                        </span>
-                      </p>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        ) : (
-          <p>Only the project owner can view quotes</p>
-        )}
+        <div>
+          {quotesData.length === 0 ? (
+            <p>No quotes available for this project yet</p>
+          ) : isProjectOwner || userRole === "admin" ? (
+            <ul>
+              {quotesData.map((quote) => (
+                <li key={quote.id}>
+                  <Link href={`/dashboard/quotes/${quote.id}`}>
+                    <p>
+                      Quote ID:{" "}
+                      <span className="font-semibold uppercase">
+                        {quote.id.slice(-6)}
+                      </span>
+                    </p>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>Only the project owner can view quotes</p>
+          )}
+        </div>
       </section>
     </div>
   );
