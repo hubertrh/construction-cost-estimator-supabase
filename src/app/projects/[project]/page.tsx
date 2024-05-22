@@ -33,8 +33,10 @@ export default async function Project({ params }: ProjectProps) {
     );
   }
 
+  let userRole = null;
+
   if (user?.user) {
-    const userRole = await fetchUserRole(supabase, user.user.id);
+    userRole = await fetchUserRole(supabase, user.user.id);
 
     if (userRole !== "admin" && user?.user.id !== fetchedProject?.user_id) {
       return (
@@ -45,5 +47,5 @@ export default async function Project({ params }: ProjectProps) {
     }
   }
 
-  return <ProjectContent fetchedProject={fetchedProject} />;
+  return <ProjectContent fetchedProject={fetchedProject} userRole={userRole} />;
 }

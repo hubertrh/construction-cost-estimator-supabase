@@ -11,8 +11,10 @@ import { createClient } from "@/utils/supabase/client";
 
 export default async function projectContent({
   fetchedProject,
+  userRole,
 }: {
   fetchedProject: Database["public"]["Tables"]["projects"]["Row"];
+  userRole: string | null;
 }) {
   const supabase = createClient();
 
@@ -30,8 +32,9 @@ export default async function projectContent({
 
   return (
     <div className="min-w-[40rem] pb-8 text-left">
-      {/* FIXME: make it a dropdown only for admins */}
-      <ProjectStatusDropdownMenu fetchedProject={fetchedProject} />
+      <div className={userRole === "admin" ? "" : "pointer-events-none"}>
+        <ProjectStatusDropdownMenu fetchedProject={fetchedProject} />
+      </div>
       <ProjectTitleWithRef
         projectTitle={fetchedProject.project_name}
         projectReference={fetchedProject.id.slice(-6)}
@@ -147,7 +150,7 @@ export default async function projectContent({
       >
         <div className="flex items-center justify-between gap-12">
           <h2 className="text-2xl">Quotes</h2>
-          <Button asChild>
+          <Button asChild className={userRole === "admin" ? "" : "hidden"}>
             <Link href={`/dashboard/quotes/new/${fetchedProject.id}`}>
               <Plus className="mr-2 size-4" />
               Create New Quote

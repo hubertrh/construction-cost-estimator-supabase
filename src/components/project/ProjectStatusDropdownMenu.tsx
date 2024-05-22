@@ -27,7 +27,6 @@ export default function ProjectStatusDropdownMenu({
 
   return (
     <div className="flex items-center">
-      {/* FIXME: make it a dropdown only for admins */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild className="cursor-pointer">
           <Badge
