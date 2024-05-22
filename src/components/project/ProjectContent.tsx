@@ -1,31 +1,37 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ExternalLink } from "lucide-react";
-import { Badge } from "../ui/badge";
+import { ExternalLink, Plus } from "lucide-react";
 import { Button } from "../ui/button";
+import Divider from "../ui/Divider";
 import ProjectTitleWithRef from "./ProjectTitleWithRef";
+import ProjectStatusDropdownMenu from "./ProjectStatusDropdownMenu";
 import { Database } from "@/types/supabase";
 import googleDriveIcon from "/public/icons/google-drive.svg";
+import { createClient } from "@/utils/supabase/client";
 
-export default function projectContent({
+export default async function projectContent({
   fetchedProject,
 }: {
   fetchedProject: Database["public"]["Tables"]["projects"]["Row"];
 }) {
+  const supabase = createClient();
+
+  // fetch quotes with respective project id from supabase quotes table
+  const { data: quotesData, error: quotesError } = await supabase
+    .from("quotes")
+    .select("*")
+    .eq("project_id", fetchedProject.id);
+
+  if (quotesError) {
+    console.error(quotesError);
+    console.error(`Failed to fetch quotes for project: ${fetchedProject.id}`);
+    return <p>Failed to fetch quotes</p>;
+  }
+
   return (
     <div className="min-w-[40rem] pb-8 text-left">
-      <Badge
-        variant={
-          fetchedProject.project_status.replace(/\s/g, "") as
-            | "pending"
-            | "ready"
-            | "cancelled"
-            | "onhold"
-        }
-        className="my-1 w-min text-center text-xs uppercase"
-      >
-        {fetchedProject.project_status}
-      </Badge>
+      {/* FIXME: make it a dropdown only for admins */}
+      <ProjectStatusDropdownMenu fetchedProject={fetchedProject} />
       <ProjectTitleWithRef
         projectTitle={fetchedProject.project_name}
         projectReference={fetchedProject.id.slice(-6)}
@@ -132,6 +138,42 @@ export default function projectContent({
             <ExternalLink className="ml-2 size-3" />
           </a>
         </Button>
+      </section>
+      <div className="pb-5 pt-4">
+        <Divider />
+      </div>
+      <section
+      // className="todo"
+      >
+        <div className="flex items-center gap-12">
+          <h2 className="text-2xl">Quotes</h2>
+          <Button asChild>
+            <Link href={`/dashboard/quotes/new/${fetchedProject.id}`}>
+              <Plus className="mr-2 size-4" />
+              Create New Quote
+            </Link>
+          </Button>
+        </div>
+        <div>
+          {quotesData.length === 0 ? (
+            <p>No quotes available for this project</p>
+          ) : (
+            <ul>
+              {quotesData.map((quote) => (
+                <li key={quote.id}>
+                  <Link href={`/dashboard/quotes/${quote.id}`}>
+                    <p>
+                      Quote ID:{" "}
+                      <span className="font-semibold uppercase">
+                        {quote.id.slice(-6)}
+                      </span>
+                    </p>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </section>
     </div>
   );
