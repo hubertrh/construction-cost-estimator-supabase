@@ -15,8 +15,8 @@ export default async function projectContent({
   isProjectOwner,
 }: {
   fetchedProject: Database["public"]["Tables"]["projects"]["Row"];
-  userRole: string | null;
-  isProjectOwner: boolean;
+  userRole?: string | null;
+  isProjectOwner?: boolean;
 }) {
   const supabase = createClient();
 

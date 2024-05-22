@@ -34,11 +34,13 @@ export default async function Project({ params }: ProjectProps) {
   }
 
   let userRole = null;
+  let isProjectOwner = false;
 
   if (user?.user) {
     userRole = await fetchUserRole(supabase, user.user.id);
+    isProjectOwner = user?.user.id === fetchedProject.user_id;
 
-    if (userRole !== "admin" && user?.user.id !== fetchedProject?.user_id) {
+    if (userRole !== "admin" && !isProjectOwner) {
       return (
         <Suspense>
           <ProjectPostcodeValidator fetchedProject={fetchedProject} />
@@ -46,8 +48,6 @@ export default async function Project({ params }: ProjectProps) {
       );
     }
   }
-
-  const isProjectOwner = user?.user.id === fetchedProject.user_id;
 
   return (
     <ProjectContent
