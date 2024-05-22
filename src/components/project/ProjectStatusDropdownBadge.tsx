@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { Badge } from "../ui/badge";
 import handleStatusUpdate from "./handleStatusUpdate";
 
@@ -23,8 +24,18 @@ export default function ProjectStatusDropdownBadge({
         variant={variant}
         className="w-min text-center text-xs uppercase"
         onClick={async () => {
+          document.documentElement.style.setProperty(
+            "--project-status-loader-visibility",
+            "visible",
+          );
           await handleStatusUpdate(fetchedProjectId, clickStatus);
           router.refresh();
+          setTimeout(() => {
+            document.documentElement.style.setProperty(
+              "--project-status-loader-visibility",
+              "hidden",
+            );
+          }, 1000);
         }}
       >
         {clickStatus}

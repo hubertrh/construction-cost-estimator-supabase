@@ -12,6 +12,7 @@
     --main-margin-left: 20rem;
     --arrow-rotate: -45deg;
     --main-max-width: 65vw;
+    --project-status-loader-visibility: hidden;
   }
 
   body {
@@ -67,5 +68,9 @@
       rgba(255, 182, 71, 0.5) 64px
     );
     background-color: #f4f7fa;
+  }
+
+  .project-status-loader {
+    visibility: var(--project-status-loader-visibility);
   }
 }

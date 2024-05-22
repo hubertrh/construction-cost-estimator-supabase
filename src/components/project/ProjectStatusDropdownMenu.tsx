@@ -1,3 +1,4 @@
+import { Loader2 } from "lucide-react";
 import { Badge } from "../ui/badge";
 import {
   DropdownMenu,
@@ -25,7 +26,7 @@ export default function ProjectStatusDropdownMenu({
   ] as const;
 
   return (
-    <>
+    <div className="flex items-center">
       {/* FIXME: make it a dropdown only for admins */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild className="cursor-pointer">
@@ -56,6 +57,7 @@ export default function ProjectStatusDropdownMenu({
           ))}
         </DropdownMenuContent>
       </DropdownMenu>
-    </>
+      <Loader2 className="project-status-loader ml-2 size-4 animate-spin" />
+    </div>
   );
 }
