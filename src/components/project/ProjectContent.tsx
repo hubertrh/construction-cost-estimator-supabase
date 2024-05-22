@@ -50,7 +50,7 @@ export default async function projectContent({
       </section>
       <section className="mb-8">
         <p className="pb-0">
-          <span className="text-sm text-accent-primary-dark">
+          <span className="text-sm font-medium text-accent-primary-dark">
             Submitted by&ensp;
           </span>
           {/* TODO: Implement for admins */}
@@ -64,13 +64,13 @@ export default async function projectContent({
           ) : ( */}
           <span>{fetchedProject.client_name}</span>
           {/* )} */}
-          <span className="text-sm text-accent-primary-dark">
+          <span className="text-sm font-medium text-accent-primary-dark">
             &emsp;&ensp;on&ensp;
           </span>
           {new Date(fetchedProject.created_at).toLocaleDateString()}
         </p>
         <p>
-          <span className="text-sm text-accent-primary-dark">
+          <span className="text-sm font-medium text-accent-primary-dark">
             Client Email:&ensp;
           </span>
           <a
@@ -84,7 +84,7 @@ export default async function projectContent({
       <section>
         {fetchedProject.project_description ? (
           <>
-            <p className="text-sm text-accent-primary-dark">
+            <p className="text-sm font-medium text-accent-primary-dark">
               Project Description
             </p>
             <p className="mb-4 text-justify">
@@ -93,7 +93,7 @@ export default async function projectContent({
           </>
         ) : (
           <p className="text-gray">
-            <span className="text-sm text-accent-primary-dark/60">
+            <span className="text-sm font-medium text-accent-primary-dark/60">
               Project Description:&ensp;
             </span>
             Not provided
@@ -102,14 +102,14 @@ export default async function projectContent({
       </section>
       <section>
         <p className={`${fetchedProject.project_description ? "mb-4" : ""}`}>
-          <span className="text-sm text-accent-primary-dark">
+          <span className="text-sm font-medium text-accent-primary-dark">
             Project Desired OHP:&ensp;
           </span>
           {fetchedProject.desired_ohp}%
         </p>
         {fetchedProject.contractor_preliminaries ? (
           <>
-            <p className="text-sm text-accent-primary-dark">
+            <p className="text-sm font-medium text-accent-primary-dark">
               Contractor&apos;s Custom Preliminaries
             </p>
             <p className="mb-4 text-justify">
@@ -118,7 +118,7 @@ export default async function projectContent({
           </>
         ) : (
           <p className="mb-4 text-gray">
-            <span className="text-sm text-accent-primary-dark/60">
+            <span className="text-sm font-medium text-accent-primary-dark/60">
               Contractor&apos;s Custom Preliminaries:&ensp;
             </span>
             Not provided
