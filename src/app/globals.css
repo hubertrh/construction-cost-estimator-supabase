@@ -57,4 +57,15 @@
       @apply relative before:absolute before:-left-6 before:top-4 before:size-[5px] before:-translate-x-1/2 before:-translate-y-1/2 before:rounded-full before:bg-gray-light after:absolute after:-left-4 after:top-4 after:h-px after:w-4 after:-translate-x-1/2 after:-translate-y-1/2 after:bg-gray-light;
     }
   }
+
+  .todo {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 32px,
+      rgba(255, 182, 71, 0.5) 32px,
+      rgba(255, 182, 71, 0.5) 64px
+    );
+    background-color: #f4f7fa;
+  }
 }
