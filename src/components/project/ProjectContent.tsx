@@ -12,9 +12,11 @@ import { createClient } from "@/utils/supabase/client";
 export default async function projectContent({
   fetchedProject,
   userRole,
+  isProjectOwner,
 }: {
   fetchedProject: Database["public"]["Tables"]["projects"]["Row"];
   userRole: string | null;
+  isProjectOwner: boolean;
 }) {
   const supabase = createClient();
 
@@ -145,9 +147,8 @@ export default async function projectContent({
       <div className="pb-5 pt-4">
         <Divider />
       </div>
-      <section
-      // className="todo"
-      >
+      <section>
+        {/* FIXME: */}
         <div className="flex items-center justify-between gap-12">
           <h2 className="text-2xl">Quotes</h2>
           <Button asChild className={userRole === "admin" ? "" : "hidden"}>
@@ -157,26 +158,30 @@ export default async function projectContent({
             </Link>
           </Button>
         </div>
-        <div>
-          {quotesData.length === 0 ? (
-            <p>No quotes available for this project</p>
-          ) : (
-            <ul>
-              {quotesData.map((quote) => (
-                <li key={quote.id}>
-                  <Link href={`/dashboard/quotes/${quote.id}`}>
-                    <p>
-                      Quote ID:{" "}
-                      <span className="font-semibold uppercase">
-                        {quote.id.slice(-6)}
-                      </span>
-                    </p>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+        {isProjectOwner || userRole === "admin" ? (
+          <div>
+            {quotesData.length === 0 ? (
+              <p>No quotes available for this project</p>
+            ) : (
+              <ul>
+                {quotesData.map((quote) => (
+                  <li key={quote.id}>
+                    <Link href={`/dashboard/quotes/${quote.id}`}>
+                      <p>
+                        Quote ID:{" "}
+                        <span className="font-semibold uppercase">
+                          {quote.id.slice(-6)}
+                        </span>
+                      </p>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        ) : (
+          <p>Only the project owner can view quotes</p>
+        )}
       </section>
     </div>
   );

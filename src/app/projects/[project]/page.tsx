@@ -47,5 +47,13 @@ export default async function Project({ params }: ProjectProps) {
     }
   }
 
-  return <ProjectContent fetchedProject={fetchedProject} userRole={userRole} />;
+  const isProjectOwner = user?.user.id === fetchedProject.user_id;
+
+  return (
+    <ProjectContent
+      fetchedProject={fetchedProject}
+      userRole={userRole}
+      isProjectOwner={isProjectOwner}
+    />
+  );
 }
