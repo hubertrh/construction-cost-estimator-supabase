@@ -1,3 +1,4 @@
+import { randomUUID } from "crypto";
 import Link from "next/link";
 import Image from "next/image";
 import { ExternalLink, Plus } from "lucide-react";
@@ -31,6 +32,8 @@ export default async function projectContent({
     console.error(`Failed to fetch quotes for project: ${fetchedProject.id}`);
     return <p>Failed to fetch quotes</p>;
   }
+
+  const newQuoteUUID = randomUUID();
 
   return (
     <div className="min-w-[40rem] pb-8 text-left">
@@ -152,7 +155,9 @@ export default async function projectContent({
         <div className="flex items-center justify-between gap-12">
           <h2 className="text-2xl">Quotes</h2>
           <Button asChild className={userRole === "admin" ? "" : "hidden"}>
-            <Link href={`/dashboard/quotes/new/${fetchedProject.id}`}>
+            <Link
+              href={`/admin/dashboard/quotes/new/${fetchedProject.id}/${newQuoteUUID}/1`}
+            >
               <Plus className="mr-2 size-4" />
               Create New Quote
             </Link>
