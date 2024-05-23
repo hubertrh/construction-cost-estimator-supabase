@@ -347,7 +347,7 @@ export default function QuoteForm({
                                                   type="number"
                                                   placeholder="123.45"
                                                   required
-                                                  // FIXME: Fetch from local storage first
+                                                  // FIXME: Fetch from local storage first (?)
                                                   value={
                                                     inputData[
                                                       `cost-${nrm4.flag_1}${nrm4.flag_2}${nrm4.flag_3}${nrm4.flag_4}`
