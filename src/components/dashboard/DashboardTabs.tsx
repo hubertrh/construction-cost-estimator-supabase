@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 
 const routes = {
-  clientRequests: "/admin/dashboard/client-requests",
+  clientRequests: "/admin/dashboard/quote-requests",
   clients: "/admin/dashboard/clients",
   contractors: "/admin/dashboard/contractors",
   rates: "/admin/dashboard/rates",

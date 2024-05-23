@@ -12,7 +12,7 @@ export default async function handleStatusUpdate(
       if (success) {
         revalidatePath(`/projects/${fetchedProjectId}`);
         revalidatePath("/admin/projects");
-        revalidatePath("/admin/dashboard/client-requests");
+        revalidatePath("/admin/dashboard/quote-requests");
 
         console.log("Project status updated successfully");
       } else {
