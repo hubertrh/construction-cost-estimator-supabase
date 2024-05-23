@@ -10,8 +10,7 @@ export default function QuoteNoteParagraphs({
   let paragraphs = text.split("\n").filter(Boolean);
 
   return (
-    // FIXME: scrollarea doesn't work
-    <ScrollArea className="h-max max-h-56 w-full">
+    <ScrollArea className="h-max max-h-56 w-full overflow-y-auto">
       {paragraphs.map((paragraph, index) => (
         <p key={index} className="mr-2 text-pretty text-xs text-gray-600">
           {paragraph.trim()}
