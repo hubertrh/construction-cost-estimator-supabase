@@ -124,7 +124,7 @@ export function DataTable<TData, TValue>({
                 <span className="text-base font-semibold">
                   {table.getFilteredRowModel().rows.length}
                 </span>{" "}
-                {tableVariant}
+                {tableVariant.replace(/([a-z])([A-Z])/g, "$1 $2").toLowerCase()}
               </p>
             )}
           </div>
