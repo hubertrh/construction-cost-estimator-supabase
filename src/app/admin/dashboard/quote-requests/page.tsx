@@ -1,7 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { DataTable } from "@/components/projectsDataTable/DataTable";
 import { adminProjectsColumns } from "@/components/projectsDataTable/AdminProjectsColumns";
-import DashboardTabs from "@/components/dashboard/DashboardTabs";
+import DashboardMenu from "@/components/dashboard/DashboardMenu";
 
 export default async function QuoteRequests() {
   const supabase = createClient();
@@ -21,7 +21,7 @@ export default async function QuoteRequests() {
   return (
     <div>
       <h1 className="mb-6 text-2xl">Dashboard</h1>
-      <DashboardTabs defaultValue="quoteRequests" />
+      <DashboardMenu defaultValue="quoteRequests" />
       <div className="container mx-auto min-w-[50rem] py-4">
         <DataTable
           columns={adminProjectsColumns}
