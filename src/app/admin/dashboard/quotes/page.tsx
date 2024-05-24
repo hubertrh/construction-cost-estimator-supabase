@@ -25,18 +25,28 @@ export default async function Quotes() {
     return <p>Failed to fetch profiles</p>;
   }
 
-  const quotesWithName = quotes.map((quote) => {
+  const { data: projects, error: projectsError } = await supabase
+    .from("projects")
+    .select("id, project_name");
+
+  if (projectsError) {
+    console.error(projectsError);
+    return <p>Failed to fetch projects</p>;
+  }
+
+  const enrichedQuotes = quotes.map((quote) => {
     const quoteContractor = profiles.find(
       (profile) => profile.id === quote.contractor_id,
     );
+    const quoteProject = projects.find(
+      (project) => project.id === quote.project_id,
+    );
 
-    if (quoteContractor) {
-      const quoteWithName = { ...quote, contractor_name: quoteContractor.name };
-      return quoteWithName;
-    }
-
-    const quoteWithName = { ...quote, contractor_name: null };
-    return quoteWithName;
+    return {
+      ...quote,
+      contractor_name: quoteContractor ? quoteContractor.name : null,
+      project_name: quoteProject ? quoteProject.project_name : null,
+    };
   });
 
   return (
@@ -46,7 +56,7 @@ export default async function Quotes() {
       <div className="container mx-auto min-w-[50rem] py-4">
         <DataTable
           columns={adminQuotesColumns}
-          data={quotesWithName}
+          data={enrichedQuotes}
           tableVariant="quotes"
         />
       </div>

@@ -8,18 +8,20 @@ import { Json } from "@/types/supabase";
 
 export type DataTableProject = {
   contractor_name: string | null;
+  project_name: string | null;
   contractor_id: string | null;
   created_at: string;
   id: string;
   project_id: string;
   quote_flags: Json;
   quote_inputs: Json;
+  quote_total_amount: number | null;
 };
 
 export const adminQuotesColumns: ColumnDef<DataTableProject>[] = [
   {
     accessorKey: "id",
-    header: "Quote ID",
+    header: "Quote\u00a0ID",
     cell: ({ row }) => {
       const quote = row.original;
 
@@ -32,16 +34,18 @@ export const adminQuotesColumns: ColumnDef<DataTableProject>[] = [
     },
   },
   {
-    accessorKey: "project_id",
-    header: "Proj. ID",
+    accessorKey: "project_name",
+    header: "Project Name",
     cell: ({ row }) => {
       const quote = row.original;
 
       return (
         // FIXME: Check if href correct
         <Link href={`/projects/${quote.project_id}`}>
-          <p className="w-full max-w-xs">
-            {quote.project_id.slice(-6).toUpperCase()}
+          <p className="w-full max-w-xs truncate">
+            {quote.project_name
+              ? quote.project_name
+              : quote.project_id.slice(-6).toUpperCase()}
           </p>
         </Link>
       );
