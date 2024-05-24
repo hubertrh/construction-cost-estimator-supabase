@@ -251,6 +251,7 @@ export type Database = {
           project_id: string;
           quote_flags: Json;
           quote_inputs: Json;
+          quote_total_amount: number | null;
         };
         Insert: {
           contractor_id?: string | null;
@@ -259,6 +260,7 @@ export type Database = {
           project_id: string;
           quote_flags: Json;
           quote_inputs: Json;
+          quote_total_amount?: number | null;
         };
         Update: {
           contractor_id?: string | null;
@@ -267,6 +269,7 @@ export type Database = {
           project_id?: string;
           quote_flags?: Json;
           quote_inputs?: Json;
+          quote_total_amount?: number | null;
         };
         Relationships: [
           {
