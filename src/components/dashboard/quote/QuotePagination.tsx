@@ -33,6 +33,7 @@ export default function QuotePagination({
   async function saveQuote(href: string, step: string) {
     const quoteInputs = localStorage.getItem(`quoteInputs-${quoteId}`);
     const quoteFlags = localStorage.getItem(`quoteFlags-${quoteId}`);
+    const quoteTotalCost = localStorage.getItem(`quoteTotalCost-${quoteId}`);
 
     toast({
       title: "Saving quote...",
@@ -45,6 +46,7 @@ export default function QuotePagination({
         projectId,
         quoteInputs,
         quoteFlags,
+        quoteTotalCost: quoteTotalCost ? parseFloat(quoteTotalCost) : null,
       });
     } catch (error) {
       setLoadingStep(null);

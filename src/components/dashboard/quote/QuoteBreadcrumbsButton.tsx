@@ -27,6 +27,7 @@ export default function QuoteBreadcrumbsButton({
   async function saveQuote() {
     const quoteInputs = localStorage.getItem(`quoteInputs-${quoteId}`);
     const quoteFlags = localStorage.getItem(`quoteFlags-${quoteId}`);
+    const quoteTotalCost = localStorage.getItem(`quoteTotalCost-${quoteId}`);
 
     toast({
       title: "Saving quote...",
@@ -39,6 +40,7 @@ export default function QuoteBreadcrumbsButton({
         projectId,
         quoteInputs,
         quoteFlags,
+        quoteTotalCost: quoteTotalCost ? parseFloat(quoteTotalCost) : null,
       });
     } catch (error) {
       setIsSaving(false);
