@@ -64,7 +64,7 @@ export const adminQuotesColumns: ColumnDef<DataTableProject>[] = [
       const quote = row.original;
 
       if (!quote.contractor_name) {
-        return <p className="max-w-xs">—</p>;
+        return <p className="max-w-xs select-none">—</p>;
       }
 
       return (
@@ -75,7 +75,7 @@ export const adminQuotesColumns: ColumnDef<DataTableProject>[] = [
     },
   },
   {
-    accessorKey: "total_amount",
+    accessorKey: "quote_total_amount",
     header: ({ column }) => {
       return (
         <Button
