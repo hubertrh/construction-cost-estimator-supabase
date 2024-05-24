@@ -37,11 +37,13 @@ import {
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  tableVariant: "quoteRequests" | "quotes";
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  tableVariant,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -81,45 +83,48 @@ export function DataTable<TData, TValue>({
             value={globalFilter}
             onChange={(e) => setGlobalFilter(e.target.value)}
           />
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="ml-auto">
-                <ListFilter className="mr-2 size-4" />
-                Status
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Filter by</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              {statusOptions.map((option) => (
-                <DropdownMenuCheckboxItem
-                  key={option}
-                  checked={
-                    table.getColumn("project_status")?.getFilterValue() ===
-                    option
-                  }
-                  onCheckedChange={(value) =>
-                    table
-                      .getColumn("project_status")
-                      ?.setFilterValue(value ? option : undefined)
-                  }
-                >
-                  {option}
-                </DropdownMenuCheckboxItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+          {tableVariant === "quoteRequests" && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="ml-auto">
+                  <ListFilter className="mr-2 size-4" />
+                  Status
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>Filter by</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                {statusOptions.map((option) => (
+                  <DropdownMenuCheckboxItem
+                    key={option}
+                    checked={
+                      table.getColumn("project_status")?.getFilterValue() ===
+                      option
+                    }
+                    onCheckedChange={(value) =>
+                      table
+                        .getColumn("project_status")
+                        ?.setFilterValue(value ? option : undefined)
+                    }
+                  >
+                    {option}
+                  </DropdownMenuCheckboxItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
           <div className="px-2 pb-1 pt-0 text-left text-sm">
             {table.getFilteredRowModel().rows.length === 1 ? (
               <p>
-                <span className="text-base font-semibold">1</span> project
+                <span className="text-base font-semibold">1</span>{" "}
+                {tableVariant.slice(-1)}
               </p>
             ) : (
               <p>
                 <span className="text-base font-semibold">
                   {table.getFilteredRowModel().rows.length}
                 </span>{" "}
-                projects
+                {tableVariant}
               </p>
             )}
           </div>
