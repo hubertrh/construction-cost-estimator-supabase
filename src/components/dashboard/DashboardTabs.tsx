@@ -3,6 +3,7 @@ import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 
 const routes = {
   quoteRequests: "/admin/dashboard/quote-requests",
+  quotes: "/admin/dashboard/quotes",
   clients: "/admin/dashboard/clients",
   contractors: "/admin/dashboard/contractors",
   rates: "/admin/dashboard/rates",
