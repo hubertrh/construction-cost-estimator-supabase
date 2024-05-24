@@ -2,7 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, Copy } from "lucide-react";
 import { Button } from "../ui/button";
 import { Json } from "@/types/supabase";
 
@@ -27,9 +27,22 @@ export const adminQuotesColumns: ColumnDef<DataTableProject>[] = [
 
       return (
         // FIXME: Check if href correct
-        <Link href={`/quotes/${quote.id}`}>
-          <p className="w-full max-w-xs">{quote.id.slice(-6).toUpperCase()}</p>
-        </Link>
+        <div className="flex w-full max-w-xs items-center justify-between">
+          <Link href={`/quotes/${quote.id}`}>
+            <p className="w-full max-w-xs">
+              {quote.id.slice(-6).toUpperCase()}
+            </p>
+          </Link>
+          <Button
+            variant="ghost"
+            className="ml-2 grid aspect-square h-7 place-items-center p-0"
+            onClick={(event) =>
+              navigator.clipboard.writeText(quote.id.slice(-6).toUpperCase())
+            }
+          >
+            <Copy className="size-4" />
+          </Button>
+        </div>
       );
     },
   },
@@ -96,7 +109,12 @@ export const adminQuotesColumns: ColumnDef<DataTableProject>[] = [
 
       return (
         <Link href={`/quotes/${quote.id}`}>
-          <p className="w-full max-w-xs">£ FIXME</p>
+          <p className="w-full max-w-xs">
+            £{" "}
+            {quote.quote_total_amount
+              ? quote.quote_total_amount.toFixed(2)
+              : "—"}
+          </p>
         </Link>
       );
     },
