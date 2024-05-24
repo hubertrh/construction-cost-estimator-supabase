@@ -23,7 +23,11 @@ export default async function QuoteRequests() {
       <h1 className="mb-6 text-2xl">Dashboard</h1>
       <DashboardTabs defaultValue="quoteRequests" />
       <div className="container mx-auto min-w-[50rem] py-4">
-        <DataTable columns={adminProjectsColumns} data={projects} />
+        <DataTable
+          columns={adminProjectsColumns}
+          data={projects}
+          tableVariant="quoteRequests"
+        />
       </div>
     </div>
   );
