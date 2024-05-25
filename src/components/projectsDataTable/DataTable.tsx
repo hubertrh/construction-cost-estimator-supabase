@@ -37,7 +37,7 @@ import {
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  tableVariant: "quoteRequests" | "quotes" | "projects";
+  tableVariant: "quoteRequests" | "quotes" | "projects" | "clients";
 }
 
 export function DataTable<TData, TValue>({
