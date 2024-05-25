@@ -83,37 +83,37 @@ export function DataTable<TData, TValue>({
             value={globalFilter}
             onChange={(e) => setGlobalFilter(e.target.value)}
           />
-          {tableVariant === "quoteRequests" ||
-            (tableVariant === "projects" && (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" className="ml-auto">
-                    <ListFilter className="mr-2 size-4" />
-                    Status
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuLabel>Filter by</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  {statusOptions.map((option) => (
-                    <DropdownMenuCheckboxItem
-                      key={option}
-                      checked={
-                        table.getColumn("project_status")?.getFilterValue() ===
-                        option
-                      }
-                      onCheckedChange={(value) =>
-                        table
-                          .getColumn("project_status")
-                          ?.setFilterValue(value ? option : undefined)
-                      }
-                    >
-                      {option}
-                    </DropdownMenuCheckboxItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ))}
+          {(tableVariant === "quoteRequests" ||
+            tableVariant === "projects") && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="ml-auto">
+                  <ListFilter className="mr-2 size-4" />
+                  Status
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>Filter by</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                {statusOptions.map((option) => (
+                  <DropdownMenuCheckboxItem
+                    key={option}
+                    checked={
+                      table.getColumn("project_status")?.getFilterValue() ===
+                      option
+                    }
+                    onCheckedChange={(value) =>
+                      table
+                        .getColumn("project_status")
+                        ?.setFilterValue(value ? option : undefined)
+                    }
+                  >
+                    {option}
+                  </DropdownMenuCheckboxItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
           <div className="px-2 pb-1 pt-0 text-left text-sm">
             {table.getFilteredRowModel().rows.length === 1 ? (
               <p>
