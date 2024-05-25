@@ -2,7 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
-import { ArrowUpDown, Folder } from "lucide-react";
+import { ArrowUpDown, Copy, Divide, Folder } from "lucide-react";
 import Image from "next/image";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
@@ -39,7 +39,7 @@ export const adminProjectsColumns: ColumnDef<DataTableProject>[] = [
       return (
         <Badge
           variant={statusVariantMap[project.project_status]}
-          className="my-1 w-min text-center text-xs uppercase"
+          className="my-1 w-min select-none text-center text-xs uppercase"
         >
           {project.project_status}
         </Badge>
@@ -53,7 +53,23 @@ export const adminProjectsColumns: ColumnDef<DataTableProject>[] = [
       const project = row.original;
 
       return (
-        <p className="w-full max-w-xs">{project.id.slice(-6).toUpperCase()}</p>
+        <div className="flex w-full max-w-xs items-center justify-between">
+          {/* FIXME: Check if href correct */}
+          <Link href={`/projects/${project.id}`}>
+            <p className="w-full max-w-xs">
+              {project.id.slice(-6).toUpperCase()}
+            </p>
+          </Link>
+          <Button
+            variant="ghost"
+            className="ml-2 grid aspect-square h-7 place-items-center p-0"
+            onClick={(event) =>
+              navigator.clipboard.writeText(project.id.slice(-6).toUpperCase())
+            }
+          >
+            <Copy className="size-4" />
+          </Button>
+        </div>
       );
     },
   },
