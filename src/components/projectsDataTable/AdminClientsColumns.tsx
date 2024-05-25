@@ -32,7 +32,7 @@ export const adminClientsColumns: ColumnDef<DataTableProject>[] = [
       return (
         // FIXME: Check if href correct
         <div className="flex w-full max-w-xs items-center justify-between">
-          {/* TODO: Add client page without user_id */}
+          {/* TODO: Add client page without user_id or implement anonymous auth */}
           <Link href={client.user_id ? `/clients/${client.user_id}` : "#!"}>
             <p className="w-full max-w-xs truncate">{client.client_name}</p>
           </Link>
