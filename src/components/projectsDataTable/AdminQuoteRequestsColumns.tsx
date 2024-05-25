@@ -37,12 +37,14 @@ export const adminQuoteRequestsColumns: ColumnDef<DataTableProject>[] = [
       const project = row.original;
 
       return (
-        <Badge
-          variant={statusVariantMap[project.project_status]}
-          className="my-1 w-min select-none text-center text-xs uppercase"
-        >
-          {project.project_status}
-        </Badge>
+        <div className="text-center">
+          <Badge
+            variant={statusVariantMap[project.project_status]}
+            className="my-1 w-min select-none text-center text-xs uppercase"
+          >
+            {project.project_status}
+          </Badge>
+        </div>
       );
     },
   },
