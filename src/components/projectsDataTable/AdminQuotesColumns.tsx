@@ -4,6 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import { ArrowUpDown, Copy } from "lucide-react";
 import { Button } from "../ui/button";
+import { Badge } from "../ui/badge";
 import { Json } from "@/types/supabase";
 
 export type DataTableProject = {
@@ -15,10 +16,37 @@ export type DataTableProject = {
   project_id: string;
   quote_flags: Json;
   quote_inputs: Json;
+  quote_status: "ready" | "draft";
   quote_total_amount: number | null;
 };
 
+const statusVariantMap: Record<
+  DataTableProject["quote_status"],
+  "draft" | "ready"
+> = {
+  draft: "draft",
+  ready: "ready",
+};
+
 export const adminQuotesColumns: ColumnDef<DataTableProject>[] = [
+  {
+    accessorKey: "quote_status",
+    header: "Status",
+    cell: ({ row }) => {
+      const quote = row.original;
+
+      return (
+        <div className="text-center">
+          <Badge
+            variant={statusVariantMap[quote.quote_status]}
+            className="my-1 w-min select-none text-center text-xs uppercase"
+          >
+            {quote.quote_status}
+          </Badge>
+        </div>
+      );
+    },
+  },
   {
     accessorKey: "id",
     header: "Quote\u00a0ID",
