@@ -251,6 +251,7 @@ export type Database = {
           project_id: string;
           quote_flags: Json;
           quote_inputs: Json;
+          quote_status: Database["public"]["Enums"]["quote_status"];
           quote_total_amount: number | null;
         };
         Insert: {
@@ -260,6 +261,7 @@ export type Database = {
           project_id: string;
           quote_flags: Json;
           quote_inputs: Json;
+          quote_status?: Database["public"]["Enums"]["quote_status"];
           quote_total_amount?: number | null;
         };
         Update: {
@@ -269,6 +271,7 @@ export type Database = {
           project_id?: string;
           quote_flags?: Json;
           quote_inputs?: Json;
+          quote_status?: Database["public"]["Enums"]["quote_status"];
           quote_total_amount?: number | null;
         };
         Relationships: [
