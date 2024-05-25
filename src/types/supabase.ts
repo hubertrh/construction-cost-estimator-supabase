@@ -291,6 +291,7 @@ export type Database = {
     Enums: {
       app_role: "admin" | "client" | "contractor";
       project_status: "pending" | "ready" | "cancelled" | "on hold";
+      quote_status: "draft" | "ready";
     };
     CompositeTypes: {
       [_ in never]: never;
