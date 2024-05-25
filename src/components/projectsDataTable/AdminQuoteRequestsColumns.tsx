@@ -29,7 +29,7 @@ const statusVariantMap: Record<
   "on hold": "onhold",
 };
 
-export const adminProjectsColumns: ColumnDef<DataTableProject>[] = [
+export const adminQuoteRequestsColumns: ColumnDef<DataTableProject>[] = [
   {
     accessorKey: "project_status",
     header: "Status",
