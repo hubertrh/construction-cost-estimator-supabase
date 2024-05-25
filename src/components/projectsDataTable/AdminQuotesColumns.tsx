@@ -36,7 +36,7 @@ export const adminQuotesColumns: ColumnDef<DataTableProject>[] = [
           <Button
             variant="ghost"
             className="ml-2 grid aspect-square h-7 place-items-center p-0"
-            onClick={(event) =>
+            onClick={() =>
               navigator.clipboard.writeText(quote.id.slice(-6).toUpperCase())
             }
           >
