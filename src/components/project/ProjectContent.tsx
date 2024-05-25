@@ -1,7 +1,7 @@
-import { randomUUID } from "crypto";
 import Link from "next/link";
 import Image from "next/image";
 import { ExternalLink, Plus } from "lucide-react";
+import { v4 as uuidv4 } from "uuid";
 import { Button } from "../ui/button";
 import Divider from "../ui/Divider";
 import ProjectTitleWithRef from "./ProjectTitleWithRef";
@@ -33,7 +33,7 @@ export default async function projectContent({
     return <p>Failed to fetch quotes</p>;
   }
 
-  const newQuoteUUID = randomUUID();
+  const newQuoteUUID = uuidv4();
 
   return (
     <div className="min-w-[40rem] pb-8 text-left">

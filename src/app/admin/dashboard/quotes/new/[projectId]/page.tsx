@@ -1,4 +1,5 @@
-import { UUID, randomUUID } from "crypto";
+import { UUID } from "crypto";
+import { v4 as uuidv4 } from "uuid";
 import { redirect } from "next/navigation";
 
 type PageProps = {
@@ -6,7 +7,7 @@ type PageProps = {
 };
 
 export default function page({ params }: PageProps) {
-  const newQuoteId = randomUUID();
+  const newQuoteId = uuidv4();
 
   redirect(`/admin/dashboard/quotes/new/${params.projectId}/${newQuoteId}/1`);
 

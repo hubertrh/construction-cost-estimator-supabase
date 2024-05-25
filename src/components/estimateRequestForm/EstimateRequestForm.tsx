@@ -4,10 +4,10 @@ import { UUID } from "crypto";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { v4 as uuidv4 } from "uuid";
 import { useState, useEffect } from "react";
 import { ArrowUpFromLine, Loader2, Plus, X } from "lucide-react";
 import { User } from "@supabase/supabase-js";
-import { useRouter } from "next/navigation";
 import { Badge } from "../ui/badge";
 import { Textarea } from "../ui/textarea";
 import { Progress } from "../ui/progress";
@@ -46,7 +46,7 @@ export function EstimateRequestForm({ user }: EstimateRequestFormProps) {
   const { toast } = useToast();
 
   useEffect(() => {
-    let projectID = crypto.randomUUID();
+    let projectID = uuidv4();
     setNewProjectID(projectID);
     setProjectReference(projectID.slice(-6));
   }, []);
