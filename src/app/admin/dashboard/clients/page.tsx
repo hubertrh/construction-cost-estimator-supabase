@@ -41,8 +41,6 @@ export default async function Clients() {
     ).values(),
   ];
 
-  console.log(uniqueClients);
-
   return (
     <div>
       <h1 className="mb-6 text-2xl">Dashboard</h1>
