@@ -71,7 +71,8 @@ export function DataTable<TData, TValue>({
     },
   });
 
-  const statusOptions = ["Ready", "Pending", "Cancelled", "On Hold"];
+  const projectsStatusOptions = ["Ready", "Pending", "Cancelled", "On Hold"];
+  const quotesStatusOptions = ["Ready", "Draft"];
 
   return (
     <div>
@@ -95,7 +96,7 @@ export function DataTable<TData, TValue>({
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Filter by</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                {statusOptions.map((option) => (
+                {projectsStatusOptions.map((option) => (
                   <DropdownMenuCheckboxItem
                     key={option}
                     checked={
@@ -105,6 +106,36 @@ export function DataTable<TData, TValue>({
                     onCheckedChange={(value) =>
                       table
                         .getColumn("project_status")
+                        ?.setFilterValue(value ? option : undefined)
+                    }
+                  >
+                    {option}
+                  </DropdownMenuCheckboxItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
+          {tableVariant === "quotes" && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="ml-auto">
+                  <ListFilter className="mr-2 size-4" />
+                  Status
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>Filter by</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                {quotesStatusOptions.map((option) => (
+                  <DropdownMenuCheckboxItem
+                    key={option}
+                    checked={
+                      table.getColumn("quote_status")?.getFilterValue() ===
+                      option
+                    }
+                    onCheckedChange={(value) =>
+                      table
+                        .getColumn("quote_status")
                         ?.setFilterValue(value ? option : undefined)
                     }
                   >
