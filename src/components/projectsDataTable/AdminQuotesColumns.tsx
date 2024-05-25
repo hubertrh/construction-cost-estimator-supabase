@@ -113,7 +113,7 @@ export const adminQuotesColumns: ColumnDef<DataTableProject>[] = [
       }
 
       return (
-        <Link href={`/clients/${quote.contractor_id}`}>
+        <Link href={`/contractors/${quote.contractor_id}`}>
           <p className="w-full max-w-xs truncate">{quote.contractor_name}</p>
         </Link>
       );
