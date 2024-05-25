@@ -62,7 +62,6 @@ export const adminContractorsColumns: ColumnDef<DataTableProject>[] = [
 
       return (
         <div className="flex w-full max-w-xs items-center justify-between">
-          {/* <p className="w-full max-w-xs truncate">{contractor.email}</p> */}
           <a
             href={`mailto:${contractor.email}`}
             className="w-full max-w-xs truncate"
@@ -82,7 +81,7 @@ export const adminContractorsColumns: ColumnDef<DataTableProject>[] = [
   },
   {
     accessorKey: "id",
-    header: "ID",
+    header: "User ID",
     cell: ({ row }) => {
       const contractor = row.original;
 
