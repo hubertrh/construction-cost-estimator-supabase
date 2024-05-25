@@ -66,10 +66,12 @@ export const adminClientsColumns: ColumnDef<DataTableProject>[] = [
       return (
         // FIXME: Check if href correct
         <div className="flex w-full max-w-xs items-center justify-between">
-          {/* TODO: Add client page without user_id */}
-          <Link href={client.user_id ? `/clients/${client.user_id}` : "#!"}>
-            <p className="w-full max-w-xs truncate">{client.client_email}</p>
-          </Link>
+          <a
+            href={`mailto:${client.client_email}`}
+            className="w-full max-w-xs truncate"
+          >
+            {client.client_email}
+          </a>
           <Button
             variant="ghost"
             className="ml-2 grid aspect-square h-7 place-items-center p-0"
