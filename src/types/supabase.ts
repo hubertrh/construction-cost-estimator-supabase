@@ -156,20 +156,23 @@ export type Database = {
         Row: {
           app_role: Database["public"]["Enums"]["app_role"];
           created_at: string;
+          email: string;
           id: string;
-          name: string | null;
+          name: string;
         };
         Insert: {
           app_role: Database["public"]["Enums"]["app_role"];
           created_at?: string;
+          email: string;
           id: string;
-          name?: string | null;
+          name: string;
         };
         Update: {
           app_role?: Database["public"]["Enums"]["app_role"];
           created_at?: string;
+          email?: string;
           id?: string;
-          name?: string | null;
+          name?: string;
         };
         Relationships: [
           {
