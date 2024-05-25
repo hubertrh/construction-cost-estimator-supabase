@@ -1,31 +1,45 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ExternalLink } from "lucide-react";
-import { Badge } from "../ui/badge";
+import { ExternalLink, Plus } from "lucide-react";
+import { v4 as uuidv4 } from "uuid";
 import { Button } from "../ui/button";
+import Divider from "../ui/Divider";
 import ProjectTitleWithRef from "./ProjectTitleWithRef";
+import ProjectStatusDropdownMenu from "./ProjectStatusDropdownMenu";
 import { Database } from "@/types/supabase";
 import googleDriveIcon from "/public/icons/google-drive.svg";
+import { createClient } from "@/utils/supabase/client";
 
-export default function projectContent({
+export default async function projectContent({
   fetchedProject,
+  userRole,
+  isProjectOwner,
 }: {
   fetchedProject: Database["public"]["Tables"]["projects"]["Row"];
+  userRole?: string | null;
+  isProjectOwner?: boolean;
 }) {
+  const supabase = createClient();
+
+  // fetch quotes with respective project id from supabase quotes table
+  const { data: quotesData, error: quotesError } = await supabase
+    .from("quotes")
+    .select("*")
+    .eq("project_id", fetchedProject.id);
+
+  if (quotesError) {
+    console.error(quotesError);
+    console.error(`Failed to fetch quotes for project: ${fetchedProject.id}`);
+    return <p>Failed to fetch quotes</p>;
+  }
+
+  const newQuoteUUID = uuidv4();
+
   return (
     <div className="min-w-[40rem] pb-8 text-left">
-      <Badge
-        variant={
-          fetchedProject.project_status.replace(/\s/g, "") as
-            | "pending"
-            | "ready"
-            | "cancelled"
-            | "onhold"
-        }
-        className="my-1 w-min text-center text-xs uppercase"
-      >
-        {fetchedProject.project_status}
-      </Badge>
+      <div className={userRole === "admin" ? "" : "pointer-events-none"}>
+        <ProjectStatusDropdownMenu fetchedProject={fetchedProject} />
+      </div>
       <ProjectTitleWithRef
         projectTitle={fetchedProject.project_name}
         projectReference={fetchedProject.id.slice(-6)}
@@ -39,7 +53,7 @@ export default function projectContent({
       </section>
       <section className="mb-8">
         <p className="pb-0">
-          <span className="text-sm text-accent-primary-dark">
+          <span className="text-sm font-medium text-accent-primary-dark">
             Submitted by&ensp;
           </span>
           {/* TODO: Implement for admins */}
@@ -53,13 +67,13 @@ export default function projectContent({
           ) : ( */}
           <span>{fetchedProject.client_name}</span>
           {/* )} */}
-          <span className="text-sm text-accent-primary-dark">
+          <span className="text-sm font-medium text-accent-primary-dark">
             &emsp;&ensp;on&ensp;
           </span>
           {new Date(fetchedProject.created_at).toLocaleDateString()}
         </p>
         <p>
-          <span className="text-sm text-accent-primary-dark">
+          <span className="text-sm font-medium text-accent-primary-dark">
             Client Email:&ensp;
           </span>
           <a
@@ -73,7 +87,7 @@ export default function projectContent({
       <section>
         {fetchedProject.project_description ? (
           <>
-            <p className="text-sm text-accent-primary-dark">
+            <p className="text-sm font-medium text-accent-primary-dark">
               Project Description
             </p>
             <p className="mb-4 text-justify">
@@ -82,7 +96,7 @@ export default function projectContent({
           </>
         ) : (
           <p className="text-gray">
-            <span className="text-sm text-accent-primary-dark/60">
+            <span className="text-sm font-medium text-accent-primary-dark/60">
               Project Description:&ensp;
             </span>
             Not provided
@@ -91,14 +105,14 @@ export default function projectContent({
       </section>
       <section>
         <p className={`${fetchedProject.project_description ? "mb-4" : ""}`}>
-          <span className="text-sm text-accent-primary-dark">
+          <span className="text-sm font-medium text-accent-primary-dark">
             Project Desired OHP:&ensp;
           </span>
           {fetchedProject.desired_ohp}%
         </p>
         {fetchedProject.contractor_preliminaries ? (
           <>
-            <p className="text-sm text-accent-primary-dark">
+            <p className="text-sm font-medium text-accent-primary-dark">
               Contractor&apos;s Custom Preliminaries
             </p>
             <p className="mb-4 text-justify">
@@ -107,7 +121,7 @@ export default function projectContent({
           </>
         ) : (
           <p className="mb-4 text-gray">
-            <span className="text-sm text-accent-primary-dark/60">
+            <span className="text-sm font-medium text-accent-primary-dark/60">
               Contractor&apos;s Custom Preliminaries:&ensp;
             </span>
             Not provided
@@ -132,6 +146,45 @@ export default function projectContent({
             <ExternalLink className="ml-2 size-3" />
           </a>
         </Button>
+      </section>
+      <div className="pb-5 pt-4">
+        <Divider />
+      </div>
+      <section>
+        {/* FIXME: */}
+        <div className="flex items-center justify-between gap-12">
+          <h2 className="text-2xl">Quotes</h2>
+          <Button asChild className={userRole === "admin" ? "" : "hidden"}>
+            <Link
+              href={`/admin/dashboard/quotes/new/${fetchedProject.id}/${newQuoteUUID}/1`}
+            >
+              <Plus className="mr-2 size-4" />
+              Create New Quote
+            </Link>
+          </Button>
+        </div>
+        <div>
+          {quotesData.length === 0 ? (
+            <p>No quotes available for this project yet</p>
+          ) : isProjectOwner || userRole === "admin" ? (
+            <ul>
+              {quotesData.map((quote) => (
+                <li key={quote.id}>
+                  <Link href={`/dashboard/quotes/${quote.id}`}>
+                    <p>
+                      Quote ID:{" "}
+                      <span className="font-semibold uppercase">
+                        {quote.id.slice(-6)}
+                      </span>
+                    </p>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>Only the project owner can view quotes</p>
+          )}
+        </div>
       </section>
     </div>
   );

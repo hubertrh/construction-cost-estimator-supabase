@@ -156,20 +156,23 @@ export type Database = {
         Row: {
           app_role: Database["public"]["Enums"]["app_role"];
           created_at: string;
+          email: string;
           id: string;
-          name: string | null;
+          name: string;
         };
         Insert: {
           app_role: Database["public"]["Enums"]["app_role"];
           created_at?: string;
+          email: string;
           id: string;
-          name?: string | null;
+          name: string;
         };
         Update: {
           app_role?: Database["public"]["Enums"]["app_role"];
           created_at?: string;
+          email?: string;
           id?: string;
-          name?: string | null;
+          name?: string;
         };
         Relationships: [
           {
@@ -245,27 +248,44 @@ export type Database = {
       };
       quotes: {
         Row: {
+          contractor_id: string | null;
           created_at: string;
           id: string;
           project_id: string;
           quote_flags: Json;
           quote_inputs: Json;
+          quote_status: Database["public"]["Enums"]["quote_status"];
+          quote_total_amount: number | null;
         };
         Insert: {
+          contractor_id?: string | null;
           created_at?: string;
           id?: string;
           project_id: string;
           quote_flags: Json;
           quote_inputs: Json;
+          quote_status?: Database["public"]["Enums"]["quote_status"];
+          quote_total_amount?: number | null;
         };
         Update: {
+          contractor_id?: string | null;
           created_at?: string;
           id?: string;
           project_id?: string;
           quote_flags?: Json;
           quote_inputs?: Json;
+          quote_status?: Database["public"]["Enums"]["quote_status"];
+          quote_total_amount?: number | null;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "quotes_contractor_id_fkey";
+            columns: ["contractor_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
       };
     };
     Views: {
@@ -275,8 +295,9 @@ export type Database = {
       [_ in never]: never;
     };
     Enums: {
-      app_role: "admin" | "client" | "builder";
+      app_role: "admin" | "client" | "contractor";
       project_status: "pending" | "ready" | "cancelled" | "on hold";
+      quote_status: "draft" | "ready";
     };
     CompositeTypes: {
       [_ in never]: never;

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { AuthError, User } from "@supabase/supabase-js";
 import Divider from "../ui/Divider";
 import { createClient } from "@/utils/supabase/server";
 import signInIcon from "/public/icons/sign-in.svg";
@@ -8,10 +9,21 @@ import addFilledIcon from "/public/icons/add-filled.svg";
 import dashboardIcon from "/public/icons/dashboard.svg";
 import { fetchUserRole } from "@/utils/supabase/userCalls";
 
-export default async function SidebarUserMenu() {
-  const supabase = createClient();
-  const { data: userData, error: userError } = await supabase.auth.getUser();
+type SidebarUserMenuProps = {
+  userData:
+    | {
+        user: User;
+      }
+    | {
+        user: null;
+      };
+  userError: AuthError | null;
+};
 
+export default async function SidebarUserMenu({
+  userData,
+  userError,
+}: SidebarUserMenuProps) {
   if (userError || !userData?.user) {
     return (
       <>
@@ -47,6 +59,7 @@ export default async function SidebarUserMenu() {
     );
   }
 
+  const supabase = createClient();
   const userRole = await fetchUserRole(supabase, userData.user.id);
 
   if (!userRole) {
@@ -88,7 +101,7 @@ export default async function SidebarUserMenu() {
         {userRole === "admin" && (
           <Link
             className="flex items-center gap-2 transition-all duration-300 hover:translate-x-1"
-            href="/admin/dashboard/client-requests"
+            href="/admin/dashboard/quote-requests"
           >
             <Image
               src={dashboardIcon}

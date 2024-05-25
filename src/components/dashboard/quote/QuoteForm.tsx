@@ -1,5 +1,6 @@
 "use client";
 
+import { UUID } from "crypto";
 import {
   ChangeEvent,
   Dispatch,
@@ -28,9 +29,9 @@ import { Input } from "@/components/ui/input";
 
 type QuoteFormProps = {
   nrmData: Database["public"]["Tables"]["nrm"]["Row"][];
-  currentContractor: string;
+  currentContractor: UUID | null;
   costsData: Database["public"]["Tables"]["contractor_costs"]["Row"][];
-  quoteReference: string;
+  quoteId: string;
   setLocalStorageUpdated: Dispatch<SetStateAction<number>>;
   quoteData: Database["public"]["Tables"]["quotes"]["Row"][];
 };
@@ -39,7 +40,7 @@ export default function QuoteForm({
   nrmData,
   currentContractor,
   costsData,
-  quoteReference,
+  quoteId,
   setLocalStorageUpdated,
   quoteData,
 }: QuoteFormProps) {
@@ -110,10 +111,10 @@ export default function QuoteForm({
       localStorage.setItem(storageKey, JSON.stringify(updatedData));
     }
 
-    saveToLocalStorage(`quoteInputs-${quoteReference}`, inputData);
-    saveToLocalStorage(`quoteFlags-${quoteReference}`, isFlagVisible);
+    saveToLocalStorage(`quoteInputs-${quoteId}`, inputData);
+    saveToLocalStorage(`quoteFlags-${quoteId}`, isFlagVisible);
     setLocalStorageUpdated(new Date().getTime());
-  }, [inputData, isFlagVisible, quoteReference, setLocalStorageUpdated]);
+  }, [inputData, isFlagVisible, quoteId, setLocalStorageUpdated]);
 
   function toggleVisibility(id: string) {
     setIsFlagVisible((prev) => ({
@@ -346,7 +347,7 @@ export default function QuoteForm({
                                                   type="number"
                                                   placeholder="123.45"
                                                   required
-                                                  // FIXME: Fetch from local storage first
+                                                  // FIXME: Fetch from local storage first (?)
                                                   value={
                                                     inputData[
                                                       `cost-${nrm4.flag_1}${nrm4.flag_2}${nrm4.flag_3}${nrm4.flag_4}`

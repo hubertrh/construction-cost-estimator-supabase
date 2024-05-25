@@ -26,7 +26,11 @@ export default async function Projects() {
     <div>
       <h1 className="mb-6 text-2xl">My Projects</h1>
       <div className="container mx-auto min-w-[50rem] py-4">
-        <DataTable columns={clientProjectsColumns} data={projects} />
+        <DataTable
+          columns={clientProjectsColumns}
+          data={projects}
+          tableVariant="projects"
+        />
       </div>
     </div>
   );

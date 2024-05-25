@@ -38,12 +38,14 @@ export default function QuoteClientWrapper({
   costsData,
   quoteData,
 }: QuoteClientWrapperProps) {
-  const [currentContractor, setCurrentContractor] = useState("default");
+  const [currentContractor, setCurrentContractor] = useState<UUID | null>(null);
   const [localStorageUpdated, setLocalStorageUpdated] = useState(
     new Date().getTime(),
   );
 
-  const handleDropdownChange = (value: string) => {
+  const quoteContractorId = quoteData[0]?.contractor_id as UUID;
+
+  const handleDropdownChange = (value: UUID | null) => {
     setCurrentContractor(value);
   };
 
@@ -51,8 +53,9 @@ export default function QuoteClientWrapper({
     <>
       <QuoteTitleWithRef
         projectName={projectData[0].project_name}
-        projectReference={params.projectId.slice(-6)}
-        quoteReference={params.quoteId.slice(-6)}
+        projectId={params.projectId}
+        quoteId={params.quoteId}
+        quoteContractorId={quoteContractorId ? quoteContractorId : null}
         onChange={handleDropdownChange}
         contractorsComboboxList={contractorsComboboxList}
         userId={userId}
@@ -64,7 +67,7 @@ export default function QuoteClientWrapper({
         nrmData={nrmData}
         currentContractor={currentContractor}
         costsData={costsData}
-        quoteReference={params.quoteId.slice(-6)}
+        quoteId={params.quoteId}
         setLocalStorageUpdated={setLocalStorageUpdated}
         quoteData={quoteData}
       />

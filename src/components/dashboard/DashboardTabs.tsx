@@ -1,25 +1,44 @@
 import Link from "next/link";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 
-const routes = {
-  clientRequests: "/admin/dashboard/client-requests",
-  clients: "/admin/dashboard/clients",
-  contractors: "/admin/dashboard/contractors",
-  rates: "/admin/dashboard/rates",
+type dashboardTabsProps = {
+  variant: "quotes" | "people" | "rates";
+  defaultValue: string;
 };
 
 export default function DashboardTabs({
+  variant,
   defaultValue,
-}: {
-  defaultValue: string;
-}) {
+}: dashboardTabsProps) {
+  let routes = {};
+
+  if (variant === "quotes") {
+    routes = {
+      quoteRequests: "/admin/dashboard/quote-requests",
+      quotes: "/admin/dashboard/quotes",
+    };
+  }
+
+  if (variant === "people") {
+    routes = {
+      clients: "/admin/dashboard/clients",
+      contractors: "/admin/dashboard/contractors",
+    };
+  }
+
+  if (variant === "rates") {
+    routes = {
+      rates: "/admin/dashboard/rates",
+    };
+  }
+
   return (
     <Tabs defaultValue={defaultValue}>
       <TabsList>
         {Object.keys(routes).map((route) => (
           <Link key={route} href={routes[route as keyof typeof routes]}>
             <TabsTrigger className="capitalize" value={route}>
-              {routes[route as keyof typeof routes]
+              {(routes[route as keyof typeof routes] as string)
                 .split("/")
                 .pop()
                 ?.replace("-", " ")}

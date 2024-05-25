@@ -8,9 +8,10 @@ import HoverBadge from "@/components/ui/HoverBadge";
 type QuoteTitleWithRefProps = {
   userId: UUID;
   projectName: string;
-  projectReference: string;
-  quoteReference: string;
-  onChange: (value: string) => void;
+  projectId: string;
+  quoteId: string;
+  quoteContractorId: UUID | null;
+  onChange: (value: UUID | null) => void;
   contractorsComboboxList: {
     label: string;
     value: string;
@@ -23,8 +24,9 @@ type QuoteTitleWithRefProps = {
 export default function QuoteTitleWithRef({
   userId,
   projectName,
-  projectReference,
-  quoteReference,
+  projectId,
+  quoteId,
+  quoteContractorId,
   onChange,
   contractorsComboboxList,
   localStorageUpdated,
@@ -32,9 +34,9 @@ export default function QuoteTitleWithRef({
   const [quoteTotalCost, setQuoteTotalCost] = useState(0);
 
   const handleQuoteRefresh = useCallback(() => {
-    const quoteInputs = localStorage.getItem(`quoteInputs-${quoteReference}`);
+    const quoteInputs = localStorage.getItem(`quoteInputs-${quoteId}`);
     const parsedQuoteInputs = quoteInputs ? JSON.parse(quoteInputs) : {};
-    const quoteFlags = localStorage.getItem(`quoteFlags-${quoteReference}`);
+    const quoteFlags = localStorage.getItem(`quoteFlags-${quoteId}`);
     const parsedQuoteFlags = quoteFlags ? JSON.parse(quoteFlags) : {};
 
     let totalCost = 0;
@@ -48,7 +50,7 @@ export default function QuoteTitleWithRef({
         const flag2 = itemId.slice(-3)[0];
         const flag3 = itemId.slice(-2)[0];
 
-        // TODO: estimated cost of the group elements
+        // TODO: Estimated cost of the group elements
 
         // take the amounts from the passed prop which was directly TODO: fetched in the parent component.
 
@@ -72,12 +74,9 @@ export default function QuoteTitleWithRef({
       }
     });
 
-    localStorage.setItem(
-      `quoteTotalCost-${quoteReference}`,
-      totalCost.toString(),
-    );
+    localStorage.setItem(`quoteTotalCost-${quoteId}`, totalCost.toString());
     setQuoteTotalCost(totalCost);
-  }, [quoteReference]);
+  }, [quoteId]);
 
   useEffect(() => {
     handleQuoteRefresh();
@@ -91,8 +90,8 @@ export default function QuoteTitleWithRef({
           {projectName}
         </p>
         <div className="flex items-center gap-4">
-          <HoverBadge label="P" reference={projectReference} />
-          <HoverBadge label="Q" reference={quoteReference} />
+          <HoverBadge label="P" reference={projectId.slice(-6)} />
+          <HoverBadge label="Q" reference={quoteId.slice(-6)} />
         </div>
       </div>
       <div className="flex items-center justify-between gap-8">
@@ -100,6 +99,7 @@ export default function QuoteTitleWithRef({
           <h1 className="text-2xl font-medium">New Quote&emsp;</h1>
           <QuoteCombobox
             userId={userId}
+            quoteContractorId={quoteContractorId}
             contractorsComboboxList={contractorsComboboxList}
             onChange={onChange}
           />

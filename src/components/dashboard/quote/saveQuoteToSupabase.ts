@@ -8,6 +8,7 @@ type saveQuoteToSupabaseProps = {
   projectId: UUID;
   quoteInputs: string | null;
   quoteFlags: string | null;
+  quoteTotalCost: number | null;
 };
 
 export default async function saveQuoteToSupabase({
@@ -15,6 +16,7 @@ export default async function saveQuoteToSupabase({
   projectId,
   quoteInputs,
   quoteFlags,
+  quoteTotalCost,
 }: saveQuoteToSupabaseProps) {
   const parsedQuoteInputs = quoteInputs ? JSON.parse(quoteInputs) : {};
   const parsedQuoteFlags = quoteFlags ? JSON.parse(quoteFlags) : {};
@@ -27,6 +29,7 @@ export default async function saveQuoteToSupabase({
       project_id: projectId,
       quote_inputs: parsedQuoteInputs,
       quote_flags: parsedQuoteFlags,
+      quote_total_amount: quoteTotalCost,
     },
     {
       onConflict: "id",

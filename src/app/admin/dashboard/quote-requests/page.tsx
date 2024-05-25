@@ -1,9 +1,9 @@
 import { createClient } from "@/utils/supabase/server";
 import { DataTable } from "@/components/projectsDataTable/DataTable";
-import { adminProjectsColumns } from "@/components/projectsDataTable/AdminProjectsColumns";
-import DashboardTabs from "@/components/dashboard/DashboardTabs";
+import { adminQuoteRequestsColumns } from "@/components/projectsDataTable/AdminQuoteRequestsColumns";
+import DashboardMenu from "@/components/dashboard/DashboardMenu";
 
-export default async function PrivatePage() {
+export default async function QuoteRequests() {
   const supabase = createClient();
 
   const { data: projects, error: projectsError } = await supabase
@@ -21,9 +21,13 @@ export default async function PrivatePage() {
   return (
     <div>
       <h1 className="mb-6 text-2xl">Dashboard</h1>
-      <DashboardTabs defaultValue="clientRequests" />
+      <DashboardMenu defaultValue="quoteRequests" />
       <div className="container mx-auto min-w-[50rem] py-4">
-        <DataTable columns={adminProjectsColumns} data={projects} />
+        <DataTable
+          columns={adminQuoteRequestsColumns}
+          data={projects}
+          tableVariant="quoteRequests"
+        />
       </div>
     </div>
   );

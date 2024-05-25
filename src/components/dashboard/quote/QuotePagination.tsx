@@ -3,7 +3,7 @@
 import { UUID } from "crypto";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Loader2 } from "lucide-react";
+import { Loader2, Save } from "lucide-react";
 import saveQuoteToSupabase from "./saveQuoteToSupabase";
 import { useToast } from "@/components/ui/use-toast";
 import {
@@ -25,15 +25,15 @@ export default function QuotePagination({
   params: { quoteId, projectId, currentStep },
 }: QuotePaginationProps) {
   const totalSteps = steps.length;
-  const quoteReference = quoteId.slice(-6);
 
   const router = useRouter();
   const { toast } = useToast();
   const [loadingStep, setLoadingStep] = useState<string | null>(null);
 
   async function saveQuote(href: string, step: string) {
-    const quoteInputs = localStorage.getItem(`quoteInputs-${quoteReference}`);
-    const quoteFlags = localStorage.getItem(`quoteFlags-${quoteReference}`);
+    const quoteInputs = localStorage.getItem(`quoteInputs-${quoteId}`);
+    const quoteFlags = localStorage.getItem(`quoteFlags-${quoteId}`);
+    const quoteTotalCost = localStorage.getItem(`quoteTotalCost-${quoteId}`);
 
     toast({
       title: "Saving quote...",
@@ -46,6 +46,7 @@ export default function QuotePagination({
         projectId,
         quoteInputs,
         quoteFlags,
+        quoteTotalCost: quoteTotalCost ? parseFloat(quoteTotalCost) : null,
       });
     } catch (error) {
       setLoadingStep(null);
@@ -127,6 +128,25 @@ export default function QuotePagination({
             />
           </PaginationItem>
         )}
+
+        <PaginationItem className="relative">
+          {loadingStep === "quote-summary" && (
+            <div className="absolute -top-1/2 left-1/2 -translate-x-1/2">
+              <Loader2 className="size-4 animate-spin text-accent-primary" />
+            </div>
+          )}
+          <PaginationLink
+            className="ml-12 w-fit px-2"
+            onClick={(event) => {
+              event.preventDefault();
+              saveQuote("./quote-summary", "quote-summary");
+            }}
+            href="./quote-summary"
+          >
+            <Save className="mr-2 size-4" />
+            Review
+          </PaginationLink>
+        </PaginationItem>
       </PaginationContent>
     </Pagination>
   );

@@ -23,6 +23,8 @@ const badgeVariants = cva(
           "border-transparent bg-negative text-negative-dark hover:bg-negative/80",
         onhold:
           "border-transparent bg-slate-200/80 text-slate-900 hover:bg-slate-200/60",
+        draft:
+          "border-transparent bg-slate-200/80 text-slate-900 hover:bg-slate-200/60",
       },
     },
     defaultVariants: {

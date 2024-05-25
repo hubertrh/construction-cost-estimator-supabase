@@ -27,23 +27,35 @@ export default async function Project({ params }: ProjectProps) {
   // ask for postcode if user is not the owner of the project
   if (userError || !user?.user) {
     return (
-      <Suspense>
+      // TODO: Create a fallback component for the Suspense component
+      <Suspense fallback={<p>Loading...</p>}>
         <ProjectPostcodeValidator fetchedProject={fetchedProject} />
       </Suspense>
     );
   }
 
-  if (user?.user) {
-    const userRole = await fetchUserRole(supabase, user.user.id);
+  let userRole = null;
+  let isProjectOwner = false;
 
-    if (userRole !== "admin" && user?.user.id !== fetchedProject?.user_id) {
+  if (user?.user) {
+    userRole = await fetchUserRole(supabase, user.user.id);
+    isProjectOwner = user?.user.id === fetchedProject.user_id;
+
+    if (userRole !== "admin" && !isProjectOwner) {
       return (
-        <Suspense>
+        // TODO: Create a fallback component for the Suspense component
+        <Suspense fallback={<p>Loading...</p>}>
           <ProjectPostcodeValidator fetchedProject={fetchedProject} />
         </Suspense>
       );
     }
   }
 
-  return <ProjectContent fetchedProject={fetchedProject} />;
+  return (
+    <ProjectContent
+      fetchedProject={fetchedProject}
+      userRole={userRole}
+      isProjectOwner={isProjectOwner}
+    />
+  );
 }
