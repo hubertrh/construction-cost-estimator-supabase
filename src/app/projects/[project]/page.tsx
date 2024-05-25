@@ -43,7 +43,8 @@ export default async function Project({ params }: ProjectProps) {
 
     if (userRole !== "admin" && !isProjectOwner) {
       return (
-        <Suspense>
+        // TODO: Create a fallback component for the Suspense component
+        <Suspense fallback={<p>Loading...</p>}>
           <ProjectPostcodeValidator fetchedProject={fetchedProject} />
         </Suspense>
       );
