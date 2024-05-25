@@ -149,7 +149,7 @@ export function DataTable<TData, TValue>({
             {table.getFilteredRowModel().rows.length === 1 ? (
               <p>
                 <span className="text-base font-semibold">1</span>{" "}
-                {tableVariant.slice(-1)}
+                {tableVariant.slice(0, -1)}
               </p>
             ) : (
               <p>
