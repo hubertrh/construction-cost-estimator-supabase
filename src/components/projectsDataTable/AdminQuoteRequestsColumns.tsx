@@ -153,7 +153,7 @@ export const adminQuoteRequestsColumns: ColumnDef<DataTableProject>[] = [
     cell: ({ row }) => {
       const project = row.original;
 
-      // TODO: Implement User Link
+      // TODO: Implement Client Link
       return <p className="w-full max-w-xs truncate">{project.client_name}</p>;
     },
   },
