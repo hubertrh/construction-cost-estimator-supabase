@@ -56,7 +56,6 @@ export const adminQuoteRequestsColumns: ColumnDef<DataTableProject>[] = [
 
       return (
         <div className="flex w-full max-w-xs items-center justify-between">
-          {/* FIXME: Check if href correct */}
           <Link href={`/projects/${project.id}`}>
             <p className="w-full max-w-xs">
               {project.id.slice(-6).toUpperCase()}

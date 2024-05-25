@@ -30,10 +30,15 @@ export const adminClientsColumns: ColumnDef<DataTableProject>[] = [
       const client = row.original;
 
       return (
-        // FIXME: Check if href correct
         <div className="flex w-full max-w-xs items-center justify-between">
           {/* TODO: Add client page without user_id or implement anonymous auth */}
-          <Link href={client.user_id ? `/clients/${client.user_id}` : "#!"}>
+          <Link
+            href={
+              client.user_id
+                ? `/admin/dashboard/clients/${client.user_id}`
+                : "#!"
+            }
+          >
             <p className="w-full max-w-xs truncate">{client.client_name}</p>
           </Link>
           <Button
@@ -64,7 +69,6 @@ export const adminClientsColumns: ColumnDef<DataTableProject>[] = [
       const client = row.original;
 
       return (
-        // FIXME: Check if href correct
         <div className="flex w-full max-w-xs items-center justify-between">
           <a
             href={`mailto:${client.client_email}`}
@@ -100,7 +104,11 @@ export const adminClientsColumns: ColumnDef<DataTableProject>[] = [
       const client = row.original;
 
       return (
-        <Link href={client.user_id ? `/clients/${client.user_id}` : "#!"}>
+        <Link
+          href={
+            client.user_id ? `/admin/dashboard/clients/${client.user_id}` : "#!"
+          }
+        >
           <p className="text-center">{client.project_count}</p>
         </Link>
       );

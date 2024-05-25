@@ -54,9 +54,8 @@ export const adminQuotesColumns: ColumnDef<DataTableProject>[] = [
       const quote = row.original;
 
       return (
-        // FIXME: Check if href correct
         <div className="flex w-full max-w-xs items-center justify-between">
-          <Link href={`/quotes/${quote.id}`}>
+          <Link href={`/admin/dashboard/quotes/${quote.id}`}>
             <p className="w-full max-w-xs">
               {quote.id.slice(-6).toUpperCase()}
             </p>
@@ -81,7 +80,6 @@ export const adminQuotesColumns: ColumnDef<DataTableProject>[] = [
       const quote = row.original;
 
       return (
-        // FIXME: Check if href correct
         <Link href={`/projects/${quote.project_id}`}>
           <p className="w-full max-w-xs truncate">
             {quote.project_name
