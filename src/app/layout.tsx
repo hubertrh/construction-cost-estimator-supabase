@@ -1,7 +1,6 @@
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
-import { Montserrat, Ubuntu } from "next/font/google";
 import "./globals.css";
 import NextTopLoader from "nextjs-toploader";
 import Sidebar from "@/components/sidebar/Sidebar";
@@ -11,23 +10,12 @@ import { Toaster } from "@/components/ui/toaster";
 import { createClient } from "@/utils/supabase/server";
 import UserProvider from "@/context/UserProvider";
 
-const montserrat = Montserrat({
-  weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-montserrat",
-});
-const fontSans = Montserrat({
-  weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-sans",
-});
-const ubuntu = Ubuntu({
-  weight: ["300", "400", "500"],
-  variable: "--font-ubuntu",
-  subsets: ["latin"],
-});
+// Use CSS variables for fonts to avoid build-time Google Fonts dependencies
+const fontClasses = {
+  montserrat: "font-montserrat",
+  sans: "font-sans",
+  ubuntu: "font-ubuntu",
+};
 
 export const metadata: Metadata = {
   title: "CostCraft",
@@ -45,8 +33,11 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${montserrat.className} ${ubuntu.variable} bg-background-dark 
-          ${cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}`}
+        className={`${fontClasses.montserrat} ${fontClasses.ubuntu} bg-background-dark 
+          ${cn("min-h-screen bg-background font-sans antialiased")}`}
+        style={{
+          fontFamily: "Montserrat, system-ui, sans-serif",
+        }}
       >
         <UserProvider userData={userData}>
           <NextTopLoader
