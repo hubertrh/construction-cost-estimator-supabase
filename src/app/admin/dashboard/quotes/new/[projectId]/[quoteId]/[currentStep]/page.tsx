@@ -7,23 +7,25 @@ import { Database } from "@/types/supabase";
 import isValidUUID from "@/utils/uuidHelpers";
 
 type NewQuoteProps = {
-  params: { projectId: UUID; quoteId: UUID; currentStep: string };
+  params: Promise<{ projectId: UUID; quoteId: UUID; currentStep: string }>;
 };
 
 export default async function NewQuote({ params }: NewQuoteProps) {
-  if (!isValidUUID(params.projectId)) {
+  const { projectId, quoteId, currentStep } = await params;
+
+  if (!isValidUUID(projectId)) {
     console.error("Invalid project ID");
-    console.error(`Invalid project ID: ${params.projectId}`);
+    console.error(`Invalid project ID: ${projectId}`);
     return <p>Invalid project ID</p>;
   }
 
-  if (!isValidUUID(params.quoteId)) {
+  if (!isValidUUID(quoteId)) {
     console.error("Invalid quote ID");
-    console.error(`Invalid quote ID: ${params.quoteId}`);
+    console.error(`Invalid quote ID: ${quoteId}`);
     return <p>Invalid quote ID</p>;
   }
 
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: userData, error: userError } = await supabase.auth.getUser();
   if (userError || !userData?.user) {
@@ -36,7 +38,7 @@ export default async function NewQuote({ params }: NewQuoteProps) {
   const { data: nrmData, error: nrmError } = await supabase
     .from("nrm")
     .select("*")
-    .eq("flag_1", parseInt(params.currentStep) - 1)
+    .eq("flag_1", parseInt(currentStep) - 1)
     .order("flag_1")
     .order("flag_2")
     .order("flag_3")
@@ -66,7 +68,7 @@ export default async function NewQuote({ params }: NewQuoteProps) {
   const { data: projectData, error: projectError } = await supabase
     .from("projects")
     .select("*")
-    .eq("id", params.projectId);
+    .eq("id", projectId);
 
   if (projectError) {
     console.error(projectError);
@@ -75,14 +77,14 @@ export default async function NewQuote({ params }: NewQuoteProps) {
 
   if (!projectData || projectData.length === 0) {
     console.error("Project not found");
-    console.error(`Project not found: ${params.projectId}`);
+    console.error(`Project not found: ${projectId}`);
     return <p>Project not found</p>;
   }
 
   const { data: quoteData, error: quoteError } = await supabase
     .from("quotes")
     .select("*")
-    .eq("id", params.quoteId);
+    .eq("id", quoteId);
 
   if (quoteError) {
     console.error(quoteError);
@@ -102,7 +104,7 @@ export default async function NewQuote({ params }: NewQuoteProps) {
     <div className="min-h-[calc(100vh-20dvh-6rem)] w-[45rem] [&_*]:text-pretty">
       <QuoteClientWrapper
         userId={userData.user.id as UUID}
-        params={params}
+        params={{ projectId, quoteId, currentStep }}
         projectData={projectData}
         nrmData={nrmData}
         steps={steps}

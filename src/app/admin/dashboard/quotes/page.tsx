@@ -4,7 +4,7 @@ import { adminQuotesColumns } from "@/components/projectsDataTable/AdminQuotesCo
 import DashboardMenu from "@/components/dashboard/DashboardMenu";
 
 export default async function Quotes() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: quotes, error: quotesError } = await supabase
     .from("quotes")

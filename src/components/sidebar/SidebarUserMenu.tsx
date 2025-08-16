@@ -59,7 +59,7 @@ export default async function SidebarUserMenu({
     );
   }
 
-  const supabase = createClient();
+  const supabase = await createClient();
   const userRole = await fetchUserRole(supabase, userData.user.id);
 
   if (!userRole) {

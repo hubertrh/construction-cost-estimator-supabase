@@ -5,7 +5,7 @@ import SignOutButton from "@/components/ui/SignOutButton";
 import avatarIcon from "/public/icons/avatar-green.svg";
 
 export default async function page() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data, error } = await supabase.auth.getUser();
   if (error || !data?.user) {

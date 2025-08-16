@@ -6,7 +6,7 @@ import SidebarUserMenu from "./SidebarUserMenu";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function Sidebar() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: userData, error: userError } = await supabase.auth.getUser();
 
   return (

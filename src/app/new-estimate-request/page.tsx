@@ -2,7 +2,7 @@ import { EstimateRequestForm } from "@/components/estimateRequestForm/EstimateRe
 import { createClient } from "@/utils/supabase/server";
 
 export default async function newEstimateRequest() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: user } = await supabase.auth.getUser();
 
   return <EstimateRequestForm user={user?.user ? user.user : null} />;
