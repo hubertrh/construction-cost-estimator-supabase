@@ -66,7 +66,7 @@ export default async function SidebarRecentProjects({
         </div>
       );
 
-    const supabase = createClient();
+    const supabase = await createClient();
     const userRole = await fetchUserRole(supabase, userData.user.id);
 
     const sidebarProjectsQueryOptions = {

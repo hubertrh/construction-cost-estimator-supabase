@@ -2,13 +2,12 @@ import { UUID } from "crypto";
 import { redirect } from "next/navigation";
 
 type PageProps = {
-  params: { projectId: UUID; quoteId: UUID };
+  params: Promise<{ projectId: UUID; quoteId: UUID }>;
 };
 
-export default function page({ params }: PageProps) {
-  redirect(
-    `/admin/dashboard/quotes/new/${params.projectId}/${params.quoteId}/1`,
-  );
+export default async function page({ params }: PageProps) {
+  const { projectId, quoteId } = await params;
+  redirect(`/admin/dashboard/quotes/new/${projectId}/${quoteId}/1`);
 
   return <div>page</div>;
 }

@@ -4,7 +4,7 @@ import { DataTable } from "@/components/projectsDataTable/DataTable";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function Contractors() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: contractors, error: contractorsError } = await supabase
     .from("profiles")

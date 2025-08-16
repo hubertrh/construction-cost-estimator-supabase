@@ -6,17 +6,18 @@ import ProjectPostcodeValidator from "@/components/project/ProjectPostcodeValida
 import { fetchUserRole } from "@/utils/supabase/userCalls";
 
 type ProjectProps = {
-  params: { project: UUID };
+  params: Promise<{ project: UUID }>;
 };
 
 export default async function Project({ params }: ProjectProps) {
-  const supabase = createClient();
+  const { project } = await params;
+  const supabase = await createClient();
   const { data: user, error: userError } = await supabase.auth.getUser();
 
   const { data: fetchedProject, error: fetchedProjectError } = await supabase
     .from("projects")
     .select("*")
-    .eq("id", params.project)
+    .eq("id", project)
     .single();
 
   if (fetchedProjectError || !fetchedProject) {

@@ -4,7 +4,7 @@ import { DataTable } from "@/components/projectsDataTable/DataTable";
 import { clientProjectsColumns } from "@/components/projectsDataTable/ClientProjectsColumns";
 
 export default async function Projects() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: user, error: userError } = await supabase.auth.getUser();
 
   if (userError || !user?.user) {
